@@ -24,9 +24,9 @@
 	<file id="meta" value="meta_de.txt"/>
 	<file id="meta" value="meta_en.txt"/>
 	
-    <file id="validators" value="validator_fr.txt"/>
-    <file id="validators" value="validator_de.txt"/>
-    <file id="validators" value="validator_en.txt"/>
+    <!-- <file id="validators" value="validator_fr.txt"/> -->
+    <!-- <file id="validators" value="validator_de.txt"/> -->
+    <!-- <file id="validators" value="validator_en.txt"/> -->
     <!--<file id="validators" value="validator_it.txt"/>-->
     
     <file id="fonts" value="fonts.xml"/>
