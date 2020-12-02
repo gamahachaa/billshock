@@ -1,0 +1,63 @@
+package capture;
+
+
+import decide.ActivateInternetEurope;
+import decide.AlternativeCompensation;
+import tstool.layout.History.Interactions;
+import tstool.layout.History.Snapshot;
+import tstool.process.ActionRadios;
+import tstool.process.Process;
+
+/**
+ * ...
+ * @author bb
+ */
+class _ElligibleForRet extends ActionRadios 
+{
+	static inline var SUB_TYPE:String = "Subscription type";
+	static inline var RET_ELLIGIBLE:String = "Retention elligibility";
+	//static inline var RET_ELLIGIBLE:String = "1234567891011121314151617181920";
+	static inline var SIMMO:String = "Sim Only";
+	static inline var DEVICE:String = "Device";
+	static inline var STANDARD:String = "Standard";
+	static inline var ERET:String = "eRet";
+	static inline var NO_RET:String = "Not elligible";
+	public function new() 
+	{
+		super(
+		[
+			{
+				title: SUB_TYPE,
+				values: [SIMMO, DEVICE]
+			},
+			{
+				title: RET_ELLIGIBLE,
+				values: [STANDARD,ERET,NO_RET]
+			}
+		]
+		);
+		
+	}
+	/*
+	override public function create()
+	{
+		this._nextProcesses = [];
+		super.create();
+	}
+	*/
+	override public function onClick():Void
+	{
+		//var how:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount");
+		var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
+		var zone = how.values.get("choice");
+		var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET) (( zone == _HowMadeHugeAmount.CH )? AlternativeCompensation : ActivateInternetEurope) else _SelectPP;
+		
+		this._nexts = [{step: next}];
+		//this._nextProcesses = [next];
+		super.onClick();
+	}
+	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
+	{
+		super.pushToHistory("", interactionType, status);
+	}
+}
