@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vbox width="100%">
+    <!-- normal -->
+    <label text="Normal Button:" style="color: #464646;" />
+    <box width="100%" height="1" style="background-color: #d9d9d9;" />
+    <hbox>
+        <hbox>
+            <button text="Normal" />
+            <button text="Toggle" toggle="true" selected="true" />
+            <button text="Repeater" repeater="true" />
+        </hbox>    
+        <grid columns="2">
+            <button text="Left" icon="haxeui-core/styles/default/haxeui_small.png" />
+            <button text="Right" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="right" />
+            <button text="Top" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="top" width="100%" />
+            <button text="Bottom" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="bottom" width="100%" />
+        </grid>
+    </hbox>
+    
+    <spacer height="10" />
+    
+    <!-- css styled -->
+    <label text="Styled Buttons:" style="color: #464646;" />
+    <box width="100%" height="1" style="background-color: #d9d9d9;" />
+    <hbox>
+        <style>
+            .styled-button {
+                background: #79bbff #378de5;
+                border: 3px solid #337bc4;
+                border-radius:10px;
+                padding:10px 25px;
+                font-size: 16px;
+                color: white;
+                filter: drop-shadow(1, 45, #000000, 0.2, 0, 0, 0, 3, false);
+            }
+            
+            .styled-button:hover {
+                background: #add6ff #66a8eb;
+            }
+            
+            .styled-button:down {
+                background: #47a3ff #1b75d0;
+                border-color: #28619a;
+            }
+        </style>
+        
+        <hbox>
+            <button text="Styled" styleName="styled-button" />
+            <button text="Toggle" toggle="true" selected="true" styleName="styled-button" />
+            <button text="Repeater" repeater="true" styleName="styled-button" />
+        </hbox>    
+        <grid columns="2">
+            <button text="Left" icon="haxeui-core/styles/default/haxeui_small.png" styleName="styled-button" />
+            <button text="Right" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="right" styleName="styled-button" />
+            <button text="Top" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="top" width="100%" styleName="styled-button" />
+            <button text="Bottom" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="bottom" width="100%" styleName="styled-button" />
+        </grid>
+    </hbox>
+    
+    <spacer height="10" />
+        
+    <!-- bitmap styled -->
+    <label text="Bitmap Buttons:" style="color: #464646;" />
+    <box width="100%" height="1" style="background-color: #d9d9d9;" />
+    <hbox style="background-color: #272727;padding: 10px;">
+        <style>
+            .bitmap-button {
+                background: none;
+                padding: 6px 8px;
+                border: none;
+                color: #CCCCCC;
+                background-image: "images/bitmap_button.png";
+                background-image-clip: 0px 0px 26px 65px;
+                background-image-slice: 3px 3px 24px 62px;
+            }
+            
+            .bitmap-button:hover {
+                color: white;
+            }
+            
+            .bitmap-button:down {
+                background-image-clip: 0px 68px 26px 133px;
+            }
+        </style>
+        
+        <hbox>
+            <button text="Bitmap" styleName="bitmap-button" />
+            <button text="Toggle" toggle="true" selected="true" styleName="bitmap-button" />
+            <button text="Repeater" repeater="true" styleName="bitmap-button" />
+        </hbox>    
+        <grid columns="2">
+            <button text="Left" icon="haxeui-core/styles/default/haxeui_small.png" styleName="bitmap-button" />
+            <button text="Right" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="right" styleName="bitmap-button" />
+            <button text="Top" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="top" width="100%" styleName="bitmap-button" />
+            <button text="Bottom" icon="haxeui-core/styles/default/haxeui_small.png" iconPosition="bottom" width="100%" styleName="bitmap-button" />
+        </grid>
+    </hbox>
+        
+</vbox>    

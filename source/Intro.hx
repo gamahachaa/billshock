@@ -1,6 +1,8 @@
 package;
 
 import js.Browser;
+import tstool.MainApp;
+import tstool.layout.UI;
 import tstool.process.Action;
 import tstool.process.CheckUpdateSub;
 import tstool.process.Process;
@@ -24,9 +26,13 @@ class Intro extends Action
 		Main.VERSION_TRACKER.request();
 		#if debug
 		trace("Showing the new version if any");
-		openSubState(new CheckUpdateSub(Main.THEME.bg));
+		trace(Main.user.mainLanguage);
+		if(Main.DEBUG)
+			openSubState(new CheckUpdateSub(UI.THEME.bg));
+		
 		#else
-		openSubState(new CheckUpdateSub(Main.THEME.bg));
+		
+		openSubState(new CheckUpdateSub(UI.THEME.bg));
 		#end
 	}
 	function onNewVersion(needsUpdate:Bool):Void 

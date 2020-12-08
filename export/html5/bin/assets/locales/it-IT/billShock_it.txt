@@ -4,13 +4,13 @@ $Intro	<N>Nous proposons un renouvellement du contrat et accordons une compensat
 $capture.IsCompTicketOpened	MSISDN au format SuperOffice<N><T>Commence par 0<N><T>10 chiffre  <N><T>Expl: 0781231234	Je regarde si un ticket de demande de compensation est déjà ouvert			pas de ticket 5.1.1		
 $ticket.TicketMobileFiveOneOne		Je dois transmettre votre cas à un autre département. Il se peut que vous soyez contactés.					
 $capture.HighUsageData	Dans <Q>Schocking amnount<Q> on ne note que le montant de consommation élevé	Est-ce que ce montant élevé est dû a une consommation de données internet ?  			Non autre		
-$capture.HowMadeHugeAmount		Par quel biais avez-vous consommé ces données ? 					
-$capture.ElligibleForRet	Voir dans Marilyn standard ret ou eRet	Je regarde si vous êtes elligible pour un éventuel renouvellemnt de contrat ? :					https://qoom.salt.ch/productservices/administration/early_retention-early_renewal
+$capture._HowMadeHugeAmount		Par quel biais avez-vous consommé ces données ? 					
+$capture._ElligibleForRet	Voir dans Marilyn standard ret ou eRet	Je regarde si vous êtes elligible pour un éventuel renouvellemnt de contrat ? :					https://qoom.salt.ch/productservices/administration/early_retention-early_renewal
 $capture._SelectPP	Les RC sont les plus courantes. Si la RC n'est pas dans la liste, alors on choisit la plus proches au dessous.	Je regarde votre situation contractuelle					
 $capture.WhatDasAboCHWish		Quel type d'utilisation vers EU & USA souaiteriez vous ?  		Appels et data illimitées	Appels illimités seulement	Plus besoin	
 $capture.WhatDasAboABWish		Quel type d'utilisation vers EU & USA souaiteriez vous ?  		Appels et data illimitées	Appels illimités seulement	Plus besoin	
 $capture.AcceptRenewalPlan		Nous pouvons vous proposer un renouvellement de contrat vers le plan tarrifaire <N><PP> au prix spécial de <RC> au lieu de <STANDARD><N>Ok pour vous ?		accepte	refuse		
 $decide.AlternativeCompensation	En détail : pour calculer la compensation on divise le monant par deux : <FORMULA>	Nous pouvons alors vous faire une compensation de 50% soit CHF <COMP> sur <AMOUNT> 		accepte	refuse		
 $decide.SimplComp	En détail : pour calculer la compensation on divise le monant par deux, mais on le limite à maximum CHF 150.- le montant à payer : <N><FORMULA><N><N>à payer au final :<em><PAY><em>	Nous pouvons alors vous faire une compensation de CHF <COMP> sur la some <AMOUNT> 		accepte	refuse		
-$decide.ActivateInternetEurope	En détail : <FORMULA><N><N>à payer au final : <em><PAY><em> pour ce mois + <OPTION>*(Nombre de mois restant jusqu'à la fin du contrat).	Si vous acceptez d'activer l'option Internet Europe pour CHF <OPTION>/mois<N>Nous pouvons compenser CHF <COMP>		accepte	refuse		
+$decide.ActivateInternetEurope	En détail : <FORMULA><N><N>à payer au final : <em><PAY><em> pour ce mois + <OPTION> x (Nombre de mois restant jusqu'à la fin du contrat).	Si vous acceptez d'activer l'option Internet Europe pour CHF <OPTION>/mois<N>Nous pouvons compenser CHF <COMP>		accepte	refuse		
 $hello.world	DETAILS	TITLE	ILLUSTRATION			MID-BTN	QOOK

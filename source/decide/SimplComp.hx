@@ -24,7 +24,7 @@ class SimplComp extends Descision
 		var formula = '\n$amount - ($amount / 2) = $amount - ${amount/2} = ${amount - (amount / 2)}\n= ${amount - Math.min(amount / 2, 150)}';
 		compensate = Math.ffloor(compensate * 100) / 100;
 		this._titleTxt = Replace.flags(_titleTxt, ["<COMP>","<AMOUNT>"], [Std.string(compensate), Std.string(amount)]);
-		this._detailTxt = Replace.flags(_detailTxt, ["<COMP>","<FORMULA>","<PAY>"], [Std.string(compensate), formula, Std.string(toPay)]);
+		this._detailTxt = Replace.flags(_detailTxt, ["<FORMULA>","<PAY>"], [formula, Std.string(toPay)]);
 		super.create();
 	}
 	/**/
@@ -35,16 +35,9 @@ class SimplComp extends Descision
 	//}
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
-		super.pushToHistory("", interactionType, ["compensate"=> compensate]);
+		super.pushToHistory(buttonTxt, interactionType, ["compensate"=> compensate]);
 	}
-	/*
-	override public function create()
-	{
-		this._nextNoProcesses = [];
-		this._nextYesProcesses = [];
-		super.create();
-	}
-	*/
+	
 	/****************************
 	* Needed for validation
 	*****************************/

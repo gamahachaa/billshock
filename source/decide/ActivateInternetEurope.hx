@@ -2,9 +2,10 @@ package decide;
 
 import decide.AlternativeCompensation;
 import firetongue.Replace;
+import haxe.Exception;
 import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
-import tstool.layout.History.Snapshot;
+//import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
 
 /**
@@ -19,14 +20,23 @@ class ActivateInternetEurope extends Descision
 	override public function create()
 	{
 		//var amounts:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HighUsageData", 1, true);
+		#if debug
+		var amount:Float=0;
+		try{
+			amount = Main.customer.contract.balance.overdue == null ? 1000: Std.parseFloat(Main.customer.contract.balance.overdue);
+		}
+		catch (e:Exception)
+		{
+			amount = 1000;
+		}
+		#else
 		var amount:Float = Std.parseFloat(Main.customer.contract.balance.overdue);
+		#end
 		var optionPrice = 9.95;
-		compensate = amount - optionPrice;
-		var formula = '$amount - $optionPrice (Internet Europpe price) = $compensate';
+		compensate = Math.round((amount - optionPrice)*100)/100;
+		var formula = '$amount - $optionPrice = $compensate';
 		this._titleTxt = Replace.flags(_titleTxt, ["<COMP>", "<OPTION>"], [Std.string(compensate), Std.string(optionPrice)]);
-		this._detailTxt = Replace.flags(_detailTxt, ["<FORMULA>","<PAY>"], [formula, Std.string(optionPrice)]);
-		this._titleTxt = this._titleTxt + "\nCHF " + compensate;
-		this._detailTxt = this._detailTxt + formula;
+		this._detailTxt = Replace.flags(_detailTxt, ["<FORMULA>","<PAY>","<OPTION>"], [formula, Std.string(optionPrice) , Std.string(optionPrice)]);
 		super.create();
 	}
 	/**/
@@ -48,6 +58,6 @@ class ActivateInternetEurope extends Descision
 	}
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
-		super.pushToHistory("", interactionType, ["compensate"=> compensate]);
+		super.pushToHistory(buttonTxt, interactionType, ["compensate"=> compensate]);
 	}
 }

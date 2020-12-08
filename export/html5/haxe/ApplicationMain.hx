@@ -32,7 +32,7 @@ class ApplicationMain
 
 		ManifestResources.init(config);
 
-		app.meta["build"] = "41";
+		app.meta["build"] = "2";
 		app.meta["company"] = "";
 		app.meta["file"] = "bill_shock_js";
 		app.meta["name"] = "bill_shock_js";
@@ -65,7 +65,7 @@ class ApplicationMain
 
 		attributes.context = {
 			antialiasing: 0,
-			background: -11776691,
+			background: -16777216,
 			colorDepth: 32,
 			depth: true,
 			hardware: true,
@@ -99,7 +99,7 @@ class ApplicationMain
 		app.createWindow(attributes);
 		
 		#elseif !air
-		app.window.context.attributes.background = -11776691;
+		app.window.context.attributes.background = -16777216;
 		app.window.frameRate = 60;
 		#end
 

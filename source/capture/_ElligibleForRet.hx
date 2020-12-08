@@ -58,6 +58,6 @@ class _ElligibleForRet extends ActionRadios
 	}
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
-		super.pushToHistory("", interactionType, status);
+		super.pushToHistory(buttonTxt, interactionType, status);
 	}
 }
