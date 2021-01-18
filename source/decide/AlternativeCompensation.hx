@@ -2,6 +2,7 @@ package decide;
 
 import firetongue.Replace;
 import ticket.TicketMobileFiveOneOne;
+import tstool.layout.History.Interactions;
 //import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
 
@@ -12,13 +13,15 @@ import tstool.process.Descision;
 class AlternativeCompensation extends Descision 
 {
 	var compensate:Float;
+	var amount:Float;
+	var formula:String;
 
 	/**/
 	override public function create()
 	{
-		var amount:Float = Std.parseFloat(Main.customer.contract.balance.overdue);
+		amount = Std.parseFloat(Main.customer.contract.balance.overdue);
 		compensate = Math.round(10 * amount / 2)/10;
-		var formula = '$amount / 2 = <b>${amount/2}<b>';
+		formula = '$amount / 2 = <b>${amount/2}<b>';
 		this._titleTxt = Replace.flags(_titleTxt, ["<COMP>","<AMOUNT>"], [Std.string(compensate), Std.string(amount) ]);
 		this._detailTxt = Replace.flags(_detailTxt, ["<FORMULA>"], [formula]);
 		super.create();
@@ -40,5 +43,8 @@ class AlternativeCompensation extends Descision
 		this._nexts = [{step: TicketMobileFiveOneOne}];
 		super.onNoClick();
 	}
-	
+	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
+	{
+		super.pushToHistory(buttonTxt, interactionType, ["total shock"=>amount, "compensate 50% "=> compensate]);
+	}
 }

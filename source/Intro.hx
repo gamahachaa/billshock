@@ -26,7 +26,7 @@ class Intro extends Action
 		Main.VERSION_TRACKER.request();
 		#if debug
 		trace("Showing the new version if any");
-		trace(Main.user.mainLanguage);
+		//trace(Main.user.mainLanguage);
 		if(Main.DEBUG)
 			openSubState(new CheckUpdateSub(UI.THEME.bg));
 		
@@ -37,6 +37,7 @@ class Intro extends Action
 	}
 	function onNewVersion(needsUpdate:Bool):Void 
 	{
+		
 		if (needsUpdate)
 		{
 			Browser.location.reload(true);
@@ -44,10 +45,11 @@ class Intro extends Action
 		else{
 			closeSubState();
 		}
+		closeSubState();
 	}
 	override public function onClick():Void
 	{
-		this._nexts = [{step: capture.IsCompTicketOpened, params: []}];
+		this._nexts = [{step: capture.AreYouTheContractOwner, params: []}];
 		super.onClick();
 	}
 }

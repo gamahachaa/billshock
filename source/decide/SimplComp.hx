@@ -5,6 +5,7 @@ import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
 import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
+import tstool.process.Process;
 
 /**
  * ...
@@ -13,12 +14,18 @@ import tstool.process.Descision;
 class SimplComp extends Descision
 {
 	var compensate:Float;
+	var amount:Float;
 	override public function create()
 	{
 		//var choice:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount", 1, true);
 		//var amounts:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HighUsageData", 1, true);
 		var amounts:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(HighUsageData);
-		var amount:Float = Std.parseFloat(amounts.values.get(HighUsageData.AMOUNT));
+		/**
+		 * @todo splits amount
+		 */
+		//var amount:Float = compute(amounts.values.get(HighUsageData.AMOUNTS));
+		amount = Std.parseFloat(Process.STORAGE.get(HighUsageData.STORAGE_TOTAL_AMOUNT));
+		//var amount:Float = Std.parseFloat(amounts.values.get(HighUsageData.AMOUNT));
 		compensate = amount - Math.min(amount / 2, 150);
 		var toPay = Math.min(amount / 2, 150);
 		var formula = '\n$amount - ($amount / 2) = $amount - ${amount/2} = ${amount - (amount / 2)}\n= ${amount - Math.min(amount / 2, 150)}';
@@ -35,7 +42,7 @@ class SimplComp extends Descision
 	//}
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
-		super.pushToHistory(buttonTxt, interactionType, ["compensate"=> compensate]);
+		super.pushToHistory(buttonTxt, interactionType, ["total shock"=>amount, "compensate (max 150 to pay)"=> compensate]);
 	}
 	
 	/****************************
@@ -54,4 +61,17 @@ class SimplComp extends Descision
 		this._nexts = [{step: TicketMobileFiveOneOne}];
 		super.onNoClick();
 	}
+	//function compute(s:String)
+	//{
+		//var r:EReg = new EReg("[+ ;\\/]{1,3}","g");
+		////var test = "999 99.00 / 99.50 + 99,50 999.99 + 444,44 / 333;888 777";
+		//var t = r.split(s);
+		//trace(t);
+		//var sum:Float = 0;
+		//for (i in r.split(s))
+		//{
+			//sum += Std.parseFloat(i);
+		//}
+		//return sum;
+	//}
 }

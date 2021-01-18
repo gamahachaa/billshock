@@ -3,6 +3,7 @@ package capture;
 import decide.AlternativeCompensation;
 import firetongue.Replace;
 import ticket.TicketMobileFiveOneOne;
+import tstool.layout.History.Interactions;
 import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
 
@@ -12,6 +13,7 @@ import tstool.process.Descision;
  */
 class AcceptRenewalPlan extends Descision 
 {
+	var proposal:Map < String,String>;
 	/*public function new ()
 	{
 		var howMadeHugeAmount:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount");
@@ -67,10 +69,14 @@ class AcceptRenewalPlan extends Descision
 		//trace("capture.AcceptRenewalPlan::create::pp", pp );
 		var rc = selectPP.values.get(_SelectPP.RC);
 		//trace(where, pp, rc);
-		var proposal = PPmap.ppMapProposal.get(where).get(pp).get(rc);
+		proposal = PPmap.ppMapProposal.get(where).get(pp).get(rc);
 		this._titleTxt = Replace.flags(_titleTxt,  ["<PP>","<RC>","<STANDARD>"], [proposal.get(PPmap.NEW_PLAN), proposal.get(PPmap.SPECIAL_RC), proposal.get(PPmap.STANDARD_RC)]);
 		super.create();
 		
+	}
+	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
+	{
+		super.pushToHistory(buttonTxt, interactionType, ["Proposed PP"=> proposal.get(PPmap.NEW_PLAN), "Proposed RC"=> proposal.get(PPmap.SPECIAL_RC)]);
 	}
 	
 	/****************************

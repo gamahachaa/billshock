@@ -48,16 +48,19 @@ class _ElligibleForRet extends ActionRadios
 	override public function onClick():Void
 	{
 		//var how:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount");
-		var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
-		var zone = how.values.get("choice");
-		var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET) (( zone == _HowMadeHugeAmount.CH )? AlternativeCompensation : ActivateInternetEurope) else _SelectPP;
-		
-		this._nexts = [{step: next}];
-		//this._nextProcesses = [next];
-		super.onClick();
+		if (validate())
+		{
+			var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
+			var zone = how.values.get("choice");
+			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET) (( zone == _HowMadeHugeAmount.CH )? AlternativeCompensation : ActivateInternetEurope) else _SelectPP;
+			
+			this._nexts = [{step: next}];
+			//this._nextProcesses = [next];
+			super.onClick();
+		}
 	}
-	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
+	/*override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
 		super.pushToHistory(buttonTxt, interactionType, status);
-	}
+	}*/
 }
