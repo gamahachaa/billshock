@@ -785,7 +785,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "5";
+	app.meta.h["build"] = "8";
 	app.meta.h["company"] = "";
 	app.meta.h["file"] = "bill_shock_js";
 	app.meta.h["name"] = "bill_shock_js";
@@ -6078,7 +6078,7 @@ capture_HighUsageData.prototype = $extend(tstool_process_DescisionMultipleInput.
 				tmp = amounts;
 			}
 			Main.customer.get_contract().balance = new tstool_salt_Balance("",tmp);
-			tstool_process_Process.STORE("SCHOCK CHF ",Main.customer.get_contract().balance.overdue + (numAmounts > 1 ? " (" + amounts + ")" : ""));
+			tstool_process_Process.STORE("SCHOCK CHF",Main.customer.get_contract().balance.overdue + (numAmounts > 1 ? " (" + amounts + ")" : ""));
 			return tstool_process_DescisionMultipleInput.prototype.validate.call(this,interaction);
 		} else {
 			this.multipleInputs.get_inputs().h["Schock amnount(s)"].blink(true);
@@ -6105,7 +6105,7 @@ capture_HighUsageData.prototype = $extend(tstool_process_DescisionMultipleInput.
 	,__class__: capture_HighUsageData
 });
 var capture_IsCompTicketOpened = function() {
-	tstool_process_DescisionMultipleInput.call(this,[{ ereg : new EReg("^(0)[0-9]{2}\\s{0,1}[0-9]{3}\\s{0,1}[0-9]{4}$","i"), input : { width : 100, prefix : "MSISDN", position : [tstool_layout_Direction.bottom,tstool_layout_Direction.left], debug : "078 787 1676"}},{ ereg : new EReg("^(11)[0-9]{6}$","i"), input : { width : 100, prefix : "S.O ticket", buddy : "MSISDN", position : [tstool_layout_Direction.top,tstool_layout_Direction.right], debug : "11123456", mustValidate : [tstool_layout_Interactions.Yes]}}]);
+	tstool_process_DescisionMultipleInput.call(this,[{ ereg : new EReg("^(0)[0-9]{2}\\s{0,1}[0-9]{3}\\s{0,1}[0-9]{4}$","i"), input : { width : 100, prefix : "MSISDN *", position : [tstool_layout_Direction.bottom,tstool_layout_Direction.left], debug : "078 787 1676"}},{ ereg : new EReg("^(11)[0-9]{6}$","i"), input : { width : 100, prefix : "S.O ticket", buddy : "MSISDN *", position : [tstool_layout_Direction.top,tstool_layout_Direction.right], debug : "11123456", mustValidate : [tstool_layout_Interactions.Yes]}},{ ereg : new EReg("^(11)[0-9]{6}$","i"), input : { width : 150, prefix : "Contact Phone", buddy : "MSISDN *", position : [tstool_layout_Direction.bottom,tstool_layout_Direction.left], debug : "078 787 8673", mustValidate : [tstool_layout_Interactions.Exit]}},{ ereg : new EReg("^(11)[0-9]{6}$","i"), input : { width : 300, prefix : "email", buddy : "Contact Phone", position : [tstool_layout_Direction.top,tstool_layout_Direction.right], debug : "georges.cloonez@whatelse.com", mustValidate : [tstool_layout_Interactions.Exit]}}]);
 	tstool_process_Process.STORAGE = new haxe_ds_StringMap();
 };
 $hxClasses["capture.IsCompTicketOpened"] = capture_IsCompTicketOpened;
@@ -6121,9 +6121,9 @@ capture_IsCompTicketOpened.prototype = $extend(tstool_process_DescisionMultipleI
 		tstool_process_DescisionMultipleInput.prototype.onNoClick.call(this);
 	}
 	,validate: function(interaction) {
-		Main.customer.set_voIP(StringTools.replace(this.multipleInputs.get_inputs().h["MSISDN"].getInputedText()," ",""));
+		Main.customer.set_voIP(StringTools.replace(this.multipleInputs.get_inputs().h["MSISDN *"].getInputedText()," ",""));
 		Main.customer.set_iri(Main.customer.get_voIP());
-		tstool_process_Process.STORE("MSISDN","" + Main.customer.get_voIP());
+		tstool_process_Process.STORE("MSISDN *","" + Main.customer.get_voIP());
 		return tstool_process_DescisionMultipleInput.prototype.validate.call(this,interaction);
 	}
 	,__class__: capture_IsCompTicketOpened
@@ -6385,7 +6385,7 @@ capture__$ElligibleForRet.prototype = $extend(tstool_process_ActionRadios.protot
 	onClick: function() {
 		if(this.validate()) {
 			var how = Main.HISTORY.findFirstStepsClassInHistory(capture__$HowMadeHugeAmount);
-			var zone = how.values.h["choice"];
+			var zone = how.values.h["How"];
 			var next = this.status.h["Retention elligibility"] == "Not elligible" ? zone == "ch" ? decide_AlternativeCompensation : decide_ActivateInternetEurope : this.status.h["Subscription type"] == "Device" ? decide_ActivateInternetEurope : capture__$SelectPP;
 			this._nexts = [{ step : next}];
 			tstool_process_ActionRadios.prototype.onClick.call(this);
@@ -6554,7 +6554,7 @@ decide_SimplComp.__super__ = tstool_process_Descision;
 decide_SimplComp.prototype = $extend(tstool_process_Descision.prototype,{
 	create: function() {
 		var amounts = Main.HISTORY.findFirstStepsClassInHistory(capture_HighUsageData);
-		this.amount = parseFloat(tstool_process_Process.STORAGE.h["SCHOCK CHF "]);
+		this.amount = parseFloat(tstool_process_Process.STORAGE.h["SCHOCK CHF"]);
 		this.compensate = this.amount - Math.min(this.amount / 2,150);
 		var toPay = Math.min(this.amount / 2,150);
 		var formula = "\n" + this.amount + " - (" + this.amount + " / 2) = " + this.amount + " - " + this.amount / 2 + " = " + (this.amount - this.amount / 2) + "\n= " + (this.amount - Math.min(this.amount / 2,150));
@@ -51221,7 +51221,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 157560;
+	this.version = 247412;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -80117,11 +80117,14 @@ Xml.Comment = 3;
 Xml.DocType = 4;
 Xml.ProcessingInstruction = 5;
 Xml.Document = 6;
-capture_HighUsageData.STORAGE_TOTAL_AMOUNT = "SCHOCK CHF ";
+capture_HighUsageData.STORAGE_TOTAL_AMOUNT = "SCHOCK CHF";
 capture_HighUsageData.BA = "B.A";
 capture_HighUsageData.INVOICE = "Invoice(s) Nber(s)";
 capture_HighUsageData.AMOUNTS = "Schock amnount(s)";
-capture_IsCompTicketOpened.MSISDN = "MSISDN";
+capture_IsCompTicketOpened.MSISDN = "MSISDN *";
+capture_IsCompTicketOpened.SO_TICKET = "S.O ticket";
+capture_IsCompTicketOpened.CONTACT = "Contact Phone";
+capture_IsCompTicketOpened.EMAIL = "email";
 capture_PPmap.START = ["5","9","14","19","24","29"];
 capture_PPmap.BASIC = ["14.95","19","25","29","35","39","49"];
 capture_PPmap.SMART_SWISS = ["19.95","24.95","29.95","34.95","39.95"];

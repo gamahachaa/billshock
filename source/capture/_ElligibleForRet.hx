@@ -51,7 +51,10 @@ class _ElligibleForRet extends ActionRadios
 		if (validate())
 		{
 			var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
-			var zone = how.values.get("choice");
+			var zone = how.values.get(_HowMadeHugeAmount.HOW);
+			#if debug
+			trace("capture._ElligibleForRet::onClick::zone", zone );
+			#end
 			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET) {
 				if (zone == _HowMadeHugeAmount.CH)
 				{
