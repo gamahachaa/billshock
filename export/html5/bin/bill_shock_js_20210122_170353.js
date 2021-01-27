@@ -785,7 +785,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "4";
+	app.meta.h["build"] = "5";
 	app.meta.h["company"] = "";
 	app.meta.h["file"] = "bill_shock_js";
 	app.meta.h["name"] = "bill_shock_js";
@@ -4011,7 +4011,7 @@ tstool_process_Process.prototype = $extend(flixel_FlxState.prototype,{
 		this.destroySubStates = false;
 		this.hasQook = this._qookLink.length > 0 && this._qookLink[0] != "";
 		this.hasIllustration = this._illustration != "";
-		this.ui.showHowto(!((this) instanceof tstool_process_DescisionMultipleInput) && !((this) instanceof tstool_process_ActionMultipleInput) && !((this) instanceof tstool_process_ActionMail));
+		this.ui.showHowto(false);
 		if(this.hasQook) {
 			var _this = this.ui.qook;
 			var Text1 = Main.tongue.get("$helpBtn_UI1","meta") + " " + this.parseAllLinksForNames().join(", ") + ")";
@@ -4539,7 +4539,6 @@ Intro.__name__ = "Intro";
 Intro.__super__ = tstool_process_Action;
 Intro.prototype = $extend(tstool_process_Action.prototype,{
 	create: function() {
-		Main.customer.reset();
 		tstool_process_Process.INIT();
 		tstool_process_Action.prototype.create.call(this);
 		Main.VERSION_TRACKER.get_scriptChangedSignal().add($bind(this,this.onNewVersion));
@@ -4552,7 +4551,6 @@ Intro.prototype = $extend(tstool_process_Action.prototype,{
 		} else {
 			this.closeSubState();
 		}
-		this.closeSubState();
 	}
 	,onClick: function() {
 		this._nexts = [{ step : capture_AreYouTheContractOwner, params : []}];
@@ -4611,7 +4609,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$nokiafc22_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$monsterrat_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy26:assets%2Fdata%2Fadmins.txty4:sizei68y4:typey4:TEXTy2:idR1y7:preloadtgoR0y36:assets%2Fdata%2FcustomerProfile.jsonR2i9974R3R4R5R7R6tgoR0y35:assets%2Fdata%2FdashboardSante.jsonR2i3461R3R4R5R8R6tgoR0y34:assets%2Fdata%2Fdata-goes-here.txtR2zR3R4R5R9R6tgoR0y24:assets%2Fdata%2Ftest.txtR2i9R3R4R5R10R6tgoR0y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.eotR2i145232R3y6:BINARYR5R11R6tgoR2i145004R3y4:FONTy9:classNamey51:__ASSET__assets_fonts_jetbrainsmono_bold_italic_ttfR5y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.ttfR6tgoR0y47:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.woffR2i67044R3R12R5R17R6tgoR0y39:assets%2Ffonts%2FJetBrainsMono-Bold.eotR2i138892R3R12R5R18R6tgoR2i138692R3R13R14y44:__ASSET__assets_fonts_jetbrainsmono_bold_ttfR5y39:assets%2Ffonts%2FJetBrainsMono-Bold.ttfR6tgoR0y40:assets%2Ffonts%2FJetBrainsMono-Bold.woffR2i62276R3R12R5R21R6tgoR0y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.eotR2i145920R3R12R5R22R6tgoR2i145672R3R13R14y56:__ASSET__assets_fonts_jetbrainsmono_extrabold_italic_ttfR5y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.ttfR6tgoR0y52:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.woffR2i65812R3R12R5R25R6tgoR0y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.eotR2i139388R3R12R5R26R6tgoR2i139168R3R13R14y49:__ASSET__assets_fonts_jetbrainsmono_extrabold_ttfR5y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.ttfR6tgoR0y45:assets%2Ffonts%2FJetBrainsMono-ExtraBold.woffR2i61016R3R12R5R29R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Italic.eotR2i141780R3R12R5R30R6tgoR2i141572R3R13R14y46:__ASSET__assets_fonts_jetbrainsmono_italic_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Italic.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Italic.woffR2i64504R3R12R5R33R6tgoR0y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.eotR2i144764R3R12R5R34R6tgoR2i144528R3R13R14y53:__ASSET__assets_fonts_jetbrainsmono_medium_italic_ttfR5y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.ttfR6tgoR0y49:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.woffR2i66768R3R12R5R37R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Medium.eotR2i138484R3R12R5R38R6tgoR2i138276R3R13R14y46:__ASSET__assets_fonts_jetbrainsmono_medium_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Medium.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Medium.woffR2i62064R3R12R5R41R6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Regular.eotR2i136920R3R12R5R42R6tgoR2i136708R3R13R14y47:__ASSET__assets_fonts_jetbrainsmono_regular_ttfR5y42:assets%2Ffonts%2FJetBrainsMono-Regular.ttfR6tgoR0y43:assets%2Ffonts%2FJetBrainsMono-Regular.woffR2i60220R3R12R5R45R6tgoR0y31:assets%2Ffonts%2FLato-Black.eotR2i114806R3R12R5R46R6tgoR2i114588R3R13R14y36:__ASSET__assets_fonts_lato_black_ttfR5y31:assets%2Ffonts%2FLato-Black.ttfR6tgoR0y32:assets%2Ffonts%2FLato-Black.woffR2i48592R3R12R5R49R6tgoR0y33:assets%2Ffonts%2FLato-Regular.eotR2i120422R3R12R5R50R6tgoR2i120196R3R13R14y38:__ASSET__assets_fonts_lato_regular_ttfR5y33:assets%2Ffonts%2FLato-Regular.ttfR6tgoR0y34:assets%2Ffonts%2FLato-Regular.woffR2i50140R3R12R5R53R6tgoR0y42:assets%2Fimages%2Fintro%2Fbaby_shocked.pngR2i135091R3y5:IMAGER5R54R6tgoR0y35:assets%2Fimages%2Fui%2Fall-good.pngR2i4661R3R55R5R56R6tgoR0y31:assets%2Fimages%2Fui%2Fback.pngR2i7760R3R55R5R57R6tgoR0y36:assets%2Fimages%2Fui%2FclipBoard.pngR2i2456R3R55R5R58R6tgoR0y32:assets%2Fimages%2Fui%2Fclose.pngR2i4989R3R55R5R59R6tgoR0y34:assets%2Fimages%2Fui%2Fcomment.pngR2i6291R3R55R5R60R6tgoR0y29:assets%2Fimages%2Fui%2Fde.pngR2i3650R3R55R5R61R6tgoR0y31:assets%2Fimages%2Fui%2Fdown.pngR2i6660R3R55R5R62R6tgoR0y29:assets%2Fimages%2Fui%2Fen.pngR2i3572R3R55R5R63R6tgoR0y31:assets%2Fimages%2Fui%2Fexit.pngR2i4953R3R55R5R64R6tgoR0y29:assets%2Fimages%2Fui%2Ffr.pngR2i3645R3R55R5R65R6tgoR0y31:assets%2Fimages%2Fui%2Fhelp.pngR2i7180R3R55R5R66R6tgoR0y32:assets%2Fimages%2Fui%2Fhowto.pngR2i3824R3R55R5R67R6tgoR0y29:assets%2Fimages%2Fui%2Fit.pngR2i2051R3R55R5R68R6tgoR0y31:assets%2Fimages%2Fui%2Fleft.pngR2i5261R3R55R5R69R6tgoR0y32:assets%2Fimages%2Fui%2Flight.pngR2i7477R3R55R5R70R6tgoR0y31:assets%2Fimages%2Fui%2Fmail.pngR2i21955R3R55R5R71R6tgoR0y32:assets%2Fimages%2Fui%2Fright.pngR2i5276R3R55R5R72R6tgoR0y34:assets%2Fimages%2Fui%2FshowPwd.pngR2i8423R3R55R5R73R6tgoR0y39:assets%2Fimages%2Fui%2FtrainingMode.pngR2i5713R3R55R5R74R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardDE.pngR2i197972R3R55R5R75R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardEN.pngR2i194114R3R55R5R76R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardFR.pngR2i197400R3R55R5R77R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardIT.pngR2i196927R3R55R5R78R6tgoR0y34:assets%2Fimages%2Fui%2Fversion.pngR2i33131R3R55R5R79R6tgoR0y43:assets%2Flocales%2Fde-DE%2FbillShock_de.txtR2i4527R3R4R5R80R6tgoR0y38:assets%2Flocales%2Fde-DE%2Fmeta_de.txtR2i648R3R4R5R81R6tgoR0y43:assets%2Flocales%2Fen-GB%2FbillShock_en.txtR2i3967R3R4R5R82R6tgoR0y38:assets%2Flocales%2Fen-GB%2Fmeta_en.txtR2i569R3R4R5R83R6tgoR0y43:assets%2Flocales%2Ffr-FR%2FbillShock_fr.txtR2i5248R3R4R5R84R6tgoR0y38:assets%2Flocales%2Ffr-FR%2Fmeta_fr.txtR2i648R3R4R5R85R6tgoR0y28:assets%2Flocales%2Findex.xmlR2i2640R3R4R5R86R6tgoR0y43:assets%2Flocales%2Fit-IT%2FbillShock_it.txtR2i3714R3R4R5R87R6tgoR0y38:assets%2Flocales%2Fit-IT%2Fmeta_it.txtR2i647R3R4R5R88R6tgoR0y37:assets%2Flocales%2F_icons%2Fcs-CZ.pngR2i3115R3R55R5R89R6tgoR0y37:assets%2Flocales%2F_icons%2Fde-DE.pngR2i822R3R55R5R90R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-CA.pngR2i930R3R55R5R91R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-GB.pngR2i1005R3R55R5R92R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-US.pngR2i954R3R55R5R93R6tgoR0y37:assets%2Flocales%2F_icons%2Fes-ES.pngR2i800R3R55R5R94R6tgoR0y37:assets%2Flocales%2F_icons%2Ffr-FR.pngR2i829R3R55R5R95R6tgoR0y37:assets%2Flocales%2F_icons%2Fit-IT.pngR2i740R3R55R5R96R6tgoR0y37:assets%2Flocales%2F_icons%2Fja-JP.pngR2i771R3R55R5R97R6tgoR0y37:assets%2Flocales%2F_icons%2Fko-KR.pngR2i3281R3R55R5R98R6tgoR0y37:assets%2Flocales%2F_icons%2Fnb-NO.pngR2i858R3R55R5R99R6tgoR0y37:assets%2Flocales%2F_icons%2Fpl-PL.pngR2i2980R3R55R5R100R6tgoR0y37:assets%2Flocales%2F_icons%2Fyo-DA.pngR2i3065R3R55R5R101R6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R102R6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R103R6tgoR0y25:assets%2Fxml%2Fbutton.pngR2i3200R3R55R5R104R6tgoR0y28:assets%2Fxml%2Fhaxeui_96.pngR2i2503R3R55R5R105R6tgoR0y23:assets%2Fxml%2Ftest.xmlR2i4460R3R4R5R106R6tgoR2i2114R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3y9:pathGroupaR108y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R107R5y28:flixel%2Fsounds%2Fflixel.mp3R109aR111y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3y5:SOUNDR5R110R109aR108R110hgoR2i33629R3R113R5R112R109aR111R112hgoR2i15744R3R13R14y35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R13R14y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R55R5R118R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R55R5R119R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Fbox.pngR2i912R3R55R5R120R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fbutton.pngR2i433R3R55R5R121R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_down.pngR2i446R3R55R5R122R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_left.pngR2i459R3R55R5R123R6tgoR0y49:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_right.pngR2i511R3R55R5R124R6tgoR0y46:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_up.pngR2i493R3R55R5R125R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fbutton_thin.pngR2i247R3R55R5R126R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fbutton_toggle.pngR2i534R3R55R5R127R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fcheck_box.pngR2i922R3R55R5R128R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fcheck_mark.pngR2i946R3R55R5R129R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fchrome.pngR2i253R3R55R5R130R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fchrome_flat.pngR2i212R3R55R5R131R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_inset.pngR2i192R3R55R5R132R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_light.pngR2i214R3R55R5R133R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fdropdown_mark.pngR2i156R3R55R5R134R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Ffinger_big.pngR2i1724R3R55R5R135R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Ffinger_small.pngR2i294R3R55R5R136R6tgoR0y38:flixel%2Fflixel-ui%2Fimg%2Fhilight.pngR2i129R3R55R5R137R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Finvis.pngR2i128R3R55R5R138R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fminus_mark.pngR2i136R3R55R5R139R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fplus_mark.pngR2i147R3R55R5R140R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Fradio.pngR2i191R3R55R5R141R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fradio_dot.pngR2i153R3R55R5R142R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fswatch.pngR2i185R3R55R5R143R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Ftab.pngR2i201R3R55R5R144R6tgoR0y39:flixel%2Fflixel-ui%2Fimg%2Ftab_back.pngR2i210R3R55R5R145R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Ftooltip_arrow.pngR2i18509R3R55R5R146R6tgoR0y39:flixel%2Fflixel-ui%2Fxml%2Fdefaults.xmlR2i1263R3R4R5R147R6tgoR0y53:flixel%2Fflixel-ui%2Fxml%2Fdefault_loading_screen.xmlR2i1953R3R4R5R148R6tgoR0y44:flixel%2Fflixel-ui%2Fxml%2Fdefault_popup.xmlR2i1848R3R4R5R149R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy26:assets%2Fdata%2Fadmins.txty4:sizei68y4:typey4:TEXTy2:idR1y7:preloadtgoR0y36:assets%2Fdata%2FcustomerProfile.jsonR2i9974R3R4R5R7R6tgoR0y35:assets%2Fdata%2FdashboardSante.jsonR2i3461R3R4R5R8R6tgoR0y34:assets%2Fdata%2Fdata-goes-here.txtR2zR3R4R5R9R6tgoR0y24:assets%2Fdata%2Ftest.txtR2i9R3R4R5R10R6tgoR0y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.eotR2i145232R3y6:BINARYR5R11R6tgoR2i145004R3y4:FONTy9:classNamey51:__ASSET__assets_fonts_jetbrainsmono_bold_italic_ttfR5y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.ttfR6tgoR0y47:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.woffR2i67044R3R12R5R17R6tgoR0y39:assets%2Ffonts%2FJetBrainsMono-Bold.eotR2i138892R3R12R5R18R6tgoR2i138692R3R13R14y44:__ASSET__assets_fonts_jetbrainsmono_bold_ttfR5y39:assets%2Ffonts%2FJetBrainsMono-Bold.ttfR6tgoR0y40:assets%2Ffonts%2FJetBrainsMono-Bold.woffR2i62276R3R12R5R21R6tgoR0y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.eotR2i145920R3R12R5R22R6tgoR2i145672R3R13R14y56:__ASSET__assets_fonts_jetbrainsmono_extrabold_italic_ttfR5y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.ttfR6tgoR0y52:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.woffR2i65812R3R12R5R25R6tgoR0y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.eotR2i139388R3R12R5R26R6tgoR2i139168R3R13R14y49:__ASSET__assets_fonts_jetbrainsmono_extrabold_ttfR5y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.ttfR6tgoR0y45:assets%2Ffonts%2FJetBrainsMono-ExtraBold.woffR2i61016R3R12R5R29R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Italic.eotR2i141780R3R12R5R30R6tgoR2i141572R3R13R14y46:__ASSET__assets_fonts_jetbrainsmono_italic_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Italic.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Italic.woffR2i64504R3R12R5R33R6tgoR0y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.eotR2i144764R3R12R5R34R6tgoR2i144528R3R13R14y53:__ASSET__assets_fonts_jetbrainsmono_medium_italic_ttfR5y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.ttfR6tgoR0y49:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.woffR2i66768R3R12R5R37R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Medium.eotR2i138484R3R12R5R38R6tgoR2i138276R3R13R14y46:__ASSET__assets_fonts_jetbrainsmono_medium_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Medium.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Medium.woffR2i62064R3R12R5R41R6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Regular.eotR2i136920R3R12R5R42R6tgoR2i136708R3R13R14y47:__ASSET__assets_fonts_jetbrainsmono_regular_ttfR5y42:assets%2Ffonts%2FJetBrainsMono-Regular.ttfR6tgoR0y43:assets%2Ffonts%2FJetBrainsMono-Regular.woffR2i60220R3R12R5R45R6tgoR0y31:assets%2Ffonts%2FLato-Black.eotR2i114806R3R12R5R46R6tgoR2i114588R3R13R14y36:__ASSET__assets_fonts_lato_black_ttfR5y31:assets%2Ffonts%2FLato-Black.ttfR6tgoR0y32:assets%2Ffonts%2FLato-Black.woffR2i48592R3R12R5R49R6tgoR0y33:assets%2Ffonts%2FLato-Regular.eotR2i120422R3R12R5R50R6tgoR2i120196R3R13R14y38:__ASSET__assets_fonts_lato_regular_ttfR5y33:assets%2Ffonts%2FLato-Regular.ttfR6tgoR0y34:assets%2Ffonts%2FLato-Regular.woffR2i50140R3R12R5R53R6tgoR0y42:assets%2Fimages%2Fintro%2Fbaby_shocked.pngR2i135091R3y5:IMAGER5R54R6tgoR0y35:assets%2Fimages%2Fui%2Fall-good.pngR2i4661R3R55R5R56R6tgoR0y31:assets%2Fimages%2Fui%2Fback.pngR2i7760R3R55R5R57R6tgoR0y36:assets%2Fimages%2Fui%2FclipBoard.pngR2i2456R3R55R5R58R6tgoR0y32:assets%2Fimages%2Fui%2Fclose.pngR2i4989R3R55R5R59R6tgoR0y34:assets%2Fimages%2Fui%2Fcomment.pngR2i6291R3R55R5R60R6tgoR0y29:assets%2Fimages%2Fui%2Fde.pngR2i3650R3R55R5R61R6tgoR0y31:assets%2Fimages%2Fui%2Fdown.pngR2i6660R3R55R5R62R6tgoR0y29:assets%2Fimages%2Fui%2Fen.pngR2i3572R3R55R5R63R6tgoR0y31:assets%2Fimages%2Fui%2Fexit.pngR2i4953R3R55R5R64R6tgoR0y29:assets%2Fimages%2Fui%2Ffr.pngR2i3645R3R55R5R65R6tgoR0y31:assets%2Fimages%2Fui%2Fhelp.pngR2i7180R3R55R5R66R6tgoR0y32:assets%2Fimages%2Fui%2Fhowto.pngR2i3824R3R55R5R67R6tgoR0y29:assets%2Fimages%2Fui%2Fit.pngR2i2051R3R55R5R68R6tgoR0y31:assets%2Fimages%2Fui%2Fleft.pngR2i5261R3R55R5R69R6tgoR0y32:assets%2Fimages%2Fui%2Flight.pngR2i7477R3R55R5R70R6tgoR0y31:assets%2Fimages%2Fui%2Fmail.pngR2i21955R3R55R5R71R6tgoR0y32:assets%2Fimages%2Fui%2Fright.pngR2i5276R3R55R5R72R6tgoR0y33:assets%2Fimages%2Fui%2Fscript.pngR2i7825R3R55R5R73R6tgoR0y34:assets%2Fimages%2Fui%2FshowPwd.pngR2i8423R3R55R5R74R6tgoR0y39:assets%2Fimages%2Fui%2FtrainingMode.pngR2i5713R3R55R5R75R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardDE.pngR2i197972R3R55R5R76R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardEN.pngR2i194114R3R55R5R77R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardFR.pngR2i197400R3R55R5R78R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardIT.pngR2i196927R3R55R5R79R6tgoR0y34:assets%2Fimages%2Fui%2Fversion.pngR2i33131R3R55R5R80R6tgoR0y43:assets%2Flocales%2Fde-DE%2FbillShock_de.txtR2i4565R3R4R5R81R6tgoR0y38:assets%2Flocales%2Fde-DE%2Fmeta_de.txtR2i648R3R4R5R82R6tgoR0y43:assets%2Flocales%2Fen-GB%2FbillShock_en.txtR2i3990R3R4R5R83R6tgoR0y38:assets%2Flocales%2Fen-GB%2Fmeta_en.txtR2i569R3R4R5R84R6tgoR0y43:assets%2Flocales%2Ffr-FR%2FbillShock_fr.txtR2i5248R3R4R5R85R6tgoR0y38:assets%2Flocales%2Ffr-FR%2Fmeta_fr.txtR2i648R3R4R5R86R6tgoR0y28:assets%2Flocales%2Findex.xmlR2i2725R3R4R5R87R6tgoR0y43:assets%2Flocales%2Fit-IT%2FbillShock_it.txtR2i5004R3R4R5R88R6tgoR0y38:assets%2Flocales%2Fit-IT%2Fmeta_it.txtR2i647R3R4R5R89R6tgoR0y37:assets%2Flocales%2F_icons%2Fcs-CZ.pngR2i3115R3R55R5R90R6tgoR0y37:assets%2Flocales%2F_icons%2Fde-DE.pngR2i822R3R55R5R91R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-CA.pngR2i930R3R55R5R92R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-GB.pngR2i1005R3R55R5R93R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-US.pngR2i954R3R55R5R94R6tgoR0y37:assets%2Flocales%2F_icons%2Fes-ES.pngR2i800R3R55R5R95R6tgoR0y37:assets%2Flocales%2F_icons%2Ffr-FR.pngR2i829R3R55R5R96R6tgoR0y37:assets%2Flocales%2F_icons%2Fit-IT.pngR2i740R3R55R5R97R6tgoR0y37:assets%2Flocales%2F_icons%2Fja-JP.pngR2i771R3R55R5R98R6tgoR0y37:assets%2Flocales%2F_icons%2Fko-KR.pngR2i3281R3R55R5R99R6tgoR0y37:assets%2Flocales%2F_icons%2Fnb-NO.pngR2i858R3R55R5R100R6tgoR0y37:assets%2Flocales%2F_icons%2Fpl-PL.pngR2i2980R3R55R5R101R6tgoR0y37:assets%2Flocales%2F_icons%2Fyo-DA.pngR2i3065R3R55R5R102R6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R103R6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R104R6tgoR0y25:assets%2Fxml%2Fbutton.pngR2i3200R3R55R5R105R6tgoR0y28:assets%2Fxml%2Fhaxeui_96.pngR2i2503R3R55R5R106R6tgoR0y23:assets%2Fxml%2Ftest.xmlR2i4460R3R4R5R107R6tgoR2i2114R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3y9:pathGroupaR109y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R108R5y28:flixel%2Fsounds%2Fflixel.mp3R110aR112y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3y5:SOUNDR5R111R110aR109R111hgoR2i33629R3R114R5R113R110aR112R113hgoR2i15744R3R13R14y35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R13R14y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R55R5R119R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R55R5R120R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Fbox.pngR2i912R3R55R5R121R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fbutton.pngR2i433R3R55R5R122R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_down.pngR2i446R3R55R5R123R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_left.pngR2i459R3R55R5R124R6tgoR0y49:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_right.pngR2i511R3R55R5R125R6tgoR0y46:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_up.pngR2i493R3R55R5R126R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fbutton_thin.pngR2i247R3R55R5R127R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fbutton_toggle.pngR2i534R3R55R5R128R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fcheck_box.pngR2i922R3R55R5R129R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fcheck_mark.pngR2i946R3R55R5R130R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fchrome.pngR2i253R3R55R5R131R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fchrome_flat.pngR2i212R3R55R5R132R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_inset.pngR2i192R3R55R5R133R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_light.pngR2i214R3R55R5R134R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fdropdown_mark.pngR2i156R3R55R5R135R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Ffinger_big.pngR2i1724R3R55R5R136R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Ffinger_small.pngR2i294R3R55R5R137R6tgoR0y38:flixel%2Fflixel-ui%2Fimg%2Fhilight.pngR2i129R3R55R5R138R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Finvis.pngR2i128R3R55R5R139R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fminus_mark.pngR2i136R3R55R5R140R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fplus_mark.pngR2i147R3R55R5R141R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Fradio.pngR2i191R3R55R5R142R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fradio_dot.pngR2i153R3R55R5R143R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fswatch.pngR2i185R3R55R5R144R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Ftab.pngR2i201R3R55R5R145R6tgoR0y39:flixel%2Fflixel-ui%2Fimg%2Ftab_back.pngR2i210R3R55R5R146R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Ftooltip_arrow.pngR2i18509R3R55R5R147R6tgoR0y39:flixel%2Fflixel-ui%2Fxml%2Fdefaults.xmlR2i1263R3R4R5R148R6tgoR0y53:flixel%2Fflixel-ui%2Fxml%2Fdefault_loading_screen.xmlR2i1953R3R4R5R149R6tgoR0y44:flixel%2Fflixel-ui%2Fxml%2Fdefault_popup.xmlR2i1848R3R4R5R150R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -6124,6 +6122,7 @@ capture_IsCompTicketOpened.prototype = $extend(tstool_process_DescisionMultipleI
 	}
 	,validate: function(interaction) {
 		Main.customer.set_voIP(StringTools.replace(this.multipleInputs.get_inputs().h["MSISDN"].getInputedText()," ",""));
+		Main.customer.set_iri(Main.customer.get_voIP());
 		tstool_process_Process.STORE("MSISDN","" + Main.customer.get_voIP());
 		return tstool_process_DescisionMultipleInput.prototype.validate.call(this,interaction);
 	}
@@ -6387,7 +6386,7 @@ capture__$ElligibleForRet.prototype = $extend(tstool_process_ActionRadios.protot
 		if(this.validate()) {
 			var how = Main.HISTORY.findFirstStepsClassInHistory(capture__$HowMadeHugeAmount);
 			var zone = how.values.h["choice"];
-			var next = this.status.h["Retention elligibility"] == "Not elligible" ? zone == "ch" ? decide_AlternativeCompensation : decide_ActivateInternetEurope : capture__$SelectPP;
+			var next = this.status.h["Retention elligibility"] == "Not elligible" ? zone == "ch" ? decide_AlternativeCompensation : decide_ActivateInternetEurope : this.status.h["Subscription type"] == "Device" ? decide_ActivateInternetEurope : capture__$SelectPP;
 			this._nexts = [{ step : next}];
 			tstool_process_ActionRadios.prototype.onClick.call(this);
 		}
@@ -8568,6 +8567,21 @@ flixel_FlxCamera.prototype = $extend(flixel_FlxBasic.prototype,{
 			var drawItem = this.startQuadBatch(frame.parent,isColored,hasColorOffsets,blend,smoothing,shader);
 			drawItem.addQuad(frame,this._helperMatrix,transform);
 		}
+	}
+	,transformObject: function(object) {
+		var _g = object;
+		_g.set_scaleX(_g.get_scaleX() * this.totalScaleX);
+		var _g = object;
+		_g.set_scaleY(_g.get_scaleY() * this.totalScaleY);
+		var _g = object;
+		_g.set_x(_g.get_x() - this.scroll.x * this.totalScaleX);
+		var _g = object;
+		_g.set_y(_g.get_y() - this.scroll.y * this.totalScaleY);
+		var _g = object;
+		_g.set_x(_g.get_x() - 0.5 * this.width * (this.scaleX - this.initialZoom) * flixel_FlxG.scaleMode.scale.x);
+		var _g = object;
+		_g.set_y(_g.get_y() - 0.5 * this.height * (this.scaleY - this.initialZoom) * flixel_FlxG.scaleMode.scale.y);
+		return object;
 	}
 	,destroy: function() {
 		flixel_util_FlxDestroyUtil.removeChild(this.flashSprite,this._scrollRect);
@@ -11552,6 +11566,676 @@ var flixel_addons_display_shapes_FlxShapeType = $hxEnums["flixel.addons.display.
 	,SQUARE_DONUT: {_hx_index:9,__enum__:"flixel.addons.display.shapes.FlxShapeType",toString:$estr}
 	,UNKNOWN: {_hx_index:10,__enum__:"flixel.addons.display.shapes.FlxShapeType",toString:$estr}
 };
+var flixel_text_FlxText = function(X,Y,FieldWidth,Text1,Size,EmbeddedFont) {
+	if(EmbeddedFont == null) {
+		EmbeddedFont = true;
+	}
+	if(Size == null) {
+		Size = 8;
+	}
+	if(FieldWidth == null) {
+		FieldWidth = 0;
+	}
+	if(Y == null) {
+		Y = 0;
+	}
+	if(X == null) {
+		X = 0;
+	}
+	this._hasBorderAlpha = false;
+	this._regen = true;
+	this._formatRanges = [];
+	this.borderQuality = 1;
+	this.borderSize = 1;
+	this.borderColor = 0;
+	this.borderStyle = flixel_text_FlxTextBorderStyle.NONE;
+	this.text = "";
+	flixel_FlxSprite.call(this,X,Y);
+	if(Text1 == null || Text1 == "") {
+		this.set_text("");
+		Text1 = " ";
+	} else {
+		this.set_text(Text1);
+	}
+	this.textField = new openfl_text_TextField();
+	this.textField.set_selectable(false);
+	this.textField.set_multiline(true);
+	this.textField.set_wordWrap(true);
+	this._defaultFormat = new openfl_text_TextFormat(null,Size,16777215);
+	this.set_font(flixel_system_FlxAssets.FONT_DEFAULT);
+	this._formatAdjusted = new openfl_text_TextFormat();
+	this.textField.set_defaultTextFormat(this._defaultFormat);
+	this.textField.set_text(Text1);
+	this.set_fieldWidth(FieldWidth);
+	this.textField.set_embedFonts(EmbeddedFont);
+	this.textField.set_sharpness(100);
+	this.textField.set_height(Text1.length <= 0 ? 1 : 10);
+	this.set_allowCollisions(0);
+	this.set_moves(false);
+	this.drawFrame();
+	var X = 1;
+	var Y = 1;
+	if(Y == null) {
+		Y = 0;
+	}
+	if(X == null) {
+		X = 0;
+	}
+	var point = flixel_math_FlxPoint._pool.get().set(X,Y);
+	point._inPool = false;
+	this.shadowOffset = point;
+};
+$hxClasses["flixel.text.FlxText"] = flixel_text_FlxText;
+flixel_text_FlxText.__name__ = "flixel.text.FlxText";
+flixel_text_FlxText.__super__ = flixel_FlxSprite;
+flixel_text_FlxText.prototype = $extend(flixel_FlxSprite.prototype,{
+	destroy: function() {
+		this.textField = null;
+		this._font = null;
+		this._defaultFormat = null;
+		this._formatAdjusted = null;
+		this.shadowOffset = flixel_util_FlxDestroyUtil.put(this.shadowOffset);
+		flixel_FlxSprite.prototype.destroy.call(this);
+	}
+	,drawFrame: function(Force) {
+		if(Force == null) {
+			Force = false;
+		}
+		this._regen = this._regen || Force;
+		flixel_FlxSprite.prototype.drawFrame.call(this,this._regen);
+	}
+	,applyMarkup: function(input,rules) {
+		if(rules == null || rules.length == 0) {
+			return this;
+		}
+		this.clearFormats();
+		var rangeStarts = [];
+		var rangeEnds = [];
+		var rulesToApply = [];
+		var i = 0;
+		var _g = 0;
+		while(_g < rules.length) {
+			var rule = rules[_g];
+			++_g;
+			if(rule.marker == null || rule.format == null) {
+				continue;
+			}
+			var start = false;
+			var markerLength = UnicodeString.get_length(rule.marker);
+			if(input.indexOf(rule.marker) == -1) {
+				continue;
+			}
+			var _g1 = 0;
+			var _g2 = UnicodeString.get_length(input);
+			while(_g1 < _g2) {
+				var charIndex = _g1++;
+				if(UnicodeString.substr(input,charIndex,markerLength) != rule.marker) {
+					continue;
+				}
+				if(start) {
+					start = false;
+					rangeEnds.push(charIndex);
+				} else {
+					start = true;
+					rangeStarts.push(charIndex);
+					rulesToApply.push(rule);
+				}
+			}
+			if(start) {
+				rangeEnds.push(-1);
+			}
+			++i;
+		}
+		var _g = 0;
+		while(_g < rules.length) {
+			var rule = rules[_g];
+			++_g;
+			input = StringTools.replace(input,rule.marker,"");
+		}
+		var _g = 0;
+		var _g1 = rangeStarts.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var delIndex = rangeStarts[i];
+			var markerLength = UnicodeString.get_length(rulesToApply[i].marker);
+			var _g2 = 0;
+			var _g3 = rangeStarts.length;
+			while(_g2 < _g3) {
+				var j = _g2++;
+				if(rangeStarts[j] > delIndex) {
+					rangeStarts[j] -= markerLength;
+				}
+				if(rangeEnds[j] > delIndex) {
+					rangeEnds[j] -= markerLength;
+				}
+			}
+			delIndex = rangeEnds[i];
+			var _g4 = 0;
+			var _g5 = rangeStarts.length;
+			while(_g4 < _g5) {
+				var j1 = _g4++;
+				if(rangeStarts[j1] > delIndex) {
+					rangeStarts[j1] -= markerLength;
+				}
+				if(rangeEnds[j1] > delIndex) {
+					rangeEnds[j1] -= markerLength;
+				}
+			}
+		}
+		this.set_text(input);
+		var _g = 0;
+		var _g1 = rangeStarts.length;
+		while(_g < _g1) {
+			var i = _g++;
+			this.addFormat(rulesToApply[i].format,rangeStarts[i],rangeEnds[i]);
+		}
+		return this;
+	}
+	,addFormat: function(Format,Start,End1) {
+		if(End1 == null) {
+			End1 = -1;
+		}
+		if(Start == null) {
+			Start = -1;
+		}
+		this._formatRanges.push(new flixel_text__$FlxText_FlxTextFormatRange(Format,Start,End1));
+		this._formatRanges.sort(function(left,right) {
+			if(left.range.start < right.range.start) {
+				return -1;
+			} else {
+				return 1;
+			}
+		});
+		this._regen = true;
+		return this;
+	}
+	,clearFormats: function() {
+		this._formatRanges = [];
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return this;
+	}
+	,setFormat: function(Font,Size,Color,Alignment,BorderStyle,BorderColor,EmbeddedFont) {
+		if(EmbeddedFont == null) {
+			EmbeddedFont = true;
+		}
+		if(BorderColor == null) {
+			BorderColor = 0;
+		}
+		if(Color == null) {
+			Color = -1;
+		}
+		if(Size == null) {
+			Size = 8;
+		}
+		if(BorderStyle == null) {
+			BorderStyle = flixel_text_FlxTextBorderStyle.NONE;
+		}
+		if(EmbeddedFont) {
+			this.set_font(Font);
+		} else if(Font != null) {
+			this.set_systemFont(Font);
+		}
+		this.set_size(Size);
+		this.set_color(Color);
+		if(Alignment != null) {
+			this.set_alignment(Alignment);
+		}
+		var Color = BorderColor;
+		if(Color == null) {
+			Color = 0;
+		}
+		this.set_borderStyle(BorderStyle);
+		this.set_borderColor(Color);
+		this.set_borderSize(1);
+		this.set_borderQuality(1);
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return this;
+	}
+	,updateHitbox: function() {
+		this.regenGraphic();
+		flixel_FlxSprite.prototype.updateHitbox.call(this);
+	}
+	,set_fieldWidth: function(value) {
+		if(this.textField == null) {
+			return value;
+		}
+		if(value <= 0) {
+			this.set_wordWrap(false);
+			this.set_autoSize(true);
+		} else {
+			this.set_autoSize(false);
+			this.set_wordWrap(true);
+			this.textField.set_width(value);
+		}
+		this._regen = true;
+		return value;
+	}
+	,get_fieldWidth: function() {
+		if(this.textField != null) {
+			return this.textField.get_width();
+		} else {
+			return 0;
+		}
+	}
+	,set_autoSize: function(value) {
+		if(this.textField != null) {
+			this.textField.set_autoSize(value ? 1 : 2);
+			this._regen = true;
+		}
+		return value;
+	}
+	,set_text: function(Text1) {
+		this.text = Text1;
+		if(this.textField != null) {
+			var ot = this.textField.get_text();
+			this.textField.set_text(Text1);
+			this._regen = this.textField.get_text() != ot || this._regen;
+		}
+		return Text1;
+	}
+	,set_size: function(Size) {
+		this._defaultFormat.size = Size;
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Size;
+	}
+	,set_color: function(Color) {
+		if(this._defaultFormat.color == (Color & 16777215)) {
+			return Color;
+		}
+		this._defaultFormat.color = Color & 16777215;
+		this.color = Color;
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Color;
+	}
+	,set_font: function(Font) {
+		this.textField.set_embedFonts(true);
+		if(Font != null) {
+			var newFontName = Font;
+			if(openfl_utils_Assets.exists(Font,"FONT")) {
+				newFontName = openfl_utils_Assets.getFont(Font).name;
+			}
+			this._defaultFormat.font = newFontName;
+		} else {
+			this._defaultFormat.font = flixel_system_FlxAssets.FONT_DEFAULT;
+		}
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return this._font = this._defaultFormat.font;
+	}
+	,set_systemFont: function(Font) {
+		this.textField.set_embedFonts(false);
+		this._defaultFormat.font = Font;
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Font;
+	}
+	,set_wordWrap: function(value) {
+		if(this.textField.get_wordWrap() != value) {
+			this.textField.set_wordWrap(value);
+			this._regen = true;
+		}
+		return value;
+	}
+	,set_alignment: function(Alignment) {
+		this._defaultFormat.align = flixel_text_FlxTextAlign.toOpenFL(Alignment);
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Alignment;
+	}
+	,set_borderStyle: function(style) {
+		if(style != this.borderStyle) {
+			this._regen = true;
+		}
+		return this.borderStyle = style;
+	}
+	,set_borderColor: function(Color) {
+		if(this.borderColor != Color && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
+			this._regen = true;
+		}
+		this._hasBorderAlpha = (Color >> 24 & 255) / 255 < 1;
+		return this.borderColor = Color;
+	}
+	,set_borderSize: function(Value) {
+		if(Value != this.borderSize && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
+			this._regen = true;
+		}
+		return this.borderSize = Value;
+	}
+	,set_borderQuality: function(Value) {
+		var lowerBound = Value < 0 ? 0 : Value;
+		Value = lowerBound > 1 ? 1 : lowerBound;
+		if(Value != this.borderQuality && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
+			this._regen = true;
+		}
+		return this.borderQuality = Value;
+	}
+	,set_graphic: function(Value) {
+		var oldGraphic = this.graphic;
+		var graph = flixel_FlxSprite.prototype.set_graphic.call(this,Value);
+		flixel_FlxG.bitmap.removeIfNoUse(oldGraphic);
+		return graph;
+	}
+	,get_width: function() {
+		this.regenGraphic();
+		return flixel_FlxSprite.prototype.get_width.call(this);
+	}
+	,get_height: function() {
+		this.regenGraphic();
+		return flixel_FlxSprite.prototype.get_height.call(this);
+	}
+	,updateColorTransform: function() {
+		if(this.colorTransform == null) {
+			this.colorTransform = new openfl_geom_ColorTransform();
+		}
+		if(this.alpha != 1) {
+			this.colorTransform.alphaMultiplier = this.alpha;
+			this.useColorTransform = true;
+		} else {
+			this.colorTransform.alphaMultiplier = 1;
+			this.useColorTransform = false;
+		}
+		this.dirty = true;
+	}
+	,regenGraphic: function() {
+		if(this.textField == null || !this._regen) {
+			return;
+		}
+		var oldWidth = 0;
+		var oldHeight = 4;
+		if(this.graphic != null) {
+			oldWidth = this.graphic.width;
+			oldHeight = this.graphic.height;
+		}
+		var newWidth = this.textField.get_width();
+		var newHeight = this.textField.get_textHeight() + 4;
+		if(this.textField.get_textHeight() == 0) {
+			newHeight = oldHeight;
+		}
+		if(oldWidth != newWidth || oldHeight != newHeight) {
+			this.set_height(newHeight);
+			var key = flixel_FlxG.bitmap.getUniqueKey("text");
+			this.makeGraphic(newWidth | 0,newHeight | 0,0,false,key);
+			if(this._hasBorderAlpha) {
+				this._borderPixels = this.graphic.bitmap.clone();
+			}
+			this.frameHeight = this.get_height() | 0;
+			this.textField.set_height(this.get_height() * 1.2);
+			this._flashRect.x = 0;
+			this._flashRect.y = 0;
+			this._flashRect.width = newWidth;
+			this._flashRect.height = newHeight;
+		} else {
+			this.graphic.bitmap.fillRect(this._flashRect,0);
+			if(this._hasBorderAlpha) {
+				if(this._borderPixels == null) {
+					this._borderPixels = new openfl_display_BitmapData(this.frameWidth,this.frameHeight,true);
+				} else {
+					this._borderPixels.fillRect(this._flashRect,0);
+				}
+			}
+		}
+		if(this.textField != null && this.textField.get_text() != null && this.textField.get_text().length > 0) {
+			this.copyTextFormat(this._defaultFormat,this._formatAdjusted);
+			this._matrix.identity();
+			this.applyBorderStyle();
+			if(this._hasBorderAlpha) {
+				if(this._borderColorTransform == null) {
+					this._borderColorTransform = new openfl_geom_ColorTransform();
+				}
+				this._borderColorTransform.alphaMultiplier = (this.borderColor >> 24 & 255) / 255;
+				this._borderPixels.colorTransform(this._borderPixels.rect,this._borderColorTransform);
+				this.graphic.bitmap.draw(this._borderPixels);
+			}
+			this.applyFormats(this._formatAdjusted,false);
+			this.drawTextFieldTo(this.graphic.bitmap);
+		}
+		this._regen = false;
+		this.set_frame(this.frame);
+	}
+	,drawTextFieldTo: function(graphic) {
+		graphic.draw(this.textField,this._matrix);
+	}
+	,draw: function() {
+		this.regenGraphic();
+		flixel_FlxSprite.prototype.draw.call(this);
+	}
+	,calcFrame: function(RunOnCpp) {
+		if(RunOnCpp == null) {
+			RunOnCpp = false;
+		}
+		if(this.textField == null) {
+			return;
+		}
+		if(flixel_FlxG.renderTile && !RunOnCpp) {
+			return;
+		}
+		this.regenGraphic();
+		flixel_FlxSprite.prototype.calcFrame.call(this,RunOnCpp);
+	}
+	,applyBorderStyle: function() {
+		var iterations = this.borderSize * this.borderQuality | 0;
+		if(iterations <= 0) {
+			iterations = 1;
+		}
+		var delta = this.borderSize / iterations;
+		switch(this.borderStyle._hx_index) {
+		case 0:
+			break;
+		case 1:
+			this.applyFormats(this._formatAdjusted,true);
+			var _g = 0;
+			var _g1 = iterations;
+			while(_g < _g1) {
+				var i = _g++;
+				var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(delta,delta);
+				this.drawTextFieldTo(graphic);
+			}
+			this._matrix.translate(-this.shadowOffset.x * this.borderSize,-this.shadowOffset.y * this.borderSize);
+			break;
+		case 2:
+			this.applyFormats(this._formatAdjusted,true);
+			var curDelta = delta;
+			var _g = 0;
+			var _g1 = iterations;
+			while(_g < _g1) {
+				var i = _g++;
+				var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta,-curDelta);
+				this.drawTextFieldTo(graphic);
+				var graphic1 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(curDelta,0);
+				this.drawTextFieldTo(graphic1);
+				var graphic2 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(curDelta,0);
+				this.drawTextFieldTo(graphic2);
+				var graphic3 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,curDelta);
+				this.drawTextFieldTo(graphic3);
+				var graphic4 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,curDelta);
+				this.drawTextFieldTo(graphic4);
+				var graphic5 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta,0);
+				this.drawTextFieldTo(graphic5);
+				var graphic6 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta,0);
+				this.drawTextFieldTo(graphic6);
+				var graphic7 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,-curDelta);
+				this.drawTextFieldTo(graphic7);
+				this._matrix.translate(curDelta,0);
+				curDelta += delta;
+			}
+			break;
+		case 3:
+			this.applyFormats(this._formatAdjusted,true);
+			var curDelta = delta;
+			var _g = 0;
+			var _g1 = iterations;
+			while(_g < _g1) {
+				var i = _g++;
+				var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta,-curDelta);
+				this.drawTextFieldTo(graphic);
+				var graphic1 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(curDelta * 2,0);
+				this.drawTextFieldTo(graphic1);
+				var graphic2 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,curDelta * 2);
+				this.drawTextFieldTo(graphic2);
+				var graphic3 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta * 2,0);
+				this.drawTextFieldTo(graphic3);
+				this._matrix.translate(curDelta,-curDelta);
+				curDelta += delta;
+			}
+			break;
+		}
+	}
+	,applyFormats: function(FormatAdjusted,UseBorderColor) {
+		if(UseBorderColor == null) {
+			UseBorderColor = false;
+		}
+		this.copyTextFormat(this._defaultFormat,FormatAdjusted,false);
+		FormatAdjusted.color = UseBorderColor ? this.borderColor & 16777215 : this._defaultFormat.color;
+		this.textField.setTextFormat(FormatAdjusted);
+		var _g = 0;
+		var _g1 = this._formatRanges;
+		while(_g < _g1.length) {
+			var formatRange = _g1[_g];
+			++_g;
+			if(this.textField.get_text().length - 1 < formatRange.range.start) {
+				break;
+			} else {
+				var textFormat = formatRange.format.format;
+				this.copyTextFormat(textFormat,FormatAdjusted,false);
+				FormatAdjusted.color = UseBorderColor ? formatRange.format.borderColor & 16777215 : textFormat.color;
+			}
+			this.textField.setTextFormat(FormatAdjusted,formatRange.range.start,Math.min(formatRange.range.end,this.textField.get_text().length) | 0);
+		}
+	}
+	,copyTextFormat: function(from,to,withAlign) {
+		if(withAlign == null) {
+			withAlign = true;
+		}
+		to.font = from.font;
+		to.bold = from.bold;
+		to.italic = from.italic;
+		to.size = from.size;
+		to.color = from.color;
+		if(withAlign) {
+			to.align = from.align;
+		}
+	}
+	,set_frames: function(Frames) {
+		flixel_FlxSprite.prototype.set_frames.call(this,Frames);
+		this._regen = false;
+		return Frames;
+	}
+	,__class__: flixel_text_FlxText
+	,__properties__: $extend(flixel_FlxSprite.prototype.__properties__,{set_alignment:"set_alignment",set_wordWrap:"set_wordWrap",set_systemFont:"set_systemFont",set_font:"set_font",set_size:"set_size",set_autoSize:"set_autoSize",set_fieldWidth:"set_fieldWidth",get_fieldWidth:"get_fieldWidth",set_borderQuality:"set_borderQuality",set_borderSize:"set_borderSize",set_borderColor:"set_borderColor",set_borderStyle:"set_borderStyle",set_text:"set_text"})
+});
+var flixel_addons_text_FlxTextField = function(X,Y,Width,Text1,Size,EmbeddedFont) {
+	if(EmbeddedFont == null) {
+		EmbeddedFont = true;
+	}
+	if(Size == null) {
+		Size = 8;
+	}
+	flixel_text_FlxText.call(this,X,Y,Width,Text1,Size,EmbeddedFont);
+	this.set_height(Text1 == null || Text1.length <= 0 ? 1 : this.textField.get_textHeight() + 4);
+	this.textField.set_multiline(false);
+	this.textField.set_wordWrap(false);
+	this.textField.set_defaultTextFormat(this._defaultFormat);
+	this.textField.setTextFormat(this._defaultFormat);
+	this._regen = true;
+	this.dirty = false;
+};
+$hxClasses["flixel.addons.text.FlxTextField"] = flixel_addons_text_FlxTextField;
+flixel_addons_text_FlxTextField.__name__ = "flixel.addons.text.FlxTextField";
+flixel_addons_text_FlxTextField.__super__ = flixel_text_FlxText;
+flixel_addons_text_FlxTextField.prototype = $extend(flixel_text_FlxText.prototype,{
+	destroy: function() {
+		var Child = this.textField;
+		if(flixel_FlxG.game.contains(Child)) {
+			flixel_FlxG.game.removeChild(Child);
+		}
+		flixel_text_FlxText.prototype.destroy.call(this);
+	}
+	,stamp: function(Brush,X,Y) {
+		if(Y == null) {
+			Y = 0;
+		}
+		if(X == null) {
+			X = 0;
+		}
+	}
+	,pixelsOverlapPoint: function(point,Mask,Camera) {
+		if(Mask == null) {
+			Mask = 255;
+		}
+		return false;
+	}
+	,isSimpleRender: function(camera) {
+		return true;
+	}
+	,get_pixels: function() {
+		this.calcFrame(true);
+		return this.graphic.bitmap;
+	}
+	,set_pixels: function(Pixels) {
+		return Pixels;
+	}
+	,set_alpha: function(Alpha) {
+		var lowerBound = Alpha < 0 ? 0 : Alpha;
+		this.alpha = lowerBound > 1 ? 1 : lowerBound;
+		this.textField.set_alpha(this.alpha);
+		return Alpha;
+	}
+	,set_height: function(Height) {
+		Height = flixel_text_FlxText.prototype.set_height.call(this,Height);
+		if(this.textField != null) {
+			this.textField.set_height(Height);
+		}
+		return Height;
+	}
+	,set_visible: function(Value) {
+		this.textField.set_visible(Value);
+		return flixel_text_FlxText.prototype.set_visible.call(this,Value);
+	}
+	,kill: function() {
+		this.set_visible(false);
+		flixel_text_FlxText.prototype.kill.call(this);
+	}
+	,revive: function() {
+		this.set_visible(true);
+		flixel_text_FlxText.prototype.revive.call(this);
+	}
+	,draw: function() {
+		this.textField.set_visible(flixel_FlxG.camera.visible && flixel_FlxG.camera.exists && this.isOnScreen(flixel_FlxG.camera));
+		if(!this.textField.get_visible()) {
+			return;
+		}
+		this.textField.set_x(this.x - this.offset.x);
+		this.textField.set_y(this.y - this.offset.y);
+		this.textField.set_scaleX(this.scale.x);
+		this.textField.set_scaleY(this.scale.y);
+		flixel_FlxG.camera.transformObject(this.textField);
+	}
+	,__class__: flixel_addons_text_FlxTextField
+});
 var lime_math_Vector2 = function(x,y) {
 	if(y == null) {
 		y = 0;
@@ -14185,587 +14869,6 @@ flixel_addons_ui_FlxBaseMultiInput.prototype = {
 	}
 	,__class__: flixel_addons_ui_FlxBaseMultiInput
 };
-var flixel_text_FlxText = function(X,Y,FieldWidth,Text1,Size,EmbeddedFont) {
-	if(EmbeddedFont == null) {
-		EmbeddedFont = true;
-	}
-	if(Size == null) {
-		Size = 8;
-	}
-	if(FieldWidth == null) {
-		FieldWidth = 0;
-	}
-	if(Y == null) {
-		Y = 0;
-	}
-	if(X == null) {
-		X = 0;
-	}
-	this._hasBorderAlpha = false;
-	this._regen = true;
-	this._formatRanges = [];
-	this.borderQuality = 1;
-	this.borderSize = 1;
-	this.borderColor = 0;
-	this.borderStyle = flixel_text_FlxTextBorderStyle.NONE;
-	this.text = "";
-	flixel_FlxSprite.call(this,X,Y);
-	if(Text1 == null || Text1 == "") {
-		this.set_text("");
-		Text1 = " ";
-	} else {
-		this.set_text(Text1);
-	}
-	this.textField = new openfl_text_TextField();
-	this.textField.set_selectable(false);
-	this.textField.set_multiline(true);
-	this.textField.set_wordWrap(true);
-	this._defaultFormat = new openfl_text_TextFormat(null,Size,16777215);
-	this.set_font(flixel_system_FlxAssets.FONT_DEFAULT);
-	this._formatAdjusted = new openfl_text_TextFormat();
-	this.textField.set_defaultTextFormat(this._defaultFormat);
-	this.textField.set_text(Text1);
-	this.set_fieldWidth(FieldWidth);
-	this.textField.set_embedFonts(EmbeddedFont);
-	this.textField.set_sharpness(100);
-	this.textField.set_height(Text1.length <= 0 ? 1 : 10);
-	this.set_allowCollisions(0);
-	this.set_moves(false);
-	this.drawFrame();
-	var X = 1;
-	var Y = 1;
-	if(Y == null) {
-		Y = 0;
-	}
-	if(X == null) {
-		X = 0;
-	}
-	var point = flixel_math_FlxPoint._pool.get().set(X,Y);
-	point._inPool = false;
-	this.shadowOffset = point;
-};
-$hxClasses["flixel.text.FlxText"] = flixel_text_FlxText;
-flixel_text_FlxText.__name__ = "flixel.text.FlxText";
-flixel_text_FlxText.__super__ = flixel_FlxSprite;
-flixel_text_FlxText.prototype = $extend(flixel_FlxSprite.prototype,{
-	destroy: function() {
-		this.textField = null;
-		this._font = null;
-		this._defaultFormat = null;
-		this._formatAdjusted = null;
-		this.shadowOffset = flixel_util_FlxDestroyUtil.put(this.shadowOffset);
-		flixel_FlxSprite.prototype.destroy.call(this);
-	}
-	,drawFrame: function(Force) {
-		if(Force == null) {
-			Force = false;
-		}
-		this._regen = this._regen || Force;
-		flixel_FlxSprite.prototype.drawFrame.call(this,this._regen);
-	}
-	,applyMarkup: function(input,rules) {
-		if(rules == null || rules.length == 0) {
-			return this;
-		}
-		this.clearFormats();
-		var rangeStarts = [];
-		var rangeEnds = [];
-		var rulesToApply = [];
-		var i = 0;
-		var _g = 0;
-		while(_g < rules.length) {
-			var rule = rules[_g];
-			++_g;
-			if(rule.marker == null || rule.format == null) {
-				continue;
-			}
-			var start = false;
-			var markerLength = UnicodeString.get_length(rule.marker);
-			if(input.indexOf(rule.marker) == -1) {
-				continue;
-			}
-			var _g1 = 0;
-			var _g2 = UnicodeString.get_length(input);
-			while(_g1 < _g2) {
-				var charIndex = _g1++;
-				if(UnicodeString.substr(input,charIndex,markerLength) != rule.marker) {
-					continue;
-				}
-				if(start) {
-					start = false;
-					rangeEnds.push(charIndex);
-				} else {
-					start = true;
-					rangeStarts.push(charIndex);
-					rulesToApply.push(rule);
-				}
-			}
-			if(start) {
-				rangeEnds.push(-1);
-			}
-			++i;
-		}
-		var _g = 0;
-		while(_g < rules.length) {
-			var rule = rules[_g];
-			++_g;
-			input = StringTools.replace(input,rule.marker,"");
-		}
-		var _g = 0;
-		var _g1 = rangeStarts.length;
-		while(_g < _g1) {
-			var i = _g++;
-			var delIndex = rangeStarts[i];
-			var markerLength = UnicodeString.get_length(rulesToApply[i].marker);
-			var _g2 = 0;
-			var _g3 = rangeStarts.length;
-			while(_g2 < _g3) {
-				var j = _g2++;
-				if(rangeStarts[j] > delIndex) {
-					rangeStarts[j] -= markerLength;
-				}
-				if(rangeEnds[j] > delIndex) {
-					rangeEnds[j] -= markerLength;
-				}
-			}
-			delIndex = rangeEnds[i];
-			var _g4 = 0;
-			var _g5 = rangeStarts.length;
-			while(_g4 < _g5) {
-				var j1 = _g4++;
-				if(rangeStarts[j1] > delIndex) {
-					rangeStarts[j1] -= markerLength;
-				}
-				if(rangeEnds[j1] > delIndex) {
-					rangeEnds[j1] -= markerLength;
-				}
-			}
-		}
-		this.set_text(input);
-		var _g = 0;
-		var _g1 = rangeStarts.length;
-		while(_g < _g1) {
-			var i = _g++;
-			this.addFormat(rulesToApply[i].format,rangeStarts[i],rangeEnds[i]);
-		}
-		return this;
-	}
-	,addFormat: function(Format,Start,End1) {
-		if(End1 == null) {
-			End1 = -1;
-		}
-		if(Start == null) {
-			Start = -1;
-		}
-		this._formatRanges.push(new flixel_text__$FlxText_FlxTextFormatRange(Format,Start,End1));
-		this._formatRanges.sort(function(left,right) {
-			if(left.range.start < right.range.start) {
-				return -1;
-			} else {
-				return 1;
-			}
-		});
-		this._regen = true;
-		return this;
-	}
-	,clearFormats: function() {
-		this._formatRanges = [];
-		this.textField.set_defaultTextFormat(this._defaultFormat);
-		this.textField.setTextFormat(this._defaultFormat);
-		this._regen = true;
-		return this;
-	}
-	,setFormat: function(Font,Size,Color,Alignment,BorderStyle,BorderColor,EmbeddedFont) {
-		if(EmbeddedFont == null) {
-			EmbeddedFont = true;
-		}
-		if(BorderColor == null) {
-			BorderColor = 0;
-		}
-		if(Color == null) {
-			Color = -1;
-		}
-		if(Size == null) {
-			Size = 8;
-		}
-		if(BorderStyle == null) {
-			BorderStyle = flixel_text_FlxTextBorderStyle.NONE;
-		}
-		if(EmbeddedFont) {
-			this.set_font(Font);
-		} else if(Font != null) {
-			this.set_systemFont(Font);
-		}
-		this.set_size(Size);
-		this.set_color(Color);
-		if(Alignment != null) {
-			this.set_alignment(Alignment);
-		}
-		var Color = BorderColor;
-		if(Color == null) {
-			Color = 0;
-		}
-		this.set_borderStyle(BorderStyle);
-		this.set_borderColor(Color);
-		this.set_borderSize(1);
-		this.set_borderQuality(1);
-		this.textField.set_defaultTextFormat(this._defaultFormat);
-		this.textField.setTextFormat(this._defaultFormat);
-		this._regen = true;
-		return this;
-	}
-	,updateHitbox: function() {
-		this.regenGraphic();
-		flixel_FlxSprite.prototype.updateHitbox.call(this);
-	}
-	,set_fieldWidth: function(value) {
-		if(this.textField == null) {
-			return value;
-		}
-		if(value <= 0) {
-			this.set_wordWrap(false);
-			this.set_autoSize(true);
-		} else {
-			this.set_autoSize(false);
-			this.set_wordWrap(true);
-			this.textField.set_width(value);
-		}
-		this._regen = true;
-		return value;
-	}
-	,get_fieldWidth: function() {
-		if(this.textField != null) {
-			return this.textField.get_width();
-		} else {
-			return 0;
-		}
-	}
-	,set_autoSize: function(value) {
-		if(this.textField != null) {
-			this.textField.set_autoSize(value ? 1 : 2);
-			this._regen = true;
-		}
-		return value;
-	}
-	,set_text: function(Text1) {
-		this.text = Text1;
-		if(this.textField != null) {
-			var ot = this.textField.get_text();
-			this.textField.set_text(Text1);
-			this._regen = this.textField.get_text() != ot || this._regen;
-		}
-		return Text1;
-	}
-	,set_size: function(Size) {
-		this._defaultFormat.size = Size;
-		this.textField.set_defaultTextFormat(this._defaultFormat);
-		this.textField.setTextFormat(this._defaultFormat);
-		this._regen = true;
-		return Size;
-	}
-	,set_color: function(Color) {
-		if(this._defaultFormat.color == (Color & 16777215)) {
-			return Color;
-		}
-		this._defaultFormat.color = Color & 16777215;
-		this.color = Color;
-		this.textField.set_defaultTextFormat(this._defaultFormat);
-		this.textField.setTextFormat(this._defaultFormat);
-		this._regen = true;
-		return Color;
-	}
-	,set_font: function(Font) {
-		this.textField.set_embedFonts(true);
-		if(Font != null) {
-			var newFontName = Font;
-			if(openfl_utils_Assets.exists(Font,"FONT")) {
-				newFontName = openfl_utils_Assets.getFont(Font).name;
-			}
-			this._defaultFormat.font = newFontName;
-		} else {
-			this._defaultFormat.font = flixel_system_FlxAssets.FONT_DEFAULT;
-		}
-		this.textField.set_defaultTextFormat(this._defaultFormat);
-		this.textField.setTextFormat(this._defaultFormat);
-		this._regen = true;
-		return this._font = this._defaultFormat.font;
-	}
-	,set_systemFont: function(Font) {
-		this.textField.set_embedFonts(false);
-		this._defaultFormat.font = Font;
-		this.textField.set_defaultTextFormat(this._defaultFormat);
-		this.textField.setTextFormat(this._defaultFormat);
-		this._regen = true;
-		return Font;
-	}
-	,set_wordWrap: function(value) {
-		if(this.textField.get_wordWrap() != value) {
-			this.textField.set_wordWrap(value);
-			this._regen = true;
-		}
-		return value;
-	}
-	,set_alignment: function(Alignment) {
-		this._defaultFormat.align = flixel_text_FlxTextAlign.toOpenFL(Alignment);
-		this.textField.set_defaultTextFormat(this._defaultFormat);
-		this.textField.setTextFormat(this._defaultFormat);
-		this._regen = true;
-		return Alignment;
-	}
-	,set_borderStyle: function(style) {
-		if(style != this.borderStyle) {
-			this._regen = true;
-		}
-		return this.borderStyle = style;
-	}
-	,set_borderColor: function(Color) {
-		if(this.borderColor != Color && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
-			this._regen = true;
-		}
-		this._hasBorderAlpha = (Color >> 24 & 255) / 255 < 1;
-		return this.borderColor = Color;
-	}
-	,set_borderSize: function(Value) {
-		if(Value != this.borderSize && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
-			this._regen = true;
-		}
-		return this.borderSize = Value;
-	}
-	,set_borderQuality: function(Value) {
-		var lowerBound = Value < 0 ? 0 : Value;
-		Value = lowerBound > 1 ? 1 : lowerBound;
-		if(Value != this.borderQuality && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
-			this._regen = true;
-		}
-		return this.borderQuality = Value;
-	}
-	,set_graphic: function(Value) {
-		var oldGraphic = this.graphic;
-		var graph = flixel_FlxSprite.prototype.set_graphic.call(this,Value);
-		flixel_FlxG.bitmap.removeIfNoUse(oldGraphic);
-		return graph;
-	}
-	,get_width: function() {
-		this.regenGraphic();
-		return flixel_FlxSprite.prototype.get_width.call(this);
-	}
-	,get_height: function() {
-		this.regenGraphic();
-		return flixel_FlxSprite.prototype.get_height.call(this);
-	}
-	,updateColorTransform: function() {
-		if(this.colorTransform == null) {
-			this.colorTransform = new openfl_geom_ColorTransform();
-		}
-		if(this.alpha != 1) {
-			this.colorTransform.alphaMultiplier = this.alpha;
-			this.useColorTransform = true;
-		} else {
-			this.colorTransform.alphaMultiplier = 1;
-			this.useColorTransform = false;
-		}
-		this.dirty = true;
-	}
-	,regenGraphic: function() {
-		if(this.textField == null || !this._regen) {
-			return;
-		}
-		var oldWidth = 0;
-		var oldHeight = 4;
-		if(this.graphic != null) {
-			oldWidth = this.graphic.width;
-			oldHeight = this.graphic.height;
-		}
-		var newWidth = this.textField.get_width();
-		var newHeight = this.textField.get_textHeight() + 4;
-		if(this.textField.get_textHeight() == 0) {
-			newHeight = oldHeight;
-		}
-		if(oldWidth != newWidth || oldHeight != newHeight) {
-			this.set_height(newHeight);
-			var key = flixel_FlxG.bitmap.getUniqueKey("text");
-			this.makeGraphic(newWidth | 0,newHeight | 0,0,false,key);
-			if(this._hasBorderAlpha) {
-				this._borderPixels = this.graphic.bitmap.clone();
-			}
-			this.frameHeight = this.get_height() | 0;
-			this.textField.set_height(this.get_height() * 1.2);
-			this._flashRect.x = 0;
-			this._flashRect.y = 0;
-			this._flashRect.width = newWidth;
-			this._flashRect.height = newHeight;
-		} else {
-			this.graphic.bitmap.fillRect(this._flashRect,0);
-			if(this._hasBorderAlpha) {
-				if(this._borderPixels == null) {
-					this._borderPixels = new openfl_display_BitmapData(this.frameWidth,this.frameHeight,true);
-				} else {
-					this._borderPixels.fillRect(this._flashRect,0);
-				}
-			}
-		}
-		if(this.textField != null && this.textField.get_text() != null && this.textField.get_text().length > 0) {
-			this.copyTextFormat(this._defaultFormat,this._formatAdjusted);
-			this._matrix.identity();
-			this.applyBorderStyle();
-			if(this._hasBorderAlpha) {
-				if(this._borderColorTransform == null) {
-					this._borderColorTransform = new openfl_geom_ColorTransform();
-				}
-				this._borderColorTransform.alphaMultiplier = (this.borderColor >> 24 & 255) / 255;
-				this._borderPixels.colorTransform(this._borderPixels.rect,this._borderColorTransform);
-				this.graphic.bitmap.draw(this._borderPixels);
-			}
-			this.applyFormats(this._formatAdjusted,false);
-			this.drawTextFieldTo(this.graphic.bitmap);
-		}
-		this._regen = false;
-		this.set_frame(this.frame);
-	}
-	,drawTextFieldTo: function(graphic) {
-		graphic.draw(this.textField,this._matrix);
-	}
-	,draw: function() {
-		this.regenGraphic();
-		flixel_FlxSprite.prototype.draw.call(this);
-	}
-	,calcFrame: function(RunOnCpp) {
-		if(RunOnCpp == null) {
-			RunOnCpp = false;
-		}
-		if(this.textField == null) {
-			return;
-		}
-		if(flixel_FlxG.renderTile && !RunOnCpp) {
-			return;
-		}
-		this.regenGraphic();
-		flixel_FlxSprite.prototype.calcFrame.call(this,RunOnCpp);
-	}
-	,applyBorderStyle: function() {
-		var iterations = this.borderSize * this.borderQuality | 0;
-		if(iterations <= 0) {
-			iterations = 1;
-		}
-		var delta = this.borderSize / iterations;
-		switch(this.borderStyle._hx_index) {
-		case 0:
-			break;
-		case 1:
-			this.applyFormats(this._formatAdjusted,true);
-			var _g = 0;
-			var _g1 = iterations;
-			while(_g < _g1) {
-				var i = _g++;
-				var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(delta,delta);
-				this.drawTextFieldTo(graphic);
-			}
-			this._matrix.translate(-this.shadowOffset.x * this.borderSize,-this.shadowOffset.y * this.borderSize);
-			break;
-		case 2:
-			this.applyFormats(this._formatAdjusted,true);
-			var curDelta = delta;
-			var _g = 0;
-			var _g1 = iterations;
-			while(_g < _g1) {
-				var i = _g++;
-				var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(-curDelta,-curDelta);
-				this.drawTextFieldTo(graphic);
-				var graphic1 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(curDelta,0);
-				this.drawTextFieldTo(graphic1);
-				var graphic2 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(curDelta,0);
-				this.drawTextFieldTo(graphic2);
-				var graphic3 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(0,curDelta);
-				this.drawTextFieldTo(graphic3);
-				var graphic4 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(0,curDelta);
-				this.drawTextFieldTo(graphic4);
-				var graphic5 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(-curDelta,0);
-				this.drawTextFieldTo(graphic5);
-				var graphic6 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(-curDelta,0);
-				this.drawTextFieldTo(graphic6);
-				var graphic7 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(0,-curDelta);
-				this.drawTextFieldTo(graphic7);
-				this._matrix.translate(curDelta,0);
-				curDelta += delta;
-			}
-			break;
-		case 3:
-			this.applyFormats(this._formatAdjusted,true);
-			var curDelta = delta;
-			var _g = 0;
-			var _g1 = iterations;
-			while(_g < _g1) {
-				var i = _g++;
-				var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(-curDelta,-curDelta);
-				this.drawTextFieldTo(graphic);
-				var graphic1 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(curDelta * 2,0);
-				this.drawTextFieldTo(graphic1);
-				var graphic2 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(0,curDelta * 2);
-				this.drawTextFieldTo(graphic2);
-				var graphic3 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
-				this._matrix.translate(-curDelta * 2,0);
-				this.drawTextFieldTo(graphic3);
-				this._matrix.translate(curDelta,-curDelta);
-				curDelta += delta;
-			}
-			break;
-		}
-	}
-	,applyFormats: function(FormatAdjusted,UseBorderColor) {
-		if(UseBorderColor == null) {
-			UseBorderColor = false;
-		}
-		this.copyTextFormat(this._defaultFormat,FormatAdjusted,false);
-		FormatAdjusted.color = UseBorderColor ? this.borderColor & 16777215 : this._defaultFormat.color;
-		this.textField.setTextFormat(FormatAdjusted);
-		var _g = 0;
-		var _g1 = this._formatRanges;
-		while(_g < _g1.length) {
-			var formatRange = _g1[_g];
-			++_g;
-			if(this.textField.get_text().length - 1 < formatRange.range.start) {
-				break;
-			} else {
-				var textFormat = formatRange.format.format;
-				this.copyTextFormat(textFormat,FormatAdjusted,false);
-				FormatAdjusted.color = UseBorderColor ? formatRange.format.borderColor & 16777215 : textFormat.color;
-			}
-			this.textField.setTextFormat(FormatAdjusted,formatRange.range.start,Math.min(formatRange.range.end,this.textField.get_text().length) | 0);
-		}
-	}
-	,copyTextFormat: function(from,to,withAlign) {
-		if(withAlign == null) {
-			withAlign = true;
-		}
-		to.font = from.font;
-		to.bold = from.bold;
-		to.italic = from.italic;
-		to.size = from.size;
-		to.color = from.color;
-		if(withAlign) {
-			to.align = from.align;
-		}
-	}
-	,set_frames: function(Frames) {
-		flixel_FlxSprite.prototype.set_frames.call(this,Frames);
-		this._regen = false;
-		return Frames;
-	}
-	,__class__: flixel_text_FlxText
-	,__properties__: $extend(flixel_FlxSprite.prototype.__properties__,{set_alignment:"set_alignment",set_wordWrap:"set_wordWrap",set_systemFont:"set_systemFont",set_font:"set_font",set_size:"set_size",set_autoSize:"set_autoSize",set_fieldWidth:"set_fieldWidth",get_fieldWidth:"get_fieldWidth",set_borderQuality:"set_borderQuality",set_borderSize:"set_borderSize",set_borderColor:"set_borderColor",set_borderStyle:"set_borderStyle",set_text:"set_text"})
-});
 var flixel_addons_ui_FlxInputText = function(X,Y,Width,Text1,size,TextColor,BackgroundColor,EmbeddedFont) {
 	if(EmbeddedFont == null) {
 		EmbeddedFont = true;
@@ -51118,7 +51221,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 816501;
+	this.version = 157560;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -77210,7 +77313,7 @@ var tstool_process_ActionMail = function(ticket,resolved) {
 	tstool_process_Action.call(this);
 	this.ticket = ticket;
 	this.resolved = resolved;
-	this.mail = new tstool_utils_Mail(ticket,this,resolved);
+	this.mail = new tstool_utils_Mail(this.ticket,this,resolved);
 };
 $hxClasses["tstool.process.ActionMail"] = tstool_process_ActionMail;
 tstool_process_ActionMail.__name__ = "tstool.process.ActionMail";
@@ -77233,14 +77336,19 @@ tstool_process_ActionMail.prototype = $extend(tstool_process_Action.prototype,{
 		this.memoDefault = this.translate("describeIssue","UI1","meta");
 		this.memoTxtArea = new tstool_layout_BIGUIInputTfCore(750,50,this.memoDefault,[tstool_layout_Direction.bottom,tstool_layout_Direction.left]);
 		this.memoTxtArea.get_inputtextfield().set_text("CONTACT: " + Main.customer.get_contract().mobile + " ");
-		this.set__detailTxt(this.verfifyContctNumber + this._detailTxt + this.prepareHistory());
+		this.set__detailTxt(this.verfifyContctNumber + this._detailTxt);
 		tstool_process_Action.prototype.create.call(this);
+		this.scriptView = new tstool_layout_ScriptView(this.prepareHistory());
+		this.scriptView.signal.add($bind(this,this.sbStateListener));
 		var _g = this.get_question();
 		_g.set_text(_g.text + ("\n" + this.ticket.get_desc()));
 		this.get_details().set_autoSize(true);
 		this.get_details().textField.set_htmlText(this._detailTxt);
-		this.get_details().set_autoSize(true);
 		this.memoTxtArea.addToParent(this);
+		this.ui.script.set_visible(true);
+	}
+	,sbStateListener: function() {
+		this.memoTxtArea.show();
 	}
 	,positionThis: function(offSet) {
 		tstool_process_Action.prototype.positionThis.call(this);
@@ -77280,7 +77388,7 @@ tstool_process_ActionMail.prototype = $extend(tstool_process_Action.prototype,{
 			this.memoTxtArea.blink(true);
 		} else {
 			var txt = this.memoTxtArea.getInputedText();
-			this.memoTxtArea.get_inputtextfield().set_visible(false);
+			this.memoTxtArea.show(false);
 			this.openSubState(new tstool_process_TicketSendSub(tstool_layout_UI.THEME.bg));
 			this.mail.get_successSignal().addOnce($bind(this,this.onMailSuccess));
 			this.mail.send(txt);
@@ -77292,11 +77400,12 @@ tstool_process_ActionMail.prototype = $extend(tstool_process_Action.prototype,{
 	,prepareHistory: function() {
 		var hist = Main.HISTORY.get_history();
 		var t = "<b>SUMMARY<b>\n";
+		var index = 1;
 		var _g = 0;
 		while(_g < hist.length) {
 			var i = hist[_g];
 			++_g;
-			var t1 = tstool_utils_Mail.stripTags(i.processTitle) + " :: " + i.iteractionTitle;
+			var t1 = index++ + ". " + tstool_utils_Mail.stripTags(i.processTitle) + " :: " + i.iteractionTitle;
 			var t2;
 			if(i.values == null) {
 				t2 = "\n";
@@ -77314,6 +77423,54 @@ tstool_process_ActionMail.prototype = $extend(tstool_process_Action.prototype,{
 			t += t1 + t2;
 		}
 		return t;
+	}
+	,listener: function(s) {
+		switch(s) {
+		case "de-DE":
+			this.switchLang("de-DE");
+			break;
+		case "en-GB":
+			this.switchLang("en-GB");
+			break;
+		case "fr-FR":
+			this.switchLang("fr-FR");
+			break;
+		case "it-IT":
+			this.switchLang("it-IT");
+			break;
+		case "onBack":
+			this.onBack();
+			break;
+		case "onComment":
+			this.onComment();
+			break;
+		case "onExit":
+			this.onExit();
+			break;
+		case "onHowTo":
+			this.onHowTo();
+			break;
+		case "onQook":
+			this.onQook();
+			break;
+		case "onScript":
+			this.onScript();
+			break;
+		case "openSubState":
+			this.openSubState(this.dataView);
+			break;
+		case "setStyle":
+			this.setStyle();
+			break;
+		case "toogleTrainingMode":
+			this.toogleTrainingMode();
+			break;
+		}
+	}
+	,onScript: function() {
+		this.memoTxtArea.show(false);
+		this.memoTxtArea.get_inputtextfield().set_visible(false);
+		this.openSubState(this.scriptView);
 	}
 	,destroy: function() {
 		tstool_process_Action.prototype.destroy.call(this);
@@ -77378,6 +77535,13 @@ tstool_layout_UIInputTfCore.prototype = {
 	,addToParent: function(parent) {
 		parent.add(this.get_imputLabel());
 		flixel_FlxG.addChildBelowMouse(this.get_inputtextfield());
+	}
+	,show: function(yes) {
+		if(yes == null) {
+			yes = true;
+		}
+		this.get_imputLabel().set_visible(yes);
+		this.get_inputtextfield().set_visible(yes);
 	}
 	,positionMe: function(p,padding,directions) {
 		if(padding == null) {
@@ -77552,6 +77716,7 @@ var tstool_layout_ClosableSubState = function(BGColor) {
 		BGColor = 0;
 	}
 	flixel_FlxSubState.call(this,BGColor);
+	this.signal = new flixel_util__$FlxSignal_FlxSignal0();
 };
 $hxClasses["tstool.layout.ClosableSubState"] = tstool_layout_ClosableSubState;
 tstool_layout_ClosableSubState.__name__ = "tstool.layout.ClosableSubState";
@@ -77560,11 +77725,13 @@ tstool_layout_ClosableSubState.prototype = $extend(flixel_FlxSubState.prototype,
 	update: function(elapser) {
 		var _this = flixel_FlxG.keys.justReleased;
 		if(_this.keyManager.checkStatus(27,_this.status)) {
+			this.signal.dispatch();
 			this.close();
 		}
 		if(flixel_FlxG.mouse._leftButton.current == -1) {
 			var h = this.closeBtn.getHitbox();
 			if(flixel_FlxG.mouse.x - h.x > 0 && flixel_FlxG.mouse.x - h.x < h.width && (flixel_FlxG.mouse.y - h.y > 0 && flixel_FlxG.mouse.y - h.y < h.height)) {
+				this.signal.dispatch();
 				this.close();
 			}
 		}
@@ -78397,6 +78564,24 @@ tstool_layout_SaltPreloader.prototype = $extend(flixel_system_FlxBasePreloader.p
 	}
 	,__class__: tstool_layout_SaltPreloader
 });
+var tstool_layout_ScriptView = function(text) {
+	this.text = text;
+	var bg = -11776691;
+	tstool_layout_ClosableSubState.call(this,bg);
+};
+$hxClasses["tstool.layout.ScriptView"] = tstool_layout_ScriptView;
+tstool_layout_ScriptView.__name__ = "tstool.layout.ScriptView";
+tstool_layout_ScriptView.__super__ = tstool_layout_ClosableSubState;
+tstool_layout_ScriptView.prototype = $extend(tstool_layout_ClosableSubState.prototype,{
+	create: function() {
+		var t = new flixel_text_FlxText(30,30,flixel_FlxG.width - 60,this.text,tstool_layout_UI.BASIC_FMT.size - 2,true);
+		t.setFormat(tstool_layout_UI.BASIC_FMT.font,tstool_layout_UI.BASIC_FMT.size);
+		t.applyMarkup(this.text,[tstool_layout_UI.THEME.basicStrong,tstool_layout_UI.THEME.basicEmphasis]);
+		this.add(t);
+		tstool_layout_ClosableSubState.prototype.create.call(this);
+	}
+	,__class__: tstool_layout_ScriptView
+});
 var tstool_layout_UI = function(X,Y,MaxSize) {
 	if(MaxSize == null) {
 		MaxSize = 0;
@@ -78439,19 +78624,31 @@ var tstool_layout_UI = function(X,Y,MaxSize) {
 	this.qook = new flixel_ui_FlxButton(0,0,"",function() {
 		_gthis.get_stringSignal().dispatch("onQook");
 	});
+	this.script = new flixel_ui_FlxButton(0,0,"Summary",function() {
+		_gthis.get_stringSignal().dispatch("onScript");
+	});
 	this.qook.set_visible(false);
+	this.script.set_visible(false);
 	this.registerButton(this.qook);
+	this.registerButton(this.script);
 	this.qook.loadGraphic("assets/images/ui/help.png",true,50,50);
+	this.script.loadGraphic("assets/images/ui/script.png",true,50,50);
 	var ptNo = new flixel_math_FlxPoint(-4,-20);
 	this.qook.labelOffsets = [ptNo,ptNo,ptNo];
 	this.qook.label.setFormat(tstool_layout_UI.META_FMT.font,tstool_layout_UI.META_FMT.size);
 	this.qook.label.set_wordWrap(false);
 	this.qook.label.set_autoSize(true);
 	this.qook.updateHitbox();
+	this.script.labelOffsets = [ptNo,ptNo,ptNo];
+	this.script.label.setFormat(tstool_layout_UI.META_FMT.font,tstool_layout_UI.META_FMT.size);
+	this.script.label.set_wordWrap(false);
+	this.script.label.set_autoSize(true);
+	this.script.updateHitbox();
 	this.add(this.menu);
 	this.add(this.get_question());
 	this.add(this.get_details());
 	this.add(this.qook);
+	this.add(this.script);
 	this.add(this.backBtn);
 	this.add(this.separatorH);
 	this.add(this.separatorV);
@@ -78526,6 +78723,8 @@ tstool_layout_UI.prototype = $extend(flixel_group_FlxTypedSpriteGroup.prototype,
 		this.separatorV.set_y(this.separatorH.y);
 		this.qook.set_y(this.get_details().y + this.get_details().get_height() + 60);
 		this.qook.set_x(15.);
+		this.script.set_y(this.qook.y);
+		this.script.set_x(flixel_FlxG.width / 2);
 	}
 	,positionButtons: function(X,Y) {
 		if(Y == null) {
@@ -78724,96 +78923,6 @@ tstool_layout_UI.prototype = $extend(flixel_group_FlxTypedSpriteGroup.prototype,
 	}
 	,__class__: tstool_layout_UI
 	,__properties__: $extend(flixel_group_FlxTypedSpriteGroup.prototype.__properties__,{get_details:"get_details",get_question:"get_question",get_stringSignal:"get_stringSignal"})
-});
-var tstool_process_ActionMultipleInput = function(inputs) {
-	tstool_process_Action.call(this);
-	this.inputs = inputs;
-	this.nextValidatedSignal = new flixel_util__$FlxSignal_FlxSignal1();
-};
-$hxClasses["tstool.process.ActionMultipleInput"] = tstool_process_ActionMultipleInput;
-tstool_process_ActionMultipleInput.__name__ = "tstool.process.ActionMultipleInput";
-tstool_process_ActionMultipleInput.__super__ = tstool_process_Action;
-tstool_process_ActionMultipleInput.prototype = $extend(tstool_process_Action.prototype,{
-	create: function() {
-		var _g = [];
-		var _g1 = 0;
-		var _g2 = this.inputs;
-		while(_g1 < _g2.length) {
-			var i = _g2[_g1];
-			++_g1;
-			_g.push(i.input);
-		}
-		this.multipleInputs = new tstool_process_MultipleInput(this,_g);
-		tstool_process_Action.prototype.create.call(this);
-	}
-	,update: function(elapsed) {
-		tstool_process_Action.prototype.update.call(this,elapsed);
-		var _this = flixel_FlxG.keys.justReleased;
-		if(_this.keyManager.checkStatus(9,_this.status)) {
-			this.multipleInputs.getNextFocus();
-		} else {
-			var _this = flixel_FlxG.keys.justReleased;
-			if(_this.keyManager.checkStatus(8,_this.status)) {
-				this.multipleInputs.clearFocusText();
-			} else if(this.multipleInputs.get_focus() == null) {
-				this.multipleInputs.getNextFocus();
-			}
-		}
-	}
-	,onClick: function() {
-		if(this.validate()) {
-			this.get_nextValidatedSignal().dispatch(true);
-			tstool_process_Action.prototype.onClick.call(this);
-		} else {
-			this.get_nextValidatedSignal().dispatch(false);
-		}
-	}
-	,positionThis: function(offSet) {
-		tstool_process_Action.prototype.positionThis.call(this);
-		var p = this.multipleInputs.positionThis();
-		this.positionButtons(p);
-		this.positionBottom(p);
-	}
-	,setStyle: function() {
-		tstool_process_Action.prototype.setStyle.call(this);
-		this.multipleInputs.setStyle();
-	}
-	,pushToHistory: function(buttonTxt,interactionType,values) {
-		var _g = new haxe_ds_StringMap();
-		var _g1 = haxe_ds_StringMap.kvIterator(this.multipleInputs.get_inputs().h);
-		while(_g1.hasNext()) {
-			var _g2 = _g1.next();
-			var k = _g2.key;
-			var v = _g2.value;
-			var value = v.getInputedText();
-			_g.h[k] = value;
-		}
-		tstool_process_Action.prototype.pushToHistory.call(this,buttonTxt,interactionType,_g);
-	}
-	,get_nextValidatedSignal: function() {
-		return this.nextValidatedSignal;
-	}
-	,validate: function() {
-		var inp = null;
-		var _g = 0;
-		var _g1 = this.inputs;
-		while(_g < _g1.length) {
-			var i = _g1[_g];
-			++_g;
-			if(i.ereg == null) {
-				continue;
-			}
-			inp = this.multipleInputs.get_inputs().h[i.input.prefix];
-			inp.blink(false);
-			if(!i.ereg.match(inp.getInputedText())) {
-				inp.blink(true);
-				return false;
-			}
-		}
-		return true;
-	}
-	,__class__: tstool_process_ActionMultipleInput
-	,__properties__: $extend(tstool_process_Action.prototype.__properties__,{get_nextValidatedSignal:"get_nextValidatedSignal"})
 });
 var tstool_process_Actor = function(id,authorised) {
 	if(authorised == null) {
@@ -79360,7 +79469,7 @@ tstool_salt_Role.prototype = $extend(tstool_process_Actor.prototype,{
 var tstool_salt_SOTickets = function(domain,number,queue,desc,email) {
 	this.email = email;
 	this.desc = desc;
-	this.queue = queue;
+	this.set_queue(queue);
 	this.number = number;
 	this.domain = domain;
 };
@@ -79376,6 +79485,9 @@ tstool_salt_SOTickets.prototype = {
 	,get_queue: function() {
 		return this.queue;
 	}
+	,set_queue: function(value) {
+		return this.queue = value;
+	}
 	,get_desc: function() {
 		return this.desc;
 	}
@@ -79383,7 +79495,7 @@ tstool_salt_SOTickets.prototype = {
 		return this.email;
 	}
 	,__class__: tstool_salt_SOTickets
-	,__properties__: {get_email:"get_email",get_desc:"get_desc",get_queue:"get_queue",get_number:"get_number",get_domain:"get_domain"}
+	,__properties__: {get_email:"get_email",get_desc:"get_desc",set_queue:"set_queue",get_queue:"get_queue",get_number:"get_number",get_domain:"get_domain"}
 };
 var tstool_utils_Mail = function(ticket,currentProcess,resolved) {
 	if(resolved == null) {
@@ -79430,7 +79542,7 @@ tstool_utils_Mail.prototype = {
 		var isResolved = this.resolved ? "[RESOLVED]" : "";
 		var _queue = this._ticket.get_queue() + "_";
 		var _mailSubject = this._ticket.get_domain() + "-" + this._ticket.get_number() + " " + this._ticket.get_desc();
-		this.mailWrapper.setSubject("[" + Main.customer.get_voIP() + "][" + _queue + "][" + tstool_MainApp.agent.get_sAMAccountName() + "]" + isResolved + " " + _mailSubject);
+		this.mailWrapper.setSubject("[" + Main.customer.get_iri() + "][" + _queue + "][" + tstool_MainApp.agent.get_sAMAccountName() + "]" + isResolved + " " + _mailSubject);
 	}
 	,setFrom: function() {
 		this.mailWrapper.setFrom(tstool_MainApp.agent.get_iri() == null ? "bruno.baudry@salt.ch" : tstool_MainApp.agent.get_iri(),tstool_MainApp.agent.get_sAMAccountName() == null ? "bbaudry" : tstool_MainApp.agent.get_sAMAccountName());
@@ -79449,7 +79561,9 @@ tstool_utils_Mail.prototype = {
 		try {
 			b += "<p>" + (memo == "" ? "No memo written by agent" : memo) + "</p>";
 			b += "<h2>";
-			if(Main.customer.get_iri() != "" && Main.customer.get_iri() != "not found") {
+			if(Main.customer.get_contract().contractorID != null && Main.customer.get_contract().contractorID != "" && Main.customer.get_contract().contractorID != "not found") {
+				b += "ID: " + Main.customer.get_contract().contractorID + "<br/>";
+			} else {
 				b += "ID: " + Main.customer.get_iri() + "<br/>";
 			}
 			if(Main.customer.get_voIP() != "") {
@@ -79474,7 +79588,7 @@ tstool_utils_Mail.prototype = {
 		} catch( _g ) {
 			haxe_NativeStackTrace.lastError = _g;
 			var e = haxe_Exception.caught(_g).unwrap();
-			haxe_Log.trace(e,{ fileName : "tstool/utils/Mail.hx", lineNumber : 152, className : "tstool.utils.Mail", methodName : "buildCustomerBody"});
+			haxe_Log.trace(e,{ fileName : "tstool/utils/Mail.hx", lineNumber : 162, className : "tstool.utils.Mail", methodName : "buildCustomerBody"});
 		}
 		return b;
 	}
@@ -79993,7 +80107,7 @@ openfl_display_DisplayObject.__tempStack = new lime_utils_ObjectPool(function() 
 	stack.set_length(0);
 });
 tstool_process_Process.STORAGE = new haxe_ds_StringMap();
-Main.LANGS = ["fr-FR","de-DE","en-GB"];
+Main.LANGS = ["fr-FR","de-DE","it-IT","en-GB"];
 openfl_text_Font.__fontByName = new haxe_ds_StringMap();
 openfl_text_Font.__registeredFonts = [];
 Xml.Element = 0;

@@ -10,7 +10,10 @@ import tstool.process.Process;
  */
 class IsCompTicketOpened extends DescisionMultipleInput 
 {
-	static inline var MSISDN:String = "MSISDN";
+	static inline var MSISDN:String = "MSISDN *";
+	static inline var SO_TICKET:String = "S.O ticket";
+	static inline var CONTACT:String = "Contact Phone";
+	static inline var EMAIL:String = "email";
 	public function new ()
 	{
 		super(
@@ -27,11 +30,35 @@ class IsCompTicketOpened extends DescisionMultipleInput
 			ereg: new EReg("^(11)[0-9]{6}$","i"),
 			input:{
 				width:100,
-				prefix:"S.O ticket",
+				prefix:SO_TICKET,
 				buddy:MSISDN,
 				position: [top, right],
 				debug: "11123456",
 				mustValidate: [Yes]
+			}
+		}
+		,
+		{
+			ereg: new EReg("^(11)[0-9]{6}$","i"),
+			input:{
+				width:150,
+				prefix:CONTACT,
+				buddy:MSISDN,
+				position: [bottom, left],
+				debug: "078 787 8673",
+				mustValidate: [Exit]
+			}
+		}
+		,
+		{
+			ereg: new EReg("^(11)[0-9]{6}$","i"),
+			input:{
+				width:300,
+				prefix:EMAIL,
+				buddy:CONTACT,
+				position: [top, right],
+				debug: "georges.cloonez@whatelse.com",
+				mustValidate: [Exit]
 			}
 		}
 		]
@@ -72,6 +99,7 @@ class IsCompTicketOpened extends DescisionMultipleInput
 	{
 		//trace("capture.IsCompTicketOpened::validate");
 		Main.customer.voIP = StringTools.replace(this.multipleInputs.inputs.get(MSISDN).getInputedText(), " ", "");
+		Main.customer.iri = Main.customer.voIP;
 
 		Process.STORE(MSISDN, '${Main.customer.voIP}' );
 		return super.validate(interaction);

@@ -50,7 +50,7 @@ class Main extends MainApp
 	public static var DEBUG:Bool;
 	//public static var COOKIE: FlxSave;
 	
-	public static var LANGS:Array<String> = ["fr-FR", "de-DE", "en-GB"];
+	public static var LANGS:Array<String> = ["fr-FR", "de-DE", "it-IT", "en-GB"];
 	//public static var LANGS = ["fr-FR", "de-DE"];
 	public static inline var LAST_STEP:Class<FlxState> = End;
 	public static inline var INTRO_PIC:String = "intro/baby_shocked.png";

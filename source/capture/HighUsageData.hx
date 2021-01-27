@@ -13,7 +13,7 @@ import tstool.salt.Balance;
 class HighUsageData extends DescisionMultipleInput 
 {
 	var rSeparator:EReg;
-	public static inline var STORAGE_TOTAL_AMOUNT:String = "SCHOCK CHF ";
+	public static inline var STORAGE_TOTAL_AMOUNT:String = "SCHOCK CHF";
 	public static inline var BA:String = "B.A";
 	public static inline var INVOICE:String = "Invoice(s) Nber(s)";
 	public static inline var AMOUNTS:String = "Schock amnount(s)";

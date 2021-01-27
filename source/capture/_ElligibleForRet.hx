@@ -52,7 +52,24 @@ class _ElligibleForRet extends ActionRadios
 		{
 			var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
 			var zone = how.values.get("choice");
-			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET) (( zone == _HowMadeHugeAmount.CH )? AlternativeCompensation : ActivateInternetEurope) else _SelectPP;
+			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET) {
+				if (zone == _HowMadeHugeAmount.CH)
+				{
+					AlternativeCompensation;
+				}
+				else{
+					ActivateInternetEurope;
+				}
+			}
+			else{
+				if (status.get(SUB_TYPE) == DEVICE)
+				{
+					ActivateInternetEurope;
+				}
+				else{
+					_SelectPP;
+				}
+			}
 			
 			this._nexts = [{step: next}];
 			//this._nextProcesses = [next];
