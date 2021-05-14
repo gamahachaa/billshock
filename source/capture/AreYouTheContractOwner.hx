@@ -16,7 +16,7 @@ class AreYouTheContractOwner extends Descision
 	}
 	override public function onNoClick():Void
 	{
-		this._nexts = [{step: Intro, params: []}];
+		this._nexts = [{step: End, params: []}];
 		super.onNoClick();
 	}
 	

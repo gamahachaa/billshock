@@ -1,5 +1,6 @@
 package;
 
+import tstool.MainApp;
 import tstool.process.Action;
 
 /**
@@ -8,10 +9,16 @@ import tstool.process.Action;
  */
 class Tuto extends Action 
 {
-
-	public function new() 
+	override public function create():Void
 	{
 		
+		super.create();
+		this.question.text = "Hello " + MainApp.agent.firstName + ",\n\n" + this._titleTxt;
+	}
+	override public function onClick():Void
+	{
+		this._nexts = [{step: Intro, params: []}];
+		super.onClick();
 	}
 	
 }

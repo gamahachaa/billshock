@@ -16,6 +16,7 @@ class _HowMadeHugeAmount extends ActionRadios
 	public static inline var CDEF:String = "cdef";
 	public static inline var SAT:String = "sat";
 	public static inline var SURF:String = "surfv2";
+	
 
 	public function new() 
 	{
@@ -24,21 +25,13 @@ class _HowMadeHugeAmount extends ActionRadios
 			{
 				title: HOW,
 				values:[CH, AB, CDEF, SAT, SURF],
-				labels:["Switzerland", "zones AB (EU & USA)", "zones C,D,E,FAR", "zone SAT", "using SURF v2"]
+				hasTranslation: true
 			}
 		]
 		);
 		
 	}
 	
-	/*
-	override public function create()
-	{
-		this._nextProcesses = [new XXX()];
-		super.create();
-		
-	}
-	*/
 	override public function onClick()
 	{
 		if (validate())
@@ -56,11 +49,5 @@ class _HowMadeHugeAmount extends ActionRadios
 			super.onClick();
 		}		
 	}
-	/*
-	override public function validate():Bool
-	{
-		return true;
-	}
-	*/
 	
 }

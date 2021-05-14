@@ -2,6 +2,7 @@ package capture;
 
 import tstool.layout.History.Snapshot;
 import tstool.process.ActionRadios;
+using tstool.utils.StringUtils;
 
 /**
  * ...
@@ -25,11 +26,13 @@ class _SelectPP extends ActionRadios
 		[
 			{
 				title: PRICE_PLAN,
-				values:  [for (k in ppMap.get(where).keys()) k]
+				values:  [for (k in ppMap.get(where).keys()) k],
+				titleTranslation: translate("capture._SelectPP",PRICE_PLAN,"headers")// do not use hasTranslation because of dynamic values
 			},
 			{
 				title: RC,
-				values: []
+				values: [],
+				titleTranslation: translate("capture._SelectPP",RC,"headers")
 			}
 		]
 		);
@@ -54,9 +57,10 @@ class _SelectPP extends ActionRadios
 		{
 			if (status.get(PRICE_PLAN) == PPmap.DAS_ABO_AB_PP)
 			{
-				this._nextProcesses = [where== _HowMadeHugeAmount.CH ? new WhatDasAboCHWish() : new WhatDasAboABWish()];
+				this._nexts = [{step: (where ==  _HowMadeHugeAmount.CH ? WhatDasAboCHWish : WhatDasAboABWish), params: []}];
+				//this._nextProcesses = [where == _HowMadeHugeAmount.CH ? WhatDasAboCHWish : WhatDasAboABWish];
 			}
-			else this._nextProcesses = [new AcceptRenewalPlan()];
+			else this._nexts = [{step: AcceptRenewalPlan, params: []}];
 			super.onClick();
 		}
 	}

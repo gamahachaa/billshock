@@ -1,0 +1,23 @@
+flag	HEADER
+$capture._SelectPPPricePlan	Price plan
+$capture._SelectPPRC	Monthly charge (RC)
+$capture._ElligibleForRetSubscriptiontype	Subscription type
+$capture._ElligibleForRetRetentionelligibility	Contract renewal
+$capture._ElligibleForRetSimOnly	SIM only
+$capture._ElligibleForRetDevice	With device
+$capture._ElligibleForRetStandard	Standard
+$capture._ElligibleForReteRet	eRet
+$capture._ElligibleForRetNotelligible	Not eligible
+$capture._HowMadeHugeAmountHow	How
+$capture._HowMadeHugeAmountch	In Switzerland
+$capture._HowMadeHugeAmountab	Zone AB
+$capture._HowMadeHugeAmountcdef	Zone CDEF
+$capture._HowMadeHugeAmountsat	SAT zone
+$capture._HowMadeHugeAmountsurfv2	With surf V2
+$capture.IsCompTicketOpenedMSISDN	MSISDN
+$capture.IsCompTicketOpenedSOticket	S.O. ticket number
+$capture.IsCompTicketOpenedContactPhone	Contact phone
+$capture.IsCompTicketOpenedemail	Contact e-mail
+$capture.HighUsageDataBA	Billing account
+$capture.HighUsageDataInvoicesNbers	Invoice number(s)
+$capture.HighUsageDataSchockAmnounts	Shocking amount(s)

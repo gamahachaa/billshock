@@ -21,10 +21,14 @@
 	<file id="data" value="billShock_it.txt"/>
     
     <file id="meta" value="meta_fr.txt"/>
-	<!--<file id="meta" value="meta_it.txt"/>-->
 	<file id="meta" value="meta_de.txt"/>
 	<file id="meta" value="meta_en.txt"/>
 	<file id="meta" value="meta_it.txt"/>
+	
+	<file id="headers" value="headers_fr.txt"/>
+	<file id="headers" value="headers_de.txt"/>
+	<file id="headers" value="headers_en.txt"/>
+	<file id="headers" value="headers_it.txt"/>
 	
     <!-- <file id="validators" value="validator_fr.txt"/> -->
     <!-- <file id="validators" value="validator_de.txt"/> -->

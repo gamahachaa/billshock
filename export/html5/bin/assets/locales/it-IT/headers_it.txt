@@ -1,0 +1,23 @@
+flag	HEADER
+$capture._SelectPPPricePlan	Piano tariffario
+$capture._SelectPPRC	Ricarica mensile (RC)
+$capture._ElligibleForRetSubscriptiontype	Tipo dio abbonamento
+$capture._ElligibleForRetRetentionelligibility	Rinnovo del contratto
+$capture._ElligibleForRetSimOnly	Solo carta SIM
+$capture._ElligibleForRetDevice	Con dispositivo
+$capture._ElligibleForRetStandard	Standard
+$capture._ElligibleForReteRet	eRet
+$capture._ElligibleForRetNotelligible	Non disponibile
+$capture._HowMadeHugeAmountHow	Come
+$capture._HowMadeHugeAmountch	In Svizzera
+$capture._HowMadeHugeAmountab	Zona AB
+$capture._HowMadeHugeAmountcdef	Zona CDEF
+$capture._HowMadeHugeAmountsat	Zona SAT
+$capture._HowMadeHugeAmountsurfv2	Con surf V2
+$capture.IsCompTicketOpenedMSISDN	MSISDN
+$capture.IsCompTicketOpenedSOticket	N° di ticket S.O.
+$capture.IsCompTicketOpenedContactPhone	N° di telefono di contatto
+$capture.IsCompTicketOpenedemail	Email di contatto
+$capture.HighUsageDataBA	Conto di fatturazione
+$capture.HighUsageDataInvoicesNbers	N° della/e fattura/e
+$capture.HighUsageDataSchockAmnounts	Importo/i shock

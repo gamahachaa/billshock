@@ -2,7 +2,7 @@
 
 @echo off
 
-set DEV=0
+set DEV=1
 echo "START"
 if %DEV%==1 (
 	if "%1"=="" goto :dead
@@ -24,7 +24,7 @@ set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "fullstamp=%YYYY%%MM%%DD%_%HH%%Min%%Sec%"
 rem ------------------ DEFINE FILE NAMES ------------------------------------------------------------------------
 set serverFolderName=billshock
-set mainScript=bill_shock_js
+set mainScript=billshock
 rem -------------------------------------------------------------------------------------------------------------
 set oldScriptName=%mainScript%.js
 set newScriptName=%mainScript%_%fullstamp%.js
@@ -59,13 +59,15 @@ if %DEV%==1 (
 	powershell -Command "(gc %BINDIR%/index.html) -replace './%oldScriptName%', './%newScriptName%' | Out-File -encoding UTF8 %BINDIR%/index.html"
 	if "%1"=="debug" goto :follow
 ) ELSE (
-	echo "SKIPPED"
+	if "%1"=="release" goto :minify
+	if "%1"=="debug" goto :EXPORT
 )
 
 :minify
 powershell -Command "(gc %BINDIR%/index.html) -replace './%oldScriptName%', './%newScriptNameMin%' | Out-File -encoding UTF8 %BINDIR%/index.html"
+powershell -Command "Rename-Item -Path "%BINDIR%/%mainScript%.min.js" -NewName %newScriptNameMin%"
 
-rem REENAME JS FILES  ------------------------------------------------------------------------------------------------------------------------------
+goto :EXPORT
 
 :follow
 
@@ -73,8 +75,8 @@ rem powershell -Command "(gc %BINDIR%/index.html) -replace 'background: #000000;
 powershell -Command "Rename-Item -Path "%BINDIR%/%mainScript%.js" -NewName %newScriptName%"
 powershell -Command "Rename-Item -Path "%BINDIR%/%mainScript%.js.map" -NewName %newMapName%"
 
-powershell -Command "Rename-Item -Path "%BINDIR%/%mainScript%.min.js" -NewName %newScriptNameMin%"
 
+:EXPORT
 
 rem powershell -Command "Rename-Item -Path "%BINDIR%/%mainScript%.min.js.map" -NewName %newMapName%"
 

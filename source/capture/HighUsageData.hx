@@ -14,18 +14,20 @@ class HighUsageData extends DescisionMultipleInput
 {
 	var rSeparator:EReg;
 	public static inline var STORAGE_TOTAL_AMOUNT:String = "SCHOCK CHF";
-	public static inline var BA:String = "B.A";
-	public static inline var INVOICE:String = "Invoice(s) Nber(s)";
-	public static inline var AMOUNTS:String = "Schock amnount(s)";
+	public static inline var BA:String = "BA";
+	public static inline var INVOICE:String = "Invoices Nbers";
+	public static inline var AMOUNTS:String = "Schock Amnounts";
+	//static public inline var C_NAME:String = "capture.HighUsageData";
 
 	public function new ()
 	{
 		super(
 		[
 			{
-				ereg: new EReg("^[0-9]{4,7}$","i"),
+				ereg: new EReg("^[0-9]{4,7}$", "i"),
+				hasTranslation:true,
 				input:{
-					width:80,
+					width:200,
 					prefix:BA,
 					position: [bottom, left],
 					debug:"123456"
@@ -33,7 +35,8 @@ class HighUsageData extends DescisionMultipleInput
 			},
 			{
 				//20100001492630
-				ereg: new EReg("^[0-9]{14}([+ ;\\/]{1,3}[0-9]{14})*$","i"),
+				ereg: new EReg("^[0-9]{14}([+ ;\\/]{1,3}[0-9]{14})*$", "i"),
+				hasTranslation:true,
 				input:{
 					width:500,
 					prefix:INVOICE,
@@ -44,9 +47,10 @@ class HighUsageData extends DescisionMultipleInput
 				}
 			},
 			{
-				ereg: new EReg("^[0-9]+((\\.|,)[0-9]{1,2})?([+ ;\\/]{1,3}[0-9]+((\\.|,)[0-9]{1,2})?)*$","i"),
+				ereg: new EReg("^[0-9]+((\\.|,)[0-9]{1,2})?([+ ;\\/]{1,3}[0-9]+((\\.|,)[0-9]{1,2})?)*$", "i"),
+				hasTranslation:true,
 				input:{
-					width:160,
+					width:200,
 					prefix:AMOUNTS,
 					buddy:INVOICE,
 					position: [bottom, left],

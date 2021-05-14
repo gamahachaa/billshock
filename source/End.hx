@@ -1,24 +1,13 @@
 package;
 
-import tstool.process.Action;
+
+import tstool.process.EndAction;
 
 /**
  * ...
  * @author bb
  */
-class End extends Action 
+class End extends EndAction 
 {
 	
-	override public function create()
-	{
-		super.create();
-		Main.track.setResolution();
-		Main.track.send();
-	}
-	
-	override public function onClick():Void
-	{
-		this._nexts = [{step: Intro}];
-		super.onClick();
-	}
 }

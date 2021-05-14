@@ -1,11 +1,13 @@
 package;
 
-import decide.ActivateInternetEurope;
+//import decide.ActivateInternetEurope;
 import flixel.FlxG;
 import flixel.FlxGame;
+//import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.input.keyboard.FlxKey;
 import tstool.layout.UI;
+import tstool.process.Process;
 //import flixel.system.FlxAssets;
 import flixel.text.FlxText.FlxTextFormat;
 import flixel.text.FlxText.FlxTextFormatMarkerPair;
@@ -48,12 +50,16 @@ class Main extends MainApp
 	public static var VERSION_TRACKER:VersionTracker;
 	public static var LOCATION:Location;
 	public static var DEBUG:Bool;
+	public static inline var DEBUG_LEVEL = 0;
 	//public static var COOKIE: FlxSave;
 	
 	public static var LANGS:Array<String> = ["fr-FR", "de-DE", "it-IT", "en-GB"];
 	//public static var LANGS = ["fr-FR", "de-DE"];
-	public static inline var LAST_STEP:Class<FlxState> = End;
-	public static inline var INTRO_PIC:String = "intro/baby_shocked.png";
+	public static inline var LAST_STEP:Class<Process> = End;
+	public static inline var START_STEP:Class<Process>  = Intro;
+	public static inline var INTRO_PIC:String = "intro/favicon.png";
+	public static var LIB_FOLDER_LOGIN:String;
+	
 	/**
 	 * FORMAT COLOR
 	 * */
@@ -61,11 +67,13 @@ class Main extends MainApp
 	public function new() 
 	{
 		super({
-				cookie:"billshock_js_210113.user",
-				scriptName:"bill_shock_js"
+				cookie:"billshock_20210216.user",
+				scriptName:"billshock"
 				
 		});
+		//trace("LOADED !");
 		LIB_FOLDER = "../trouble/";
+		LIB_FOLDER_LOGIN = "/commonlibs/";
 		tongue = MainApp.translator;
 		//COOKIE = MainApp.save;
 		HISTORY = MainApp.stack;
@@ -74,25 +82,10 @@ class Main extends MainApp
 		DEBUG = MainApp.debug;
 		VERSION_TRACKER = MainApp.versionTracker;
 		customer = MainApp.cust;
-		//user = MainApp.agent;
 		
-		#if debug
-		//addChild(new FlxGame(1400, 880, IsCompTicketOpened, 1, 30, 30, true, true));
-		//addChild(new FlxGame(1400, 880, _SelectPP, 1, 30, 30, true, true));
-		//addChild(new FlxGame(1400, 880, ElligibleForRet, 1, 30, 30, true, true));
-		//addChild(new FlxGame(1400, 880, ActivateInternetEurope, 1, 30, 30, true, true));
-		//addChild(new FlxGame(1400, 880, Login, 1, 30, 30, true, true));
-		addChild(new FlxGame(1400, 880, Intro, 1, 30, 30, true, true));
-		//compute();
-		#else			
 		addChild(new FlxGame(1400, 880, Login, 1, 30, 30, true, true));
-		#end
 
 	}
-	/*static public function TOGGLE_MAIN_STYLE()
-	{
-		THEME = THEME == WHITE_THEME ? DARK_THEME: WHITE_THEME;
-	}*/
 	static public function setUpSystemDefault(?block:Bool = false )
 	{
 		FlxG.sound.soundTrayEnabled = false;
@@ -102,12 +95,22 @@ class Main extends MainApp
 	}
     static public function MOVE_ON(?old:Bool=false)
 	{
+		var next:Process;
+		var tuto:Process = new Tuto();
 		setUpSystemDefault(true);
 		//trace("Main::MOVE_ON::MOVE_ON");
 		#if !debug
 		Main.track.setActor();
 		#end
-		tongue.initialize(MainApp.agent.mainLanguage, ()->(FlxG.switchState( old ? new Intro(): new Intro() )) );
+		#if debug
+			/**
+			 * USe this  to debug a slide
+			 */
+			next = new Intro();
+		#else
+			next = Type.createInstance(Main.START_STEP,[]);
+		#end
+		tongue.initialize(MainApp.agent.mainLanguage, ()->(FlxG.switchState( old ? next : tuto)) );
 	}
 	
 }
