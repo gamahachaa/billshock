@@ -1,23 +1,23 @@
 flag	HEADER
-$capture._SelectPPPricePlan	Preisplan
-$capture._SelectPPRC	Monatsgebühr (RC)
-$capture._ElligibleForRetSubscriptiontype	Abo-Typ
-$capture._ElligibleForRetRetentionelligibility	Vertragsverlängerung
-$capture._ElligibleForRetSimOnly	SIM only
-$capture._ElligibleForRetDevice	Mit Gerät
-$capture._ElligibleForRetStandard	Standard
-$capture._ElligibleForReteRet	eRet
-$capture._ElligibleForRetNotelligible	Nicht berechtigt
-$capture._HowMadeHugeAmountHow	Wie
-$capture._HowMadeHugeAmountch	In der Schweiz
-$capture._HowMadeHugeAmountab	Zone AB
-$capture._HowMadeHugeAmountcdef	Zone CDEF
-$capture._HowMadeHugeAmountsat	Zone SAT
-$capture._HowMadeHugeAmountsurfv2	Mit Surf V2
-$capture.IsCompTicketOpenedMSISDN	MSISDN
-$capture.IsCompTicketOpenedSOticket	S.O.-Ticket-Nr.
-$capture.IsCompTicketOpenedContactPhone	Kontaktnummer
-$capture.IsCompTicketOpenedemail	Kontakt-E-Mail-Adresse
-$capture.HighUsageDataBA	Rechnungskonto
-$capture.HighUsageDataInvoicesNbers	Rechnungsnr.
-$capture.HighUsageDataSchockAmnounts	Schockierender Betrag/Schockierende Beträge
+$capture._SelectPP.PricePlan	Preisplan
+$capture._SelectPP.RC	Monatsgebühr (RC)
+$capture._ElligibleForRet.Subscriptiontype	Abo-Typ
+$capture._ElligibleForRet.Retentionelligibility	Vertragsverlängerung
+$capture._ElligibleForRet.SimOnly	SIM Only
+$capture._ElligibleForRet.Device	Mit Gerät
+$capture._ElligibleForRet.Standard	Standard
+$capture._ElligibleForRet.eRet	eRet
+$capture._ElligibleForRet.Notelligible	Nicht berechtigt
+$capture._HowMadeHugeAmount.How	In welcher Situation?
+$capture._HowMadeHugeAmount.ch	In der Schweiz
+$capture._HowMadeHugeAmount.ab	Zone AB
+$capture._HowMadeHugeAmount.cdef	Zone CDEF
+$capture._HowMadeHugeAmount.sat	Zone SAT
+$capture._HowMadeHugeAmount.surfv2	Mit Surf V2
+$capture.IsCompTicketOpened.MSISDN	MSISDN
+$capture.IsCompTicketOpened.SOticket	S.O.-Ticket-Nr.
+$capture.IsCompTicketOpened.ContactPhone	Kontaktnummer
+$capture.IsCompTicketOpened.email	Kontakt-E-Mail-Adresse
+$capture.HighUsageData.BA	Rechnungskonto
+$capture.HighUsageData.InvoicesNbers	Rechnungsnr.
+$capture.HighUsageData.SchockAmnounts	Schockierender Betrag/Schockierende Beträge

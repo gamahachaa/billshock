@@ -1,23 +1,23 @@
 flag	HEADER
-$capture._SelectPPPricePlan	Price plan
-$capture._SelectPPRC	Monthly charge (RC)
-$capture._ElligibleForRetSubscriptiontype	Subscription type
-$capture._ElligibleForRetRetentionelligibility	Contract renewal
-$capture._ElligibleForRetSimOnly	SIM only
-$capture._ElligibleForRetDevice	With device
-$capture._ElligibleForRetStandard	Standard
-$capture._ElligibleForReteRet	eRet
-$capture._ElligibleForRetNotelligible	Not eligible
-$capture._HowMadeHugeAmountHow	How
-$capture._HowMadeHugeAmountch	In Switzerland
-$capture._HowMadeHugeAmountab	Zone AB
-$capture._HowMadeHugeAmountcdef	Zone CDEF
-$capture._HowMadeHugeAmountsat	SAT zone
-$capture._HowMadeHugeAmountsurfv2	With surf V2
-$capture.IsCompTicketOpenedMSISDN	MSISDN
-$capture.IsCompTicketOpenedSOticket	S.O. ticket number
-$capture.IsCompTicketOpenedContactPhone	Contact phone
-$capture.IsCompTicketOpenedemail	Contact e-mail
-$capture.HighUsageDataBA	Billing account
-$capture.HighUsageDataInvoicesNbers	Invoice number(s)
-$capture.HighUsageDataSchockAmnounts	Shocking amount(s)
+$capture._SelectPP.PricePlan	Price plan
+$capture._SelectPP.RC	Monthly charge (RC)
+$capture._ElligibleForRet.Subscriptiontype	Subscription type
+$capture._ElligibleForRet.Retentionelligibility	Contract renewal
+$capture._ElligibleForRet.SimOnly	SIM Only
+$capture._ElligibleForRet.Device	With device
+$capture._ElligibleForRet.Standard	Standard
+$capture._ElligibleForRet.eRet	eRet
+$capture._ElligibleForRet.Notelligible	Not eligible
+$capture._HowMadeHugeAmount.How	In which situation?
+$capture._HowMadeHugeAmount.ch	In Switzerland
+$capture._HowMadeHugeAmount.ab	AB zone
+$capture._HowMadeHugeAmount.cdef	CDEF zone
+$capture._HowMadeHugeAmount.sat	SAT zone
+$capture._HowMadeHugeAmount.surfv2	With surf V2
+$capture.IsCompTicketOpened.MSISDN	MSISDN
+$capture.IsCompTicketOpened.SOticket	S.O. ticket number
+$capture.IsCompTicketOpened.ContactPhone	Contact phone
+$capture.IsCompTicketOpened.email	Contact email
+$capture.HighUsageData.BA	Billing account
+$capture.HighUsageData.InvoicesNbers	Invoice number(s)
+$capture.HighUsageData.SchockAmnounts	Shocking amount(s)

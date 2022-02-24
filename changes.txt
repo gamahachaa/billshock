@@ -1,0 +1,17 @@
+AA:
+	NEED to correct headers objerct notation EXPL $capture._HowMadeHugeAmount.How
+FR:
+	
+	$capture.HighUsageData
+		TITLE	<N><em>Je vérifie sur la·les facture·s les consommations effectives<em>
+	$capture._HowMadeHugeAmount
+		TITLE	
+	$decide._InformAboutNewLaw
+		All fields changed
+	$capture.WasLimitsChanged
+	$decide.decide.NewSimplComp
+		NEW
+	$End
+	      TITLE
+	$capture.AcceptRenewalPlan
+		DONE proof read

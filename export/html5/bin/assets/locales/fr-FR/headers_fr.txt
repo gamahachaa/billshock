@@ -1,23 +1,23 @@
 flag	HEADER
-$capture._SelectPPPricePlan	Plan tarifaire
-$capture._SelectPPRC	Charge mensuelle (RC)
-$capture._ElligibleForRetSubscriptiontype	Type de souscription
-$capture._ElligibleForRetRetentionelligibility	Renouvellement du contrat
-$capture._ElligibleForRetSimOnly	Carte SIM seulement
-$capture._ElligibleForRetDevice	Avec appareil
-$capture._ElligibleForRetStandard	Standard
-$capture._ElligibleForReteRet	eRet
-$capture._ElligibleForRetNotelligible	Pas eligible
-$capture._HowMadeHugeAmountHow	Comment
-$capture._HowMadeHugeAmountch	En Suisse
-$capture._HowMadeHugeAmountab	Zone AB
-$capture._HowMadeHugeAmountcdef	Zone CDEF
-$capture._HowMadeHugeAmountsat	Zone SAT
-$capture._HowMadeHugeAmountsurfv2	Avec surf V2
-$capture.IsCompTicketOpenedMSISDN	MSISDN
-$capture.IsCompTicketOpenedSOticket	N° ticket S.O.
-$capture.IsCompTicketOpenedContactPhone	Tél de contact
-$capture.IsCompTicketOpenedemail	e-mail de contact
-$capture.HighUsageDataBA	Compte de facturation
-$capture.HighUsageDataInvoicesNbers	N° facture(s)
-$capture.HighUsageDataSchockAmnounts	Montant(s) choquant(s)
+$capture._SelectPP.PricePlan	Plan tarifaire
+$capture._SelectPP.RC	Charge mensuelle (RC)
+$capture._ElligibleForRet.Subscriptiontype	Type de souscription
+$capture._ElligibleForRet.Retentionelligibility	Renouvellement du contrat
+$capture._ElligibleForRet.SimOnly	Carte SIM seulement
+$capture._ElligibleForRet.Device	Avec appareil
+$capture._ElligibleForRet.Standard	Standard
+$capture._ElligibleForRet.eRet	eRet
+$capture._ElligibleForRet.Notelligible	Pas eligible
+$capture._HowMadeHugeAmount.How	Dans quelle situation ?
+$capture._HowMadeHugeAmount.ch	En Suisse
+$capture._HowMadeHugeAmount.ab	Zone AB
+$capture._HowMadeHugeAmount.cdef	Zone CDEF
+$capture._HowMadeHugeAmount.sat	Zone SAT
+$capture._HowMadeHugeAmount.surfv2	Avec surf V2
+$capture.IsCompTicketOpened.MSISDN	MSISDN
+$capture.IsCompTicketOpened.SOticket	N° ticket S.O.
+$capture.IsCompTicketOpened.ContactPhone	Tél de contact
+$capture.IsCompTicketOpened.email	e-mail de contact
+$capture.HighUsageData.BA	Compte de facturation
+$capture.HighUsageData.InvoicesNbers	N° facture(s)
+$capture.HighUsageData.SchockAmnounts	Montant(s) choquant(s)

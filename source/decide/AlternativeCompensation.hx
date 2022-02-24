@@ -1,8 +1,14 @@
 package decide;
 
+import capture.TravelInfoRecieved;
+import capture._HowMadeHugeAmount;
+import decide._InformAboutNewLaw;
 import firetongue.Replace;
-import ticket.TicketMobileFiveOneOne;
+import ticket.TicketMobileFiveOneOneAccept;
+import ticket.TicketMobileFiveOneOneRefuse;
+//import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
+import tstool.layout.History.Snapshot;
 //import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
 
@@ -15,6 +21,8 @@ class AlternativeCompensation extends Descision
 	var compensate:Float;
 	var amount:Float;
 	var formula:String;
+	static inline var TOTAL_SCHOCK:String = "total shock";
+	public static inline var COMPENSATE:String = "compensate 50% ";
 
 	/**/
 	override public function create()
@@ -34,17 +42,21 @@ class AlternativeCompensation extends Descision
 	override public function onYesClick():Void
 	{
 		//this._nextYesProcesses = [new TicketMobileFiveOneOne()];
-		this._nexts = [{step: TicketMobileFiveOneOne}];
+		this._nexts = [{step: compensate > 40 ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
 	{
 		//this._nextNoProcesses = [new TicketMobileFiveOneOne()];
-		this._nexts = [{step: TicketMobileFiveOneOne}];
+		//var howMadeHugeAmount:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._HowMadeHugeAmount);
+		//if( howMadeHugeAmount.values.get(_HowMadeHugeAmount.HOW) == _HowMadeHugeAmount.AB)
+			//this._nexts = [{step: TravelInfoRecieved}];
+		//else
+		this._nexts = [{step: TicketMobileFiveOneOneRefuse}];
 		super.onNoClick();
 	}
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
-		super.pushToHistory(buttonTxt, interactionType, ["total shock"=>amount, "compensate 50% "=> compensate]);
+		super.pushToHistory(buttonTxt, interactionType, [TOTAL_SCHOCK=>amount, COMPENSATE=> compensate]);
 	}
 }

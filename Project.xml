@@ -34,6 +34,7 @@
 	
 	<!-- _______________________________ Libraries ______________________________ -->
 	<haxelib name="csv" />
+	<haxelib name="openfl" />
 	<haxelib name="lime" />
 	<!--<set name="next"/>-->
 	<haxelib name="flixel" />
@@ -42,6 +43,10 @@
 
 	<haxelib name="firetongue" />
 	<haxelib name="hscript" />
+	<haxelib name="xapi" />
+	<haxelib name="thx.core" />
+	<haxelib name="markdown" />
+	<haxelib name="signals" />
 	<haxelib name="tstool" />
 	<!--<haxelib name="uglifyjs" unless="debug"/>-->
 	<haxelib name="uglifyjs"/>
@@ -59,7 +64,7 @@
 
 	<!--<haxelib name="ldap" />-->
 	
-	<!--<haxelib name="openfl" />-->
+
 	<!--<haxelib name="firetongue"/>-->
 	
 
@@ -114,4 +119,5 @@
 	<!-- _________________________________ Custom _______________________________ -->
 	
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<haxeflag name = "--macro" value="tstool.macros.TranslationVerificator.test(['capture.PPmap','ticket.TicketMobileFiveOneOne','Main'])"/>
 </project>
