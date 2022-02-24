@@ -1,8 +1,12 @@
 package capture;
 
-import decide.AlternativeCompensation;
+//import decide.AlternativeCompensation;
+import decide.NewSimplComp;
+import decide._InformAboutNewLaw;
 import firetongue.Replace;
-import ticket.TicketMobileFiveOneOne;
+import ticket.TicketMobileFiveOneOneAccept;
+import ticket.TicketMobileFiveOneOnePPRenewalAccept;
+//import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
 import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
@@ -14,6 +18,7 @@ import tstool.process.Descision;
 class AcceptRenewalPlan extends Descision 
 {
 	var proposal:Map < String,String>;
+	var where:String;
 	/*public function new ()
 	{
 		var howMadeHugeAmount:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount");
@@ -42,7 +47,7 @@ class AcceptRenewalPlan extends Descision
 		}
 		else{
 			#if debug
-			trace("no history");
+			//trace("no history");
 			#end
 		}
 		
@@ -63,7 +68,7 @@ class AcceptRenewalPlan extends Descision
 	{
 		var howMadeHugeAmount:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._HowMadeHugeAmount);
 		var selectPP: Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._SelectPP);
-		var where = howMadeHugeAmount.values.get(_HowMadeHugeAmount.HOW);
+		where = howMadeHugeAmount.values.get(_HowMadeHugeAmount.HOW);
 		var pp = selectPP.values.get(_SelectPP.PRICE_PLAN) + specialCases();
 		
 		//trace("capture.AcceptRenewalPlan::create::pp", pp );
@@ -86,13 +91,13 @@ class AcceptRenewalPlan extends Descision
 	override public function onYesClick():Void
 	{
 		//this._nextYesProcesses = [new TicketMobileFiveOneOne()];
-		this._nexts = [{step: TicketMobileFiveOneOne}];
+		this._nexts = [{step: TicketMobileFiveOneOnePPRenewalAccept}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
 	{
 		//this._nextNoProcesses = [new AlternativeCompensation()];
-		this._nexts = [{step: AlternativeCompensation}];
+		this._nexts = [{step: NewSimplComp}];
 		super.onNoClick();
 	}
 	

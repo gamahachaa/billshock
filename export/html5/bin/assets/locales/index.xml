@@ -16,9 +16,20 @@
     
     <!-- all -->
 	<file id="data" value="billShock_fr.txt"/>
+	<file id="data" value="decide_fr.txt"/>
+	<file id="data" value="capture_fr.txt"/>
+	
 	<file id="data" value="billShock_de.txt"/>
+	<file id="data" value="decide_de.txt"/>
+	<file id="data" value="capture_de.txt"/>
+	
 	<file id="data" value="billShock_en.txt"/>
+	<file id="data" value="decide_en.txt"/>
+	<file id="data" value="capture_en.txt"/>
+	
 	<file id="data" value="billShock_it.txt"/>
+	<file id="data" value="decide_it.txt"/>
+	<file id="data" value="capture_it.txt"/>
     
     <file id="meta" value="meta_fr.txt"/>
 	<file id="meta" value="meta_de.txt"/>

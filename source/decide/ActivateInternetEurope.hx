@@ -1,9 +1,11 @@
 package decide;
 
-import decide.AlternativeCompensation;
+import decide._InformAboutNewLaw;
+//import decide.AlternativeCompensation;
 import firetongue.Replace;
 import haxe.Exception;
-import ticket.TicketMobileFiveOneOne;
+import ticket.TicketMobileFiveOneOneAccept;
+//import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
 //import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
@@ -15,6 +17,7 @@ import tstool.process.Descision;
 class ActivateInternetEurope extends Descision 
 {
 	var compensate:Float;
+	public static inline var COMPENSATE:String = "compensate";
 
 	/**/
 	override public function create()
@@ -47,17 +50,17 @@ class ActivateInternetEurope extends Descision
 	override public function onYesClick():Void
 	{
 		//this._nextYesProcesses = [new TicketMobileFiveOneOne()];
-		this._nexts = [{step: TicketMobileFiveOneOne}];
+		this._nexts = [{step: compensate > 40 ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
 	{
 		//this._nextNoProcesses = [new AlternativeCompensation()];
-		this._nexts = [{step: AlternativeCompensation}];
+		this._nexts = [{step: NewSimplComp}];
 		super.onNoClick();
 	}
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
-		super.pushToHistory(buttonTxt, interactionType, ["compensate"=> compensate]);
+		super.pushToHistory(buttonTxt, interactionType, [COMPENSATE=> compensate]);
 	}
 }

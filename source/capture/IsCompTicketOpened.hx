@@ -1,5 +1,6 @@
 package capture;
 
+import tstool.MainApp;
 import tstool.layout.History.Interactions;
 import tstool.process.DescisionMultipleInput;
 import tstool.process.Process;
@@ -108,19 +109,17 @@ class IsCompTicketOpened extends DescisionMultipleInput
 	override public function validate(interaction:Interactions):Bool
 	{
 		//trace("capture.IsCompTicketOpened::validate");
-		Main.customer.voIP = multipleInputs.getText(MSISDN).removeWhite();
-		Main.customer.iri = Main.customer.voIP;
-		Main.customer.contract.mobile = multipleInputs.getText(CONTACT).removeWhite();
-		Main.customer.contract.owner = new Role(owner, "", multipleInputs.getText(EMAIL).removeWhite());
-
-		Main.track.setVerb("initialized");
-		Main.track.setStatementRef(null);
-		Main.track.setCustomer(true);
-		Main.track.setActivity( "billshock" );
-        Main.track.send();
-		Main.track.setVerb("resolved");
-
-		Process.STORE(MSISDN, '${Main.customer.voIP}' );
+		var sup = super.validate(interaction);
+		if (sup)
+		{
+			Main.customer.voIP = multipleInputs.getText(MSISDN).removeWhite();
+			Main.customer.iri = Main.customer.voIP;
+			Main.customer.contract.mobile = multipleInputs.getText(CONTACT).removeWhite();
+			Main.customer.contract.owner = new Role(owner, "", multipleInputs.getText(EMAIL).removeWhite());
+			Process.STORE(MSISDN, '${Main.customer.voIP}' );
+			//Main.trackH.setActor(new xapi.
+		}
+		
 		return super.validate(interaction);
 	}
 	/*override public function validateNo():Bool

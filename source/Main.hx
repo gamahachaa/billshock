@@ -1,8 +1,10 @@
 package;
 
 //import decide.ActivateInternetEurope;
+import capture.WasLimitsChanged;
 import flixel.FlxG;
 import flixel.FlxGame;
+import tstool.utils.XapiHelper;
 //import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.input.keyboard.FlxKey;
@@ -45,16 +47,15 @@ class Main extends MainApp
 	public static var tongue:Translator;
 	//public static var user:Agent;
 	public static var customer:Customer;
-	public static var track:XapiTracker;
+	public static var trackH:XapiHelper;
+	//public static var track:XapiTracker;
 	public static var VERSION:String;
 	public static var VERSION_TRACKER:VersionTracker;
 	public static var LOCATION:Location;
 	public static var DEBUG:Bool;
 	public static inline var DEBUG_LEVEL = 0;
-	//public static var COOKIE: FlxSave;
 	
 	public static var LANGS:Array<String> = ["fr-FR", "de-DE", "it-IT", "en-GB"];
-	//public static var LANGS = ["fr-FR", "de-DE"];
 	public static inline var LAST_STEP:Class<Process> = End;
 	public static inline var START_STEP:Class<Process>  = Intro;
 	public static inline var INTRO_PIC:String = "intro/favicon.png";
@@ -72,13 +73,14 @@ class Main extends MainApp
 				
 		});
 		//trace("LOADED !");
-		LIB_FOLDER = "../trouble/";
-		LIB_FOLDER_LOGIN = "/commonlibs/";
+		//LIB_FOLDER = "../trouble/";
+		LIB_FOLDER = MainApp.LIB_FOLDER;
+		//LIB_FOLDER_LOGIN = "commonlibs/";
 		tongue = MainApp.translator;
 		//COOKIE = MainApp.save;
 		HISTORY = MainApp.stack;
 		LOCATION = MainApp.location;
-		track =  MainApp.xapiTracker;
+		trackH =  MainApp.xapiHelper;
 		DEBUG = MainApp.debug;
 		VERSION_TRACKER = MainApp.versionTracker;
 		customer = MainApp.cust;
@@ -99,14 +101,19 @@ class Main extends MainApp
 		var tuto:Process = new Tuto();
 		setUpSystemDefault(true);
 		//trace("Main::MOVE_ON::MOVE_ON");
-		#if !debug
-		Main.track.setActor();
-		#end
+		//#if !debug
+		//Main.track.setActor();
+		//#else
+		//if(Main.DEBUG) Main.track.setActor();
+		//#end
+		trackH.setActor(new xapi.Agent(MainApp.agent.iri, MainApp.agent.sAMAccountName));
 		#if debug
 			/**
 			 * USe this  to debug a slide
 			 */
 			next = new Intro();
+			//next = new WasLimitsChanged();
+			//tuto = new WasLimitsChanged();
 		#else
 			next = Type.createInstance(Main.START_STEP,[]);
 		#end

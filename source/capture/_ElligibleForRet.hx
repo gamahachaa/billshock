@@ -58,7 +58,8 @@ class _ElligibleForRet extends ActionRadios
 			#if debug
 			trace("capture._ElligibleForRet::onClick::zone", zone );
 			#end
-			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET) {
+			/*var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET)
+			{
 				if (zone == _HowMadeHugeAmount.CH)
 				{
 					AlternativeCompensation;
@@ -75,7 +76,19 @@ class _ElligibleForRet extends ActionRadios
 				else{
 					_SelectPP;
 				}
+			}*/
+			
+			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET && status.get(SUB_TYPE) == DEVICE) 
+			{
+				if (zone == _HowMadeHugeAmount.CH)
+				{
+					AlternativeCompensation;
+				}
+				else{
+					ActivateInternetEurope;
+				}
 			}
+			else _SelectPP;
 			
 			this._nexts = [{step: next}];
 			//this._nextProcesses = [next];

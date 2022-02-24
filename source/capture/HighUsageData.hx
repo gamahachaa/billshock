@@ -1,6 +1,10 @@
 package capture;
 
+import decide._InformAboutNewLaw;
 import ticket.TicketMobileFiveOneOne;
+import ticket.TicketMobileFiveOneOneRefuse;
+import xapi.Verb;
+//import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
 import tstool.process.DescisionMultipleInput;
 import tstool.process.Process;
@@ -43,7 +47,7 @@ class HighUsageData extends DescisionMultipleInput
 					buddy:BA,
 					position: [bottom, left],
 					mustValidate : [Yes, No],
-					debug:"12345678912345 12345678912345"
+					debug:"12345678912345"
 				}
 			},
 			{
@@ -55,7 +59,7 @@ class HighUsageData extends DescisionMultipleInput
 					buddy:INVOICE,
 					position: [bottom, left],
 					mustValidate : [Yes, No],
-					debug:"999 + 500"
+					debug:"150"
 				}
 			}
 		]
@@ -92,9 +96,27 @@ class HighUsageData extends DescisionMultipleInput
 		//this._nextNoProcesses = [new TicketMobileFiveOneOne()];
 		if (validateNo())
 		{
+			//Main.track.sendInitial("non-data");
+			prepareTacking();
 			this._nexts = [{step: TicketMobileFiveOneOne}];
+			// NOT REFUSE
 			super.onNoClick();
 		}
+	}
+	
+	function prepareTacking() 
+	{
+		//Main.track.initKeepActor();
+		Main.trackH.setVerb(Verb.initialized);
+		Main.trackH.setStatementRefs(null);
+		//Main.track.setVerb("initialized");
+		//Main.track.setStatementRef(null);
+		var extensions:Map<String,Dynamic> = [];
+		extensions.set("https://customercare.salt.ch/admin/contracts/customer/", Main.customer.iri);
+		//Main.track.setCustomer(true);
+		Main.trackH.setActivityObject( "non-data",null,null,"http://activitystrea.ms/schema/1.0/process",extensions );
+        Main.trackH.send();
+		Main.trackH.setVerb(Verb.resolved);
 	}
 	override public function validate(interaction:Interactions):Bool
 	{
@@ -102,6 +124,9 @@ class HighUsageData extends DescisionMultipleInput
 		var invoices = this.multipleInputs.inputs.get(INVOICE).getInputedText();
 		var numAmounts = rSeparator.split(StringTools.trim(amounts)).length;
 		var numInvoices = rSeparator.split(StringTools.trim(invoices)).length;
+		
+		
+		
 		if (numAmounts == numInvoices)
 		{
 			Main.customer.contract.balance = new Balance("", numAmounts>1 ? Std.string(compute(amounts)): amounts);
@@ -121,11 +146,11 @@ class HighUsageData extends DescisionMultipleInput
 	{
 		return true;
 	}
-	*/
+	*
 	inline function test(s1:String, s2:String)
 	{
 		return rSeparator.split(StringTools.trim(s1)).length == rSeparator.split(StringTools.trim(s2)).length;
-	}
+	} */
 	
 	
 	inline function compute(s:String)
@@ -141,4 +166,14 @@ class HighUsageData extends DescisionMultipleInput
 		}
 		return sum;
 	}
+	/*function prepareXapi(activity:String)
+	{
+		Main.track.initKeepActor();
+		Main.track.setVerb("initialized");
+		Main.track.setStatementRef(null);
+		Main.track.setCustomer(true);
+		Main.track.setActivity( activity);
+        Main.track.send();
+		Main.track.setVerb("resolved");
+	}*/
 }

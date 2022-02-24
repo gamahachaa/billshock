@@ -165,11 +165,11 @@ class PPmap
 			"ab" =>
 			[
 				START_PP => [
-					"5"=> [NEW_PLAN =>'Smart Swiss', SPECIAL_RC=> "29.95", STANDARD_RC=>"59.95"],
-					"9"=> [NEW_PLAN =>'Smart Swiss', SPECIAL_RC=> "29.95", STANDARD_RC=>"59.95"],
-					"14"=> [NEW_PLAN =>'Smart Swiss', SPECIAL_RC=>"29.95", STANDARD_RC=>"59.95"],
-					"19"=> [NEW_PLAN =>'Smart Swiss', SPECIAL_RC=>"29.95", STANDARD_RC=>"59.95"],
-					"24"=> [NEW_PLAN =>'Smart Swiss', SPECIAL_RC=>"29.95", STANDARD_RC=>"59.95"],
+					"5"=> [NEW_PLAN =>'Swiss', SPECIAL_RC=> "29.95", STANDARD_RC=>"59.95"],
+					"9"=> [NEW_PLAN =>'Swiss', SPECIAL_RC=> "29.95", STANDARD_RC=>"59.95"],
+					"14"=> [NEW_PLAN =>'Swiss', SPECIAL_RC=>"29.95", STANDARD_RC=>"59.95"],
+					"19"=> [NEW_PLAN =>'Swiss', SPECIAL_RC=>"29.95", STANDARD_RC=>"59.95"],
+					"24"=> [NEW_PLAN =>'Swiss', SPECIAL_RC=>"29.95", STANDARD_RC=>"59.95"],
 					"29"=> [NEW_PLAN =>'Swiss', SPECIAL_RC=>"39.95", STANDARD_RC=>"59.95"]
 				],
 				BASIC_PP => [
