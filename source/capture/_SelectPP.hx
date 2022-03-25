@@ -1,8 +1,9 @@
 package capture;
 
+import tstool.MainApp;
 import tstool.layout.History.Snapshot;
 import tstool.process.ActionRadios;
-using tstool.utils.StringUtils;
+using string.StringUtils;
 
 /**
  * ...
@@ -27,12 +28,12 @@ class _SelectPP extends ActionRadios
 			{
 				title: PRICE_PLAN,
 				values:  [for (k in ppMap.get(where).keys()) k],
-				titleTranslation: translate("capture._SelectPP",PRICE_PLAN,"headers")// do not use hasTranslation because of dynamic values
+				titleTranslation: MainApp.translator.translate("capture._SelectPP",PRICE_PLAN,"headers")// do not use hasTranslation because of dynamic values
 			},
 			{
 				title: RC,
 				values: [],
-				titleTranslation: translate("capture._SelectPP",RC,"headers")
+				titleTranslation: MainApp.translator.translate("capture._SelectPP",RC,"headers")
 			}
 		]
 		);

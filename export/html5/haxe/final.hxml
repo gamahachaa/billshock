@@ -33,6 +33,7 @@
 -cp C:/HaxeToolkit/haxe/lib/uglifyjs/1,0,0/src
 -D uglifyjs=1.0.0
 -cp source
+-cp ../_myPackages/utils
 -D tools=7.9.0
 -D lime-canvas
 -D FLX_NO_DEBUG

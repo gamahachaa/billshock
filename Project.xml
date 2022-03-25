@@ -30,6 +30,7 @@
 	
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
+	<classpath name="../_myPackages/utils" />
 	<assets path="assets" />
 	
 	<!-- _______________________________ Libraries ______________________________ -->

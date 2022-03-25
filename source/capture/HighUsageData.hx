@@ -1,6 +1,7 @@
 package capture;
 
 import decide._InformAboutNewLaw;
+import js.Browser;
 import ticket.TicketMobileFiveOneOne;
 import ticket.TicketMobileFiveOneOneRefuse;
 import xapi.Verb;
@@ -113,6 +114,7 @@ class HighUsageData extends DescisionMultipleInput
 		//Main.track.setStatementRef(null);
 		var extensions:Map<String,Dynamic> = [];
 		extensions.set("https://customercare.salt.ch/admin/contracts/customer/", Main.customer.iri);
+		extensions.set(Browser.location.origin +"/troubleshooting/script_version/", Main.VERSION);
 		//Main.track.setCustomer(true);
 		Main.trackH.setActivityObject( "non-data",null,null,"http://activitystrea.ms/schema/1.0/process",extensions );
         Main.trackH.send();
