@@ -32,7 +32,7 @@ class ApplicationMain
 
 		ManifestResources.init(config);
 
-		app.meta["build"] = "20";
+		app.meta["build"] = "21";
 		app.meta["company"] = "";
 		app.meta["file"] = "billshock";
 		app.meta["name"] = "billshock";

@@ -22,7 +22,7 @@ class Intro extends Action
 		Process.INIT();
 		super.create();
 		//#if !debug
-		Main.VERSION_TRACKER.scriptChangedSignal.add(onNewVersion);
+		Main.VERSION_TRACKER.scriptChangedSignal.addOnce(onNewVersion);
 		Main.VERSION_TRACKER.request();
 		#if debug
 		if (Main.DEBUG){
@@ -49,6 +49,7 @@ class Intro extends Action
 		}
 		else{
 			closeSubState();
+			MainApp.VERSION_TIMER_value = MainApp.VERSION_TIMER_DURATION;
 		}
 		//closeSubState();
 		#if debug

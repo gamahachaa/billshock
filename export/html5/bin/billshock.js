@@ -803,7 +803,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "20";
+	app.meta.h["build"] = "21";
 	app.meta.h["company"] = "";
 	app.meta.h["file"] = "billshock";
 	app.meta.h["name"] = "billshock";
@@ -2664,8 +2664,37 @@ openfl_display_Sprite.prototype = $extend(openfl_display_DisplayObjectContainer.
 	,__class__: openfl_display_Sprite
 	,__properties__: $extend(openfl_display_DisplayObjectContainer.prototype.__properties__,{get_graphics:"get_graphics",get_buttonMode:"get_buttonMode"})
 });
+var haxe_Timer = function(time_ms) {
+	var me = this;
+	this.id = setInterval(function() {
+		me.run();
+	},time_ms);
+};
+$hxClasses["haxe.Timer"] = haxe_Timer;
+haxe_Timer.__name__ = "haxe.Timer";
+haxe_Timer.delay = function(f,time_ms) {
+	var t = new haxe_Timer(time_ms);
+	t.run = function() {
+		t.stop();
+		f();
+	};
+	return t;
+};
+haxe_Timer.prototype = {
+	stop: function() {
+		if(this.id == null) {
+			return;
+		}
+		clearInterval(this.id);
+		this.id = null;
+	}
+	,run: function() {
+	}
+	,__class__: haxe_Timer
+};
 var tstool_MainApp = function(cfg) {
 	openfl_display_Sprite.call(this);
+	tstool_MainApp.idleTimer.run = tstool_MainApp.onTimer;
 	tstool_MainApp.location = $global.location;
 	tstool_MainApp.debug = tstool_MainApp.location.origin.indexOf("qook.test.salt.ch") > -1;
 	flixel_system_FlxAssets.FONT_DEFAULT = "Consolas";
@@ -2678,14 +2707,29 @@ var tstool_MainApp = function(cfg) {
 		tstool_MainApp.agent = null;
 	}
 	tstool_MainApp.translator = new tstool_utils_Translator();
-	tstool_MainApp.xapiHelper = new tstool_utils_XapiHelper(tstool_MainApp.location.origin + tstool_MainApp.config.libFolder);
+	tstool_MainApp.xapiHelper = new tstool_utils_XapiTracker(tstool_MainApp.location.origin + tstool_MainApp.config.libFolder);
 	tstool_MainApp.versionTracker = new tstool_utils_VersionTracker(tstool_MainApp.location.origin + tstool_MainApp.config.libFolder,tstool_MainApp.config.scriptName);
 	tstool_MainApp.cust = new tstool_salt_Customer();
 	tstool_MainApp.translator.initialize("fr-FR",function() {
-	},{ fileName : "tstool/MainApp.hx", lineNumber : 112, className : "tstool.MainApp", methodName : "new"});
+	},{ fileName : "tstool/MainApp.hx", lineNumber : 121, className : "tstool.MainApp", methodName : "new"});
 };
 $hxClasses["tstool.MainApp"] = tstool_MainApp;
 tstool_MainApp.__name__ = "tstool.MainApp";
+tstool_MainApp.onTimer = function() {
+	if(tstool_MainApp.VERSION_TIMER_value < 0) {
+		Main.VERSION_TRACKER.get_scriptChangedSignal().addOnce(tstool_MainApp.onNewVersion);
+		Main.VERSION_TRACKER.request();
+	} else {
+		tstool_MainApp.VERSION_TIMER_value--;
+	}
+};
+tstool_MainApp.onNewVersion = function(needsUpdate) {
+	if(needsUpdate) {
+		$global.location.reload(true);
+	} else {
+		tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
+	}
+};
 tstool_MainApp.flush = function() {
 	tstool_MainApp.s = new haxe_Serializer();
 	tstool_MainApp.agent.set_mainLanguage(tstool_MainApp.FIND_LANG(tstool_MainApp.agent.get_mainLanguage()));
@@ -3459,15 +3503,26 @@ tstool_process_Process.prototype = $extend(flixel_FlxState.prototype,{
 		if(slowClasses.indexOf(c.__super__) > -1) {
 			this.openSubState(new tstool_layout_PageLoader());
 		}
-		var nextState = Type.createInstance(this._nexts[index].step,this._nexts[index].params);
-		if(flixel_FlxG.game._state.switchTo(nextState)) {
-			flixel_FlxG.game._requestedState = nextState;
+		try {
+			var nextState = Type.createInstance(this._nexts[index].step,this._nexts[index].params);
+			if(flixel_FlxG.game._state.switchTo(nextState)) {
+				flixel_FlxG.game._requestedState = nextState;
+			}
+		} catch( _g ) {
+			var e = haxe_Exception.caught(_g);
+			haxe_Log.trace(e.get_message(),{ fileName : "tstool/process/Process.hx", lineNumber : 470, className : "tstool.process.Process", methodName : "moveToNextClassProcess"});
+			haxe_Log.trace($bind(e,e.details),{ fileName : "tstool/process/Process.hx", lineNumber : 471, className : "tstool.process.Process", methodName : "moveToNextClassProcess"});
+			var tmp = e.get_stack();
+			haxe_Log.trace(tmp == null ? "null" : haxe_CallStack.toString(tmp),{ fileName : "tstool/process/Process.hx", lineNumber : 472, className : "tstool.process.Process", methodName : "moveToNextClassProcess"});
 		}
 	}
 	,update: function(elapsed) {
 		flixel_FlxState.prototype.update.call(this,elapsed);
 		if(this.commentDebounce != 0) {
 			this.commentDebounce--;
+		}
+		if(flixel_FlxG.mouse._leftButton.current == -1) {
+			tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
 		}
 	}
 	,destroy: function() {
@@ -3676,7 +3731,7 @@ Intro.prototype = $extend(tstool_process_Action.prototype,{
 	create: function() {
 		tstool_process_Process.INIT();
 		tstool_process_Action.prototype.create.call(this);
-		Main.VERSION_TRACKER.get_scriptChangedSignal().add($bind(this,this.onNewVersion));
+		Main.VERSION_TRACKER.get_scriptChangedSignal().addOnce($bind(this,this.onNewVersion));
 		Main.VERSION_TRACKER.request();
 		this.openSubState(new tstool_process_CheckUpdateSub(tstool_layout_UI.THEME.bg));
 	}
@@ -3685,6 +3740,7 @@ Intro.prototype = $extend(tstool_process_Action.prototype,{
 			$global.location.reload(true);
 		} else {
 			this.closeSubState();
+			tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
 		}
 	}
 	,onClick: function() {
@@ -3701,6 +3757,7 @@ var Main = function() {
 	Main.LOCATION = tstool_MainApp.location;
 	Main.trackH = tstool_MainApp.xapiHelper;
 	Main.DEBUG = tstool_MainApp.debug;
+	Main._mainDebug = tstool_MainApp.debug;
 	Main.VERSION_TRACKER = tstool_MainApp.versionTracker;
 	Main.customer = tstool_MainApp.cust;
 	this.addChild(new flixel_FlxGame(1400,880,tstool_layout_Login,1,30,30,true,true));
@@ -3729,7 +3786,7 @@ Main.MOVE_ON = function(old) {
 		if(flixel_FlxG.game._state.switchTo(nextState)) {
 			flixel_FlxG.game._requestedState = nextState;
 		}
-	},{ fileName : "source/Main.hx", lineNumber : 120, className : "Main", methodName : "MOVE_ON"});
+	},{ fileName : "source/Main.hx", lineNumber : 122, className : "Main", methodName : "MOVE_ON"});
 };
 Main.__super__ = tstool_MainApp;
 Main.prototype = $extend(tstool_MainApp.prototype,{
@@ -41797,34 +41854,6 @@ haxe_Serializer.prototype = {
 	}
 	,__class__: haxe_Serializer
 };
-var haxe_Timer = function(time_ms) {
-	var me = this;
-	this.id = setInterval(function() {
-		me.run();
-	},time_ms);
-};
-$hxClasses["haxe.Timer"] = haxe_Timer;
-haxe_Timer.__name__ = "haxe.Timer";
-haxe_Timer.delay = function(f,time_ms) {
-	var t = new haxe_Timer(time_ms);
-	t.run = function() {
-		t.stop();
-		f();
-	};
-	return t;
-};
-haxe_Timer.prototype = {
-	stop: function() {
-		if(this.id == null) {
-			return;
-		}
-		clearInterval(this.id);
-		this.id = null;
-	}
-	,run: function() {
-	}
-	,__class__: haxe_Timer
-};
 var haxe__$Unserializer_DefaultResolver = function() {
 };
 $hxClasses["haxe._Unserializer.DefaultResolver"] = haxe__$Unserializer_DefaultResolver;
@@ -44859,6 +44888,52 @@ haxe_zip_Reader.prototype = {
 	}
 	,__class__: haxe_zip_Reader
 };
+var http_XapiHelper = function(url) {
+	haxe_http_HttpJs.call(this,url);
+	this.async = true;
+	haxe_Serializer.USE_CACHE = true;
+	haxe_Serializer.USE_ENUM_INDEX = true;
+	this.statementsRefs = [];
+	this.dispatcher = new signals_Signal1();
+	this.onData = $bind(this,this.onMyData);
+};
+$hxClasses["http.XapiHelper"] = http_XapiHelper;
+http_XapiHelper.__name__ = "http.XapiHelper";
+http_XapiHelper.__super__ = haxe_http_HttpJs;
+http_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
+	setStatementRefs: function(statementRef) {
+		this.statementsRefs = [statementRef];
+	}
+	,sendMany: function(stmts) {
+		try {
+			this.setParameter("statements",haxe_Serializer.run(stmts));
+			this.request(true);
+		} catch( _g ) {
+		}
+	}
+	,onMyData: function(data) {
+		try {
+			var d = new haxe_format_JsonParser(data).doParse();
+			if(d.status == "success") {
+				var stmtIDS = js_Boot.__cast(d.statementsIds , Array);
+				var _g = 0;
+				while(_g < stmtIDS.length) {
+					var i = stmtIDS[_g];
+					++_g;
+					this.statementsRefs.push(new xapi_types_StatementRef(i));
+				}
+				this.dispatcher.dispatch(true);
+			} else {
+				this.dispatcher.dispatch(false);
+			}
+		} catch( _g ) {
+			var e = haxe_Exception.caught(_g);
+			haxe_Log.trace(e,{ fileName : "http/XapiHelper.hx", lineNumber : 166, className : "http.XapiHelper", methodName : "onMyData"});
+			this.dispatcher.dispatch(false);
+		}
+	}
+	,__class__: http_XapiHelper
+});
 var js_Browser = function() { };
 $hxClasses["js.Browser"] = js_Browser;
 js_Browser.__name__ = "js.Browser";
@@ -51218,7 +51293,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 890872;
+	this.version = 563705;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -81251,14 +81326,182 @@ signals_Signal1.prototype = $extend(signals_BaseSignal.prototype,{
 	}
 	,__class__: signals_Signal1
 });
+var thx_DateTime = {};
+thx_DateTime.localOffset = function() {
+	var now = thx_DateTimeUtc.now();
+	var local = new Date(thx_DateTimeUtc.getDatePart(now,thx_DateTimeUtc.DATE_PART_YEAR),thx_DateTimeUtc.getDatePart(now,thx_DateTimeUtc.DATE_PART_MONTH) - 1,thx_DateTimeUtc.getDatePart(now,thx_DateTimeUtc.DATE_PART_DAY),thx_DateTimeUtc.get_hour(now),thx_DateTimeUtc.get_minute(now),thx_DateTimeUtc.get_second(now));
+	var a = now;
+	var b = thx_DateTimeUtc.unixEpochTicks;
+	var high = a.high - b.high | 0;
+	var low = a.low - b.low | 0;
+	if(haxe_Int32.ucompare(a.low,b.low) < 0) {
+		var ret = high--;
+		high = high | 0;
+	}
+	var this1 = new haxe__$Int64__$_$_$Int64(high,low);
+	var delta = Math.floor(thx_Int64s.toFloat(haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerMillisecondI64).quotient) / 1000) * 1000 - local.getTime();
+	var a = thx_Int64s.fromFloat(delta);
+	var b = thx_DateTimeUtc.ticksPerMillisecondI64;
+	var mask = 65535;
+	var al = a.low & mask;
+	var ah = a.low >>> 16;
+	var bl = b.low & mask;
+	var bh = b.low >>> 16;
+	var p00 = haxe_Int32._mul(al,bl);
+	var p10 = haxe_Int32._mul(ah,bl);
+	var p01 = haxe_Int32._mul(al,bh);
+	var p11 = haxe_Int32._mul(ah,bh);
+	var low = p00;
+	var high = (p11 + (p01 >>> 16) | 0) + (p10 >>> 16) | 0;
+	p01 <<= 16;
+	low = low + p01 | 0;
+	if(haxe_Int32.ucompare(low,p01) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	p10 <<= 16;
+	low = low + p10 | 0;
+	if(haxe_Int32.ucompare(low,p10) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	high = high + (haxe_Int32._mul(a.low,b.high) + haxe_Int32._mul(a.high,b.low) | 0) | 0;
+	var this1 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this2 = this1;
+	return this2;
+};
+thx_DateTime.toString = function(this1) {
+	if(null == this1) {
+		return "";
+	}
+	var this2 = this1[0];
+	var this3 = thx_Int64s.abs(this2);
+	var this2 = this1[1];
+	var abs_0 = this3;
+	var abs_1 = this2;
+	var decimals;
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	if(thx_DateTimeUtc.get_tickInSecond(this3) != 0) {
+		var this2 = abs_0;
+		var a = this2;
+		var this2 = abs_1;
+		var b = this2;
+		var high = a.high + b.high | 0;
+		var low = a.low + b.low | 0;
+		if(haxe_Int32.ucompare(low,a.low) < 0) {
+			var ret = high++;
+			high = high | 0;
+		}
+		var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+		var this3 = this2;
+		decimals = "." + thx_Strings.trimCharsRight(thx_Ints.lpad(thx_DateTimeUtc.get_tickInSecond(this3),"0",7),")");
+	} else {
+		decimals = "";
+	}
+	var this2 = this1[0];
+	var a = this2;
+	var b = thx_Int64s.zero;
+	var v = a.high - b.high | 0;
+	if(v == 0) {
+		v = haxe_Int32.ucompare(a.low,b.low);
+	}
+	var isneg = (a.high < 0 ? b.high < 0 ? v : -1 : b.high >= 0 ? v : 1) < 0;
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp = "" + thx_DateTimeUtc.getDatePart(this3,thx_DateTimeUtc.DATE_PART_YEAR) + "-";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp1 = tmp + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(this3,thx_DateTimeUtc.DATE_PART_MONTH),"0",2) + "-";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp = tmp1 + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(this3,thx_DateTimeUtc.DATE_PART_DAY),"0",2) + "T";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp1 = tmp + thx_Ints.lpad(thx_DateTimeUtc.get_hour(this3),"0",2) + ":";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp = tmp1 + thx_Ints.lpad(thx_DateTimeUtc.get_minute(this3),"0",2) + ":";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp1 = tmp + thx_Ints.lpad(thx_DateTimeUtc.get_second(this3),"0",2) + decimals;
+	var this2 = this1[1];
+	return (isneg ? "-" : "") + (tmp1 + thx_Time.toGmtString(this2));
+};
 var thx_DateTimeUtc = {};
 thx_DateTimeUtc.__properties__ = {get_tickInSecond:"get_tickInSecond",get_second:"get_second",get_minute:"get_minute",get_hour:"get_hour"};
 thx_DateTimeUtc.now = function() {
 	return thx_DateTimeUtc.fromDate(new Date());
-};
-thx_DateTimeUtc.fromInt64 = function(ticks) {
-	var this1 = ticks;
-	return this1;
 };
 thx_DateTimeUtc.fromDate = function(date) {
 	return thx_DateTimeUtc.fromTime(date.getTime());
@@ -81337,21 +81580,6 @@ thx_DateTimeUtc.getDatePart = function(this1,part) {
 		return m;
 	}
 	return n - days[m - 1] + 1;
-};
-thx_DateTimeUtc.toString = function(this1) {
-	if(null == this1) {
-		return "";
-	}
-	var abs = thx_DateTimeUtc.fromInt64(thx_Int64s.abs(this1));
-	var decimals = thx_DateTimeUtc.get_tickInSecond(abs) != 0 ? "." + thx_Strings.trimCharsRight(thx_Ints.lpad(thx_DateTimeUtc.get_tickInSecond(abs),"0",7),")") : "";
-	var a = this1;
-	var b = thx_Int64s.zero;
-	var v = a.high - b.high | 0;
-	if(v == 0) {
-		v = haxe_Int32.ucompare(a.low,b.low);
-	}
-	var isneg = (a.high < 0 ? b.high < 0 ? v : -1 : b.high >= 0 ? v : 1) < 0;
-	return (isneg ? "-" : "") + ("" + thx_DateTimeUtc.getDatePart(abs,thx_DateTimeUtc.DATE_PART_YEAR) + "-" + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(abs,thx_DateTimeUtc.DATE_PART_MONTH),"0",2) + "-" + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(abs,thx_DateTimeUtc.DATE_PART_DAY),"0",2) + "T" + thx_Ints.lpad(thx_DateTimeUtc.get_hour(abs),"0",2) + ":" + thx_Ints.lpad(thx_DateTimeUtc.get_minute(abs),"0",2) + ":" + thx_Ints.lpad(thx_DateTimeUtc.get_second(abs),"0",2) + decimals + "Z");
 };
 thx_DateTimeUtc.get_hour = function(this1) {
 	var a = haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerHourI64).quotient;
@@ -81460,16 +81688,71 @@ thx_Int64s.compare = function(a,b) {
 		return 1;
 	}
 };
+thx_Int64s.toFloat = function(i) {
+	var isNegative = false;
+	var b_high = 0;
+	var b_low = 0;
+	var v = i.high - b_high | 0;
+	if(v == 0) {
+		v = haxe_Int32.ucompare(i.low,b_low);
+	}
+	if((i.high < 0 ? b_high < 0 ? v : -1 : b_high >= 0 ? v : 1) < 0) {
+		var b = thx_Int64s.min;
+		var v = i.high - b.high | 0;
+		if(v == 0) {
+			v = haxe_Int32.ucompare(i.low,b.low);
+		}
+		if((i.high < 0 ? b.high < 0 ? v : -1 : b.high >= 0 ? v : 1) < 0) {
+			return -9223372036854775808.0;
+		}
+		isNegative = true;
+		var high = ~i.high;
+		var low = ~i.low + 1 | 0;
+		if(low == 0) {
+			var ret = high++;
+			high = high | 0;
+		}
+		var this1 = new haxe__$Int64__$_$_$Int64(high,low);
+		i = this1;
+	}
+	var multiplier = 1.0;
+	var ret = 0.0;
+	var _g = 0;
+	while(_g < 64) {
+		var _ = _g++;
+		var b = thx_Int64s.one;
+		var a_high = i.high & b.high;
+		var a_low = i.low & b.low;
+		var b1 = thx_Int64s.zero;
+		if(a_high != b1.high || a_low != b1.low) {
+			ret += multiplier;
+		}
+		multiplier *= 2.0;
+		var b2 = 1;
+		b2 &= 63;
+		if(b2 == 0) {
+			var this1 = new haxe__$Int64__$_$_$Int64(i.high,i.low);
+			i = this1;
+		} else if(b2 < 32) {
+			var this2 = new haxe__$Int64__$_$_$Int64(i.high >> b2,i.high << 32 - b2 | i.low >>> b2);
+			i = this2;
+		} else {
+			var this3 = new haxe__$Int64__$_$_$Int64(i.high >> 31,i.high >> b2 - 32);
+			i = this3;
+		}
+	}
+	return (isNegative ? -1 : 1) * ret;
+};
 thx_Int64s.fromFloat = function(f) {
 	if(isNaN(f) || !isFinite(f)) {
-		throw new thx_Error("Conversion to Int64 failed. Number is NaN or Infinite",null,{ fileName : "thx/Int64s.hx", lineNumber : 153, className : "thx.Int64s", methodName : "fromFloat"});
+		throw new thx_Error("Conversion to Int64 failed. Number is NaN or Infinite",null,{ fileName : "thx/Int64s.hx", lineNumber : 162, className : "thx.Int64s", methodName : "fromFloat"});
 	}
 	var noFractions = f - f % 1;
 	if(noFractions > 9007199254740991.0) {
-		throw new thx_Error("Conversion to Int64 failed. Conversion overflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 159, className : "thx.Int64s", methodName : "fromFloat"});
+		throw new thx_Error("Conversion to Int64 failed. Conversion overflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 168, className : "thx.Int64s", methodName : "fromFloat"});
 	}
 	if(noFractions < -9007199254740991.0) {
-		throw new thx_Error("Conversion to Int64 failed. Conversion underflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 161, className : "thx.Int64s", methodName : "fromFloat"});
+		throw new thx_Error("Conversion to Int64 failed. Conversion underflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 170, className : "thx.Int64s", methodName : "fromFloat"});
 	}
 	var result = thx_Int64s.zero;
 	var neg = noFractions < 0.0;
@@ -81553,6 +81836,31 @@ thx_Strings.trimCharsRight = function(value,charlist) {
 	}
 	return value.substring(0,pos);
 };
+var thx_Time = {};
+thx_Time.toGmtString = function(this1) {
+	var x = haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerHourI64).quotient;
+	if(x.high != x.low >> 31) {
+		throw haxe_Exception.thrown("Overflow");
+	}
+	var h = thx_Ints.lpad(x.low,"0",2);
+	var a = this1;
+	var b_high = 0;
+	var b_low = 0;
+	var v = a.high - b_high | 0;
+	if(v == 0) {
+		v = haxe_Int32.ucompare(a.low,b_low);
+	}
+	if((a.high < 0 ? b_high < 0 ? v : -1 : b_high >= 0 ? v : 1) >= 0) {
+		h = "+" + h;
+	}
+	var a = haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerMinuteI64).quotient;
+	var this1 = new haxe__$Int64__$_$_$Int64(0,60);
+	var x = haxe_Int64.divMod(a,this1).modulus;
+	if(x.high != x.low >> 31) {
+		throw haxe_Exception.thrown("Overflow");
+	}
+	return "" + h + ":" + thx_Ints.lpad(x.low,"0",2);
+};
 var tstool_process_ActionMemo = function() {
 	tstool_process_Action.call(this);
 };
@@ -81562,9 +81870,8 @@ tstool_process_ActionMemo.__super__ = tstool_process_Action;
 tstool_process_ActionMemo.prototype = $extend(tstool_process_Action.prototype,{
 	create: function() {
 		this.memoTxt = "";
-		this.memoDefault = "FUCK";
 		this.memoDefault = tstool_MainApp.translator.translate(this.get__name(),"describeIssue","UI1","meta");
-		this.memoTxtArea = new tstool_layout_BIGUIInputTfCore(750,50,this.memoDefault,[tstool_layout_Direction.bottom,tstool_layout_Direction.left]);
+		this.memoTxtArea = new tstool_layout_BIGUIInputTfCore(750,250,this.memoDefault,[tstool_layout_Direction.bottom,tstool_layout_Direction.left]);
 		this.defaultMemo = "";
 		tstool_process_Action.prototype.create.call(this);
 		this.memoTxtArea.get_inputtextfield().set_text(this.defaultMemo);
@@ -81583,8 +81890,8 @@ tstool_process_ActionMemo.prototype = $extend(tstool_process_Action.prototype,{
 	,positionThis: function(offSet) {
 		tstool_process_Action.prototype.positionThis.call(this);
 		var p = this.memoTxtArea.positionMe(this.get_question().get_boundingRect(),0);
-		this.positionBottom(p);
 		this.positionButtons(p);
+		this.positionBottom(new flixel_math_FlxPoint(this.memoTxtArea.get_boundingRect().x,this.memoTxtArea.get_y() + this.memoTxtArea.get_height()));
 	}
 	,onClick: function() {
 		if(this.validate()) {
@@ -81605,16 +81912,16 @@ tstool_process_ActionMemo.prototype = $extend(tstool_process_Action.prototype,{
 	,listener: function(s) {
 		switch(s) {
 		case "de-DE":
-			this.switchLang("de-DE",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 95, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("de-DE",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 97, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "en-GB":
-			this.switchLang("en-GB",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 93, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("en-GB",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 95, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "fr-FR":
-			this.switchLang("fr-FR",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 96, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("fr-FR",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 98, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "it-IT":
-			this.switchLang("it-IT",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 94, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("it-IT",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 96, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "onBack":
 			this.onBack();
@@ -82098,7 +82405,6 @@ tstool_layout_History.prototype = {
 		var tmp = this.get_history();
 		var c = process.step;
 		tmp.push({ processName : c.__name__, interaction : interaction, processTitle : tstool_layout_History.stripTags(title), iteractionTitle : iteractionTitle, values : values, start : new Date(), step : process});
-		haxe_Log.trace(this.get_history(),{ fileName : "tstool/layout/History.hx", lineNumber : 86, className : "tstool.layout.History", methodName : "add"});
 	}
 	,init: function() {
 		this.history = [];
@@ -82213,9 +82519,9 @@ tstool_layout_History.prototype = {
 		b += "<ol>" + this.listSteps(steps) + "</ol>";
 		if(translate && needsEnTranslation) {
 			b += "<h4>English:</h4>";
-			tstool_MainApp.translator.initialize("en-GB",null,{ fileName : "tstool/layout/History.hx", lineNumber : 336, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
+			tstool_MainApp.translator.initialize("en-GB",null,{ fileName : "tstool/layout/History.hx", lineNumber : 339, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
 			b += "<ol>" + this.listSteps(steps) + "</ol>";
-			tstool_MainApp.translator.initialize(lang,null,{ fileName : "tstool/layout/History.hx", lineNumber : 341, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
+			tstool_MainApp.translator.initialize(lang,null,{ fileName : "tstool/layout/History.hx", lineNumber : 344, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
 		}
 		return b;
 	}
@@ -82282,7 +82588,7 @@ tstool_layout_History.prototype = {
 		var t = [];
 		var question = "";
 		var choice = "";
-		tstool_MainApp.translator.initialize(toLangPair,null,{ fileName : "tstool/layout/History.hx", lineNumber : 410, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
+		tstool_MainApp.translator.initialize(toLangPair,null,{ fileName : "tstool/layout/History.hx", lineNumber : 413, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
 		var _g = 0;
 		var _g1 = this.get_history();
 		while(_g < _g1.length) {
@@ -82328,7 +82634,7 @@ tstool_layout_History.prototype = {
 			choice = choice4;
 			t.push({ step : question, interaction : choice, values : i.values == null ? "" : haxe_ds_StringMap.stringify(i.values.h)});
 		}
-		tstool_MainApp.translator.initialize(tstool_MainApp.agent.get_mainLanguage(),null,{ fileName : "tstool/layout/History.hx", lineNumber : 420, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
+		tstool_MainApp.translator.initialize(tstool_MainApp.agent.get_mainLanguage(),null,{ fileName : "tstool/layout/History.hx", lineNumber : 423, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
 		return t;
 	}
 	,prepareListHistory: function(forClipBoard) {
@@ -84766,8 +85072,8 @@ tstool_utils_SwiftMailWrapper.prototype = $extend(haxe_http_HttpJs.prototype,{
 	,setCommonStyle: function() {
 		var b = "<style type=\"text/css\">";
 		b += "table {border-collapse: collapse;}";
-		b += "@font-face {font-family: \"Superior\"; src: url(\"http://intranet.salt.ch/static/fonts/superior/SuperiorTitle-Black.woff\") format(\"woff\"); font-weight: normal;}";
-		b += "@font-face {font-family: \"Univers\"; src: url(\"http://intranet.salt.ch/static/fonts/univers/ecf89914-1896-43f6-a0a0-fe733d1db6e7.woff\") format(\"woff\"); font-weight: normal;}";
+		b += "@font-face {font-family: \"Superior\"; src: url(\"https://fiber.salt.ch/themes/custom/salt_details_base/salt-common-style/assets/fonts/SuperiorTitleBlack.woff2\") format(\"woff\"); font-weight: normal;}";
+		b += "@font-face {font-family: \"Univers\"; src: url(\"https://fonts.gstatic.com/s/opensans/v28/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVI.woff2\") format(\"woff\"); font-weight: normal;}";
 		b += "h3,h4,h5,h5 {color: #65a63c;}";
 		b += "body, table, td, li, span, h3,h4,h5,h5  {font-family: \"Univers\", Arial, Helvetica, sans-serif !important;}";
 		b += "h2{color: #000000; font-family: \"Superior\" !important;}";
@@ -84908,28 +85214,22 @@ tstool_utils_VersionTracker.prototype = $extend(haxe_http_HttpJs.prototype,{
 	,__class__: tstool_utils_VersionTracker
 	,__properties__: $extend(haxe_http_HttpJs.prototype.__properties__,{get_scriptChangedSignal:"get_scriptChangedSignal"})
 });
-var tstool_utils_XapiHelper = function(url) {
-	haxe_http_HttpJs.call(this,url + "xapi/index.php");
+var tstool_utils_XapiTracker = function(url) {
+	http_XapiHelper.call(this,url + "xapi-new/index.php");
 	this._mainDebug = $global.location.origin.indexOf("salt.ch") > -1;
-	this.async = true;
-	haxe_Serializer.USE_CACHE = true;
-	haxe_Serializer.USE_ENUM_INDEX = true;
-	this.statementsRefs = [];
 	this.statement = null;
 	this.set_actor(null);
 	this.set_object(null);
 	this.verb = null;
 	this.context = null;
 	this.result = new xapi_Result();
-	this.dispatcher = new signals_Signal1();
 	this._start = new Date().getTime();
-	this.canRequest = true;
 	this.onData = $bind(this,this.onMyData);
 };
-$hxClasses["tstool.utils.XapiHelper"] = tstool_utils_XapiHelper;
-tstool_utils_XapiHelper.__name__ = "tstool.utils.XapiHelper";
-tstool_utils_XapiHelper.__super__ = haxe_http_HttpJs;
-tstool_utils_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
+$hxClasses["tstool.utils.XapiTracker"] = tstool_utils_XapiTracker;
+tstool_utils_XapiTracker.__name__ = "tstool.utils.XapiTracker";
+tstool_utils_XapiTracker.__super__ = http_XapiHelper;
+tstool_utils_XapiTracker.prototype = $extend(http_XapiHelper.prototype,{
 	setActor: function(agent) {
 		this.set_actor(agent);
 	}
@@ -84970,29 +85270,12 @@ tstool_utils_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
 			this.context.addContextActivity(xapi_ContextActivity.parent,new xapi_Activity(parentActivity));
 		}
 	}
-	,setStatementRefs: function(statementRef) {
-		this.statementsRefs = [statementRef];
-	}
 	,send: function() {
 		try {
 			this.result.toISO8601Duration(new Date().getTime() - this._start);
 			this.statement = new xapi_Statement(this.get_actor(),this.verb,this.get_object(),this.result,this.context);
-			this.setParameter("statement",haxe_Serializer.run(this.statement));
-			this.request(true);
+			this.sendMany([this.statement]);
 		} catch( _g ) {
-		}
-	}
-	,onMyData: function(data) {
-		try {
-			var d = new haxe_format_JsonParser(data).doParse();
-			if(d.status == "success") {
-				this.statementsRefs.push(new xapi_types_StatementRef(d.statementsIds[0]));
-				this.dispatcher.dispatch(true);
-			} else {
-				this.dispatcher.dispatch(false);
-			}
-		} catch( _g ) {
-			this.dispatcher.dispatch(false);
 		}
 	}
 	,get_actor: function() {
@@ -85007,8 +85290,8 @@ tstool_utils_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
 	,set_object: function(value) {
 		return this.object = value;
 	}
-	,__class__: tstool_utils_XapiHelper
-	,__properties__: $extend(haxe_http_HttpJs.prototype.__properties__,{set_actor:"set_actor",get_actor:"get_actor",set_object:"set_object",get_object:"get_object"})
+	,__class__: tstool_utils_XapiTracker
+	,__properties__: $extend(http_XapiHelper.prototype.__properties__,{set_actor:"set_actor",get_actor:"get_actor",set_object:"set_object",get_object:"get_object"})
 });
 var xapi_types_IUnique = function() { };
 $hxClasses["xapi.types.IUnique"] = xapi_types_IUnique;
@@ -85018,6 +85301,10 @@ var xapi_types_IObject = function() { };
 $hxClasses["xapi.types.IObject"] = xapi_types_IObject;
 xapi_types_IObject.__name__ = "xapi.types.IObject";
 xapi_types_IObject.__isInterface__ = true;
+xapi_types_IObject.prototype = {
+	__class__: xapi_types_IObject
+	,__properties__: {get_objectType:"get_objectType"}
+};
 var xapi_Activity = function(uri,definition) {
 	this.objectType = "Activity";
 	this.id = uri;
@@ -85030,6 +85317,9 @@ xapi_Activity.prototype = {
 	get_id: function() {
 		return this.id;
 	}
+	,get_objectType: function() {
+		return this.objectType;
+	}
 	,get_definition: function() {
 		return this.definition;
 	}
@@ -85037,7 +85327,7 @@ xapi_Activity.prototype = {
 		return this.definition = value;
 	}
 	,__class__: xapi_Activity
-	,__properties__: {get_id:"get_id",set_definition:"set_definition",get_definition:"get_definition"}
+	,__properties__: {get_objectType:"get_objectType",get_id:"get_id",set_definition:"set_definition",get_definition:"get_definition"}
 };
 var xapi_types_IActor = function() { };
 $hxClasses["xapi.types.IActor"] = xapi_types_IActor;
@@ -85069,8 +85359,11 @@ xapi_Agent.prototype = {
 	get_mbox: function() {
 		return this.mbox;
 	}
+	,get_objectType: function() {
+		return this.objectType;
+	}
 	,__class__: xapi_Agent
-	,__properties__: {get_mbox:"get_mbox"}
+	,__properties__: {get_objectType:"get_objectType",get_mbox:"get_mbox"}
 };
 var xapi_MissingActorIri = function(agent) {
 	this.agent = agent;
@@ -85102,6 +85395,7 @@ var xapi_Context = function(uuid,instructor,team,context_activities,revision,pla
 	this.statement = statement;
 	this.set_platform(platform);
 	this.revision = revision;
+	this.team = team;
 	this.initContextActivities();
 	this.set_instructor(instructor);
 	var tmp;
@@ -85148,6 +85442,9 @@ xapi_Context.prototype = {
 	,get_contextActivities: function() {
 		return this.contextActivities;
 	}
+	,get_platform: function() {
+		return this.platform;
+	}
 	,set_platform: function(value) {
 		return this.platform = value;
 	}
@@ -85158,12 +85455,24 @@ xapi_Context.prototype = {
 		return this.instructor = value;
 	}
 	,__class__: xapi_Context
-	,__properties__: {set_instructor:"set_instructor",get_contextActivities:"get_contextActivities",set_platform:"set_platform",set_language:"set_language"}
+	,__properties__: {set_instructor:"set_instructor",get_contextActivities:"get_contextActivities",set_platform:"set_platform",get_platform:"get_platform",set_language:"set_language"}
 };
-var xapi_Group = function() { };
+var xapi_Group = function(id,uri,members) {
+	this.id = id;
+	this.uri = uri;
+	this.objectType = "Group";
+	this.member = members;
+};
 $hxClasses["xapi.Group"] = xapi_Group;
 xapi_Group.__name__ = "xapi.Group";
 xapi_Group.__interfaces__ = [xapi_types_IActor,xapi_types_IUnique];
+xapi_Group.prototype = {
+	get_objectType: function() {
+		return this.objectType;
+	}
+	,__class__: xapi_Group
+	,__properties__: {get_objectType:"get_objectType"}
+};
 var xapi_Result = function(score,success,completion,response,duration,extensions) {
 	if(duration != null) {
 		this.toISO8601Duration(duration);
@@ -85202,12 +85511,16 @@ xapi_Result.prototype = {
 };
 var xapi_Statement = function(actor,verb,object,result,context) {
 	this.set_attachments(null);
-	this.timestamp = thx_DateTimeUtc.toString(thx_DateTimeUtc.now());
+	var this1 = [thx_DateTimeUtc.now(),thx_DateTime.localOffset()];
+	this.timestamp = thx_DateTime.toString(this1);
 	this.set_context(context);
 	this.result = result;
 	this.object = object;
 	this.verb = verb;
 	this.actor = actor;
+	if(object.get_objectType() == "Agent" && context.get_platform() != null) {
+		throw haxe_Exception.thrown("The context's \"platform\" property MUST only be used if the Statement's Object is an Activity objectType=" + object.get_objectType() + " context.platform = " + context.get_platform());
+	}
 };
 $hxClasses["xapi.Statement"] = xapi_Statement;
 xapi_Statement.__name__ = "xapi.Statement";
@@ -85309,7 +85622,11 @@ $hxClasses["xapi.types.StatementRef"] = xapi_types_StatementRef;
 xapi_types_StatementRef.__name__ = "xapi.types.StatementRef";
 xapi_types_StatementRef.__interfaces__ = [xapi_types_IObject,xapi_types_IUnique];
 xapi_types_StatementRef.prototype = {
-	__class__: xapi_types_StatementRef
+	get_objectType: function() {
+		return this.objectType;
+	}
+	,__class__: xapi_types_StatementRef
+	,__properties__: {get_objectType:"get_objectType"}
 };
 function $getIterator(o) { if( o instanceof Array ) return new haxe_iterators_ArrayIterator(o); else return o.iterator(); }
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $global.$haxeUID++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = m.bind(o); o.hx__closures__[m.__id__] = f; } return f; }
@@ -85389,6 +85706,9 @@ openfl_display_DisplayObject.__tempStack = new lime_utils_ObjectPool(function() 
 },function(stack) {
 	stack.set_length(0);
 });
+tstool_MainApp.idleTimer = new haxe_Timer(1000);
+tstool_MainApp.VERSION_TIMER_DURATION = 300;
+tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
 flixel_FlxBasic.idEnumerator = 0;
 tstool_process_Process.STORAGE = new haxe_ds_StringMap();
 Main.LANGS = ["fr-FR","de-DE","it-IT","en-GB"];
@@ -86735,9 +87055,21 @@ thx_DateTimeUtc.DATE_PART_MONTH = 2;
 thx_DateTimeUtc.DATE_PART_DAY = 3;
 thx_DateTimeUtc.daysToMonth365 = [0,31,59,90,120,151,181,212,243,273,304,334,365];
 thx_DateTimeUtc.daysToMonth366 = [0,31,60,91,121,152,182,213,244,274,305,335,366];
+thx_Int64s.one = (function($this) {
+	var $r;
+	var this1 = new haxe__$Int64__$_$_$Int64(0,1);
+	$r = this1;
+	return $r;
+}(this));
 thx_Int64s.zero = (function($this) {
 	var $r;
 	var this1 = new haxe__$Int64__$_$_$Int64(0,0);
+	$r = this1;
+	return $r;
+}(this));
+thx_Int64s.min = (function($this) {
+	var $r;
+	var this1 = new haxe__$Int64__$_$_$Int64(-2147483648,0);
 	$r = this1;
 	return $r;
 }(this));

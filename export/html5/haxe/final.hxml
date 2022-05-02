@@ -1,4 +1,8 @@
 -main ApplicationMain 
+-cp C:/HaxeToolkit/haxe/lib/utils/utils
+-D utils=0.0.0
+-cp C:/HaxeToolkit/haxe/lib/quality/quality
+-D quality=0.0.0
 -cp C:/HaxeToolkit/haxe/lib/csv/0,4,0/lib
 -D csv=0.4.0
 --macro lime._internal.macros.DefineMacro.run()
@@ -21,7 +25,7 @@
 -cp C:/HaxeToolkit/haxe/lib/xapi/git
 -D xapi=0.0.0
 -D thx_core
--cp C:/HaxeToolkit/haxe/lib/thx,core/git/src
+-cp C:/HaxeToolkit/haxe/lib/thx,core/0,44,0/src
 -D thx.core=0.44.0
 -cp C:/HaxeToolkit/haxe/lib/markdown/1,1,2/src
 -D markdown=1.1.2
@@ -33,7 +37,6 @@
 -cp C:/HaxeToolkit/haxe/lib/uglifyjs/1,0,0/src
 -D uglifyjs=1.0.0
 -cp source
--cp ../_myPackages/utils
 -D tools=7.9.0
 -D lime-canvas
 -D FLX_NO_DEBUG
