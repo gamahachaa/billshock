@@ -4,7 +4,7 @@ package;
 import capture.WasLimitsChanged;
 import flixel.FlxG;
 import flixel.FlxGame;
-import tstool.utils.XapiHelper;
+import tstool.utils.XapiTracker;
 //import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.input.keyboard.FlxKey;
@@ -47,12 +47,13 @@ class Main extends MainApp
 	public static var tongue:Translator;
 	//public static var user:Agent;
 	public static var customer:Customer;
-	public static var trackH:XapiHelper;
+	public static var trackH:XapiTracker;
 	//public static var track:XapiTracker;
 	public static var VERSION:String;
 	public static var VERSION_TRACKER:VersionTracker;
 	public static var LOCATION:Location;
 	public static var DEBUG:Bool;
+	public static var _mainDebug:Bool;
 	public static inline var DEBUG_LEVEL = 0;
 	
 	public static var LANGS:Array<String> = ["fr-FR", "de-DE", "it-IT", "en-GB"];
@@ -82,6 +83,7 @@ class Main extends MainApp
 		LOCATION = MainApp.location;
 		trackH =  MainApp.xapiHelper;
 		DEBUG = MainApp.debug;
+		_mainDebug = MainApp.debug;
 		VERSION_TRACKER = MainApp.versionTracker;
 		customer = MainApp.cust;
 		

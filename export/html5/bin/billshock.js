@@ -803,7 +803,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "14";
+	app.meta.h["build"] = "22";
 	app.meta.h["company"] = "";
 	app.meta.h["file"] = "billshock";
 	app.meta.h["name"] = "billshock";
@@ -2664,8 +2664,37 @@ openfl_display_Sprite.prototype = $extend(openfl_display_DisplayObjectContainer.
 	,__class__: openfl_display_Sprite
 	,__properties__: $extend(openfl_display_DisplayObjectContainer.prototype.__properties__,{get_graphics:"get_graphics",get_buttonMode:"get_buttonMode"})
 });
+var haxe_Timer = function(time_ms) {
+	var me = this;
+	this.id = setInterval(function() {
+		me.run();
+	},time_ms);
+};
+$hxClasses["haxe.Timer"] = haxe_Timer;
+haxe_Timer.__name__ = "haxe.Timer";
+haxe_Timer.delay = function(f,time_ms) {
+	var t = new haxe_Timer(time_ms);
+	t.run = function() {
+		t.stop();
+		f();
+	};
+	return t;
+};
+haxe_Timer.prototype = {
+	stop: function() {
+		if(this.id == null) {
+			return;
+		}
+		clearInterval(this.id);
+		this.id = null;
+	}
+	,run: function() {
+	}
+	,__class__: haxe_Timer
+};
 var tstool_MainApp = function(cfg) {
 	openfl_display_Sprite.call(this);
+	tstool_MainApp.idleTimer.run = tstool_MainApp.onTimer;
 	tstool_MainApp.location = $global.location;
 	tstool_MainApp.debug = tstool_MainApp.location.origin.indexOf("qook.test.salt.ch") > -1;
 	flixel_system_FlxAssets.FONT_DEFAULT = "Consolas";
@@ -2678,14 +2707,29 @@ var tstool_MainApp = function(cfg) {
 		tstool_MainApp.agent = null;
 	}
 	tstool_MainApp.translator = new tstool_utils_Translator();
-	tstool_MainApp.xapiHelper = new tstool_utils_XapiHelper(tstool_MainApp.location.origin + tstool_MainApp.config.libFolder);
+	tstool_MainApp.xapiHelper = new tstool_utils_XapiTracker(tstool_MainApp.location.origin + tstool_MainApp.config.libFolder);
 	tstool_MainApp.versionTracker = new tstool_utils_VersionTracker(tstool_MainApp.location.origin + tstool_MainApp.config.libFolder,tstool_MainApp.config.scriptName);
 	tstool_MainApp.cust = new tstool_salt_Customer();
 	tstool_MainApp.translator.initialize("fr-FR",function() {
-	},{ fileName : "tstool/MainApp.hx", lineNumber : 112, className : "tstool.MainApp", methodName : "new"});
+	},{ fileName : "tstool/MainApp.hx", lineNumber : 122, className : "tstool.MainApp", methodName : "new"});
 };
 $hxClasses["tstool.MainApp"] = tstool_MainApp;
 tstool_MainApp.__name__ = "tstool.MainApp";
+tstool_MainApp.onTimer = function() {
+	if(tstool_MainApp.VERSION_TIMER_value < 0) {
+		Main.VERSION_TRACKER.get_scriptChangedSignal().addOnce(tstool_MainApp.onNewVersion);
+		Main.VERSION_TRACKER.request();
+	} else {
+		tstool_MainApp.VERSION_TIMER_value--;
+	}
+};
+tstool_MainApp.onNewVersion = function(needsUpdate) {
+	if(needsUpdate) {
+		$global.location.reload(true);
+	} else {
+		tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
+	}
+};
 tstool_MainApp.flush = function() {
 	tstool_MainApp.s = new haxe_Serializer();
 	tstool_MainApp.agent.set_mainLanguage(tstool_MainApp.FIND_LANG(tstool_MainApp.agent.get_mainLanguage()));
@@ -3198,10 +3242,10 @@ var tstool_process_Process = function() {
 	this._class = js_Boot.getClass(this);
 	var c = this.get__class();
 	this._name = c.__name__;
-	this.set__titleTxt(this.translate(this._titleTxt,"TITLE"));
-	this.set__detailTxt(this.translate(this._detailTxt,"DETAILS"));
-	this.set__illustration(this.translate(this._illustration,"ILLUSTRATION"));
-	this._qookLink = this.translate(this._qook,"QOOK").split("|");
+	this.set__titleTxt(tstool_MainApp.translator.translate(this.get__name(),this._titleTxt,"TITLE"));
+	this.set__detailTxt(tstool_MainApp.translator.translate(this.get__name(),this._detailTxt,"DETAILS"));
+	this.set__illustration(tstool_MainApp.translator.translate(this.get__name(),this._illustration,"ILLUSTRATION"));
+	this._qookLink = tstool_MainApp.translator.translate(this.get__name(),this._qook,"QOOK").split("|");
 };
 $hxClasses["tstool.process.Process"] = tstool_process_Process;
 tstool_process_Process.__name__ = "tstool.process.Process";
@@ -3322,16 +3366,16 @@ tstool_process_Process.prototype = $extend(flixel_FlxState.prototype,{
 	,listener: function(s) {
 		switch(s) {
 		case "de-DE":
-			this.switchLang("de-DE",{ fileName : "tstool/process/Process.hx", lineNumber : 248, className : "tstool.process.Process", methodName : "listener"});
+			this.switchLang("de-DE",{ fileName : "tstool/process/Process.hx", lineNumber : 254, className : "tstool.process.Process", methodName : "listener"});
 			break;
 		case "en-GB":
-			this.switchLang("en-GB",{ fileName : "tstool/process/Process.hx", lineNumber : 246, className : "tstool.process.Process", methodName : "listener"});
+			this.switchLang("en-GB",{ fileName : "tstool/process/Process.hx", lineNumber : 252, className : "tstool.process.Process", methodName : "listener"});
 			break;
 		case "fr-FR":
-			this.switchLang("fr-FR",{ fileName : "tstool/process/Process.hx", lineNumber : 249, className : "tstool.process.Process", methodName : "listener"});
+			this.switchLang("fr-FR",{ fileName : "tstool/process/Process.hx", lineNumber : 255, className : "tstool.process.Process", methodName : "listener"});
 			break;
 		case "it-IT":
-			this.switchLang("it-IT",{ fileName : "tstool/process/Process.hx", lineNumber : 247, className : "tstool.process.Process", methodName : "listener"});
+			this.switchLang("it-IT",{ fileName : "tstool/process/Process.hx", lineNumber : 253, className : "tstool.process.Process", methodName : "listener"});
 			break;
 		case "logout":
 			this.onlogout();
@@ -3376,7 +3420,7 @@ tstool_process_Process.prototype = $extend(flixel_FlxState.prototype,{
 			if(flixel_FlxG.game._state.switchTo(nextState)) {
 				flixel_FlxG.game._requestedState = nextState;
 			}
-		},{ fileName : "tstool/process/Process.hx", lineNumber : 275, className : "tstool.process.Process", methodName : "switchLang"});
+		},{ fileName : "tstool/process/Process.hx", lineNumber : 279, className : "tstool.process.Process", methodName : "switchLang"});
 	}
 	,onClipBoardClick: function() {
 	}
@@ -3439,32 +3483,6 @@ tstool_process_Process.prototype = $extend(flixel_FlxState.prototype,{
 		var tmp = encodeURIComponent(content);
 		window.location.href = to + subject + "?&body=" + tmp;
 	}
-	,translate: function(txt,suffix,context) {
-		if(context == null) {
-			context = "data";
-		}
-		if(suffix == null) {
-			suffix = "";
-		}
-		var tString;
-		if(context == null) {
-			tString = "$" + txt + "_" + suffix;
-		} else {
-			switch(context) {
-			case "data":
-				tString = "$" + this.get__name() + "_" + suffix;
-				break;
-			case "headers":
-				tString = "$" + txt + "." + suffix.split(" ").join("");
-				break;
-			default:
-				tString = "$" + txt + "_" + suffix;
-			}
-		}
-		var t = tstool_MainApp.translator.get(tString,context);
-		var s = t.indexOf("$") == 0 || StringTools.trim(t) == "" ? context == "headers" ? suffix : txt : t;
-		return s;
-	}
 	,pushToHistory: function(buttonTxt,interactionType,values) {
 		Main.HISTORY.add({ step : this.get__class(), params : []},interactionType,this.get_question().text,buttonTxt,values);
 	}
@@ -3485,15 +3503,26 @@ tstool_process_Process.prototype = $extend(flixel_FlxState.prototype,{
 		if(slowClasses.indexOf(c.__super__) > -1) {
 			this.openSubState(new tstool_layout_PageLoader());
 		}
-		var nextState = Type.createInstance(this._nexts[index].step,this._nexts[index].params);
-		if(flixel_FlxG.game._state.switchTo(nextState)) {
-			flixel_FlxG.game._requestedState = nextState;
+		try {
+			var nextState = Type.createInstance(this._nexts[index].step,this._nexts[index].params);
+			if(flixel_FlxG.game._state.switchTo(nextState)) {
+				flixel_FlxG.game._requestedState = nextState;
+			}
+		} catch( _g ) {
+			var e = haxe_Exception.caught(_g);
+			haxe_Log.trace(e.get_message(),{ fileName : "tstool/process/Process.hx", lineNumber : 470, className : "tstool.process.Process", methodName : "moveToNextClassProcess"});
+			haxe_Log.trace($bind(e,e.details),{ fileName : "tstool/process/Process.hx", lineNumber : 471, className : "tstool.process.Process", methodName : "moveToNextClassProcess"});
+			var tmp = e.get_stack();
+			haxe_Log.trace(tmp == null ? "null" : haxe_CallStack.toString(tmp),{ fileName : "tstool/process/Process.hx", lineNumber : 472, className : "tstool.process.Process", methodName : "moveToNextClassProcess"});
 		}
 	}
 	,update: function(elapsed) {
 		flixel_FlxState.prototype.update.call(this,elapsed);
 		if(this.commentDebounce != 0) {
 			this.commentDebounce--;
+		}
+		if(flixel_FlxG.mouse._leftButton.current == -1) {
+			tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
 		}
 	}
 	,destroy: function() {
@@ -3527,7 +3556,7 @@ tstool_process_Action.__name__ = "tstool.process.Action";
 tstool_process_Action.__super__ = tstool_process_Process;
 tstool_process_Action.prototype = $extend(tstool_process_Process.prototype,{
 	create: function() {
-		this.set__buttonTxt(this.translate(this._buttonTxt,"MID-BTN"));
+		this.set__buttonTxt(tstool_MainApp.translator.translate(this.get__name(),this._buttonTxt,"MID-BTN"));
 		tstool_process_Process.prototype.create.call(this);
 		this.btn = new flixel_ui_FlxButton(0,0,this._buttonTxt,$bind(this,this.onClick));
 		this.registerButton(this.btn);
@@ -3600,16 +3629,16 @@ tstool_process_EndAction.prototype = $extend(tstool_process_Action.prototype,{
 		lime_system_Clipboard.set_text(this.scriptText);
 		switch(s) {
 		case "de-DE":
-			this.switchLang("de-DE",{ fileName : "tstool/process/EndAction.hx", lineNumber : 47, className : "tstool.process.EndAction", methodName : "listener"});
+			this.switchLang("de-DE",{ fileName : "tstool/process/EndAction.hx", lineNumber : 48, className : "tstool.process.EndAction", methodName : "listener"});
 			break;
 		case "en-GB":
-			this.switchLang("en-GB",{ fileName : "tstool/process/EndAction.hx", lineNumber : 45, className : "tstool.process.EndAction", methodName : "listener"});
+			this.switchLang("en-GB",{ fileName : "tstool/process/EndAction.hx", lineNumber : 46, className : "tstool.process.EndAction", methodName : "listener"});
 			break;
 		case "fr-FR":
-			this.switchLang("fr-FR",{ fileName : "tstool/process/EndAction.hx", lineNumber : 48, className : "tstool.process.EndAction", methodName : "listener"});
+			this.switchLang("fr-FR",{ fileName : "tstool/process/EndAction.hx", lineNumber : 49, className : "tstool.process.EndAction", methodName : "listener"});
 			break;
 		case "it-IT":
-			this.switchLang("it-IT",{ fileName : "tstool/process/EndAction.hx", lineNumber : 46, className : "tstool.process.EndAction", methodName : "listener"});
+			this.switchLang("it-IT",{ fileName : "tstool/process/EndAction.hx", lineNumber : 47, className : "tstool.process.EndAction", methodName : "listener"});
 			break;
 		case "onBack":
 			this.onBack();
@@ -3642,26 +3671,39 @@ tstool_process_EndAction.prototype = $extend(tstool_process_Action.prototype,{
 	}
 	,setResolution: function() {
 		var steps = "";
-		var step = "";
-		var interaction = "";
+		var stepsCode = "";
 		var values = "";
-		var h = Main.HISTORY.getStoredStepsTranslatedArray(null,{ fileName : "tstool/process/EndAction.hx", lineNumber : 71, className : "tstool.process.EndAction", methodName : "setResolution"});
+		var h = Main.HISTORY.getStoredStepsTranslatedArray(null,{ fileName : "tstool/process/EndAction.hx", lineNumber : 73, className : "tstool.process.EndAction", methodName : "setResolution"});
 		var _g = 0;
 		while(_g < h.length) {
 			var i = h[_g];
 			++_g;
-			steps += "" + i.step + "|" + i.interaction + "£";
+			steps += StringTools.replace("" + i.step + "|" + i.interaction + "£",",","/");
 			if(i.values != "") {
 				values += "" + i.values + "|";
 			}
 		}
-		steps = StringTools.replace(StringTools.replace(steps,"\r"," "),"\n"," ");
+		steps = StringTools.replace(StringTools.replace(StringTools.replace(StringTools.replace(steps,",","/"),"\r"," "),"\n"," "),"\"","-");
+		var hc = Main.HISTORY.getRawStepsArray();
+		var _g = 0;
+		while(_g < hc.length) {
+			var i = hc[_g];
+			++_g;
+			stepsCode += "" + i.processName + "|" + Std.string(i.interaction) + "£";
+		}
+		Main.trackH.updateStatementRef();
 		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
 		var key = $global.location.origin + "/troubleshooting/total_steps/";
 		this1.h[key] = h.length == null ? "null" : "" + h.length;
 		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
 		var key = $global.location.origin + "/troubleshooting/steps/";
 		this1.h[key] = steps;
+		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
+		var key = $global.location.origin + "/troubleshooting/stepsCode/";
+		this1.h[key] = stepsCode;
+		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
+		var key = $global.location.origin + "/troubleshooting/script_version/";
+		this1.h[key] = Main.VERSION;
 		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
 		var key = $global.location.origin + "/troubleshooting/values/";
 		this1.h[key] = values;
@@ -3690,8 +3732,10 @@ Intro.prototype = $extend(tstool_process_Action.prototype,{
 	create: function() {
 		tstool_process_Process.INIT();
 		tstool_process_Action.prototype.create.call(this);
-		Main.VERSION_TRACKER.get_scriptChangedSignal().add($bind(this,this.onNewVersion));
+		Main.VERSION_TRACKER.get_scriptChangedSignal().addOnce($bind(this,this.onNewVersion));
 		Main.VERSION_TRACKER.request();
+		Main.trackH.reset(false);
+		Main.trackH.setDefaultContext(tstool_MainApp.translator.locale,"mobile.qtool@salt.ch");
 		this.openSubState(new tstool_process_CheckUpdateSub(tstool_layout_UI.THEME.bg));
 	}
 	,onNewVersion: function(needsUpdate) {
@@ -3699,6 +3743,7 @@ Intro.prototype = $extend(tstool_process_Action.prototype,{
 			$global.location.reload(true);
 		} else {
 			this.closeSubState();
+			tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
 		}
 	}
 	,onClick: function() {
@@ -3715,6 +3760,7 @@ var Main = function() {
 	Main.LOCATION = tstool_MainApp.location;
 	Main.trackH = tstool_MainApp.xapiHelper;
 	Main.DEBUG = tstool_MainApp.debug;
+	Main._mainDebug = tstool_MainApp.debug;
 	Main.VERSION_TRACKER = tstool_MainApp.versionTracker;
 	Main.customer = tstool_MainApp.cust;
 	this.addChild(new flixel_FlxGame(1400,880,tstool_layout_Login,1,30,30,true,true));
@@ -3743,7 +3789,7 @@ Main.MOVE_ON = function(old) {
 		if(flixel_FlxG.game._state.switchTo(nextState)) {
 			flixel_FlxG.game._requestedState = nextState;
 		}
-	},{ fileName : "source/Main.hx", lineNumber : 120, className : "Main", methodName : "MOVE_ON"});
+	},{ fileName : "source/Main.hx", lineNumber : 122, className : "Main", methodName : "MOVE_ON"});
 };
 Main.__super__ = tstool_MainApp;
 Main.prototype = $extend(tstool_MainApp.prototype,{
@@ -3924,6 +3970,20 @@ Lambda.exists = function(it,f) {
 Lambda.empty = function(it) {
 	return !$getIterator(it).hasNext();
 };
+Lambda.concat = function(a,b) {
+	var l = [];
+	var x = $getIterator(a);
+	while(x.hasNext()) {
+		var x1 = x.next();
+		l.push(x1);
+	}
+	var x = $getIterator(b);
+	while(x.hasNext()) {
+		var x1 = x.next();
+		l.push(x1);
+	}
+	return l;
+};
 var ManifestResources = function() { };
 $hxClasses["ManifestResources"] = ManifestResources;
 ManifestResources.__name__ = "ManifestResources";
@@ -3950,7 +4010,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$nokiafc22_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$monsterrat_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy26:assets%2Fdata%2Fadmins.txty4:sizei68y4:typey4:TEXTy2:idR1y7:preloadtgoR0y36:assets%2Fdata%2FcustomerProfile.jsonR2i9974R3R4R5R7R6tgoR0y35:assets%2Fdata%2FdashboardSante.jsonR2i3461R3R4R5R8R6tgoR0y34:assets%2Fdata%2Fdata-goes-here.txtR2zR3R4R5R9R6tgoR0y24:assets%2Fdata%2Ftest.txtR2i9R3R4R5R10R6tgoR0y27:assets%2Fdata%2Ftesters.txtR2i48R3R4R5R11R6tgoR0y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.eotR2i145232R3y6:BINARYR5R12R6tgoR2i145004R3y4:FONTy9:classNamey51:__ASSET__assets_fonts_jetbrainsmono_bold_italic_ttfR5y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.ttfR6tgoR0y47:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.woffR2i67044R3R13R5R18R6tgoR0y39:assets%2Ffonts%2FJetBrainsMono-Bold.eotR2i138892R3R13R5R19R6tgoR2i138692R3R14R15y44:__ASSET__assets_fonts_jetbrainsmono_bold_ttfR5y39:assets%2Ffonts%2FJetBrainsMono-Bold.ttfR6tgoR0y40:assets%2Ffonts%2FJetBrainsMono-Bold.woffR2i62276R3R13R5R22R6tgoR0y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.eotR2i145920R3R13R5R23R6tgoR2i145672R3R14R15y56:__ASSET__assets_fonts_jetbrainsmono_extrabold_italic_ttfR5y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.ttfR6tgoR0y52:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.woffR2i65812R3R13R5R26R6tgoR0y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.eotR2i139388R3R13R5R27R6tgoR2i139168R3R14R15y49:__ASSET__assets_fonts_jetbrainsmono_extrabold_ttfR5y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.ttfR6tgoR0y45:assets%2Ffonts%2FJetBrainsMono-ExtraBold.woffR2i61016R3R13R5R30R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Italic.eotR2i141780R3R13R5R31R6tgoR2i141572R3R14R15y46:__ASSET__assets_fonts_jetbrainsmono_italic_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Italic.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Italic.woffR2i64504R3R13R5R34R6tgoR0y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.eotR2i144764R3R13R5R35R6tgoR2i144528R3R14R15y53:__ASSET__assets_fonts_jetbrainsmono_medium_italic_ttfR5y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.ttfR6tgoR0y49:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.woffR2i66768R3R13R5R38R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Medium.eotR2i138484R3R13R5R39R6tgoR2i138276R3R14R15y46:__ASSET__assets_fonts_jetbrainsmono_medium_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Medium.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Medium.woffR2i62064R3R13R5R42R6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Regular.eotR2i136920R3R13R5R43R6tgoR2i136708R3R14R15y47:__ASSET__assets_fonts_jetbrainsmono_regular_ttfR5y42:assets%2Ffonts%2FJetBrainsMono-Regular.ttfR6tgoR0y43:assets%2Ffonts%2FJetBrainsMono-Regular.woffR2i60220R3R13R5R46R6tgoR0y31:assets%2Ffonts%2FLato-Black.eotR2i114806R3R13R5R47R6tgoR2i114588R3R14R15y36:__ASSET__assets_fonts_lato_black_ttfR5y31:assets%2Ffonts%2FLato-Black.ttfR6tgoR0y32:assets%2Ffonts%2FLato-Black.woffR2i48592R3R13R5R50R6tgoR0y33:assets%2Ffonts%2FLato-Regular.eotR2i120422R3R13R5R51R6tgoR2i120196R3R14R15y38:__ASSET__assets_fonts_lato_regular_ttfR5y33:assets%2Ffonts%2FLato-Regular.ttfR6tgoR0y34:assets%2Ffonts%2FLato-Regular.woffR2i50140R3R13R5R54R6tgoR0y42:assets%2Fimages%2Fintro%2Fbaby_shocked.pngR2i135091R3y5:IMAGER5R55R6tgoR0y37:assets%2Fimages%2Fintro%2Ffavicon.pngR2i18396R3R56R5R57R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_de.pngR2i10073R3R56R5R58R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_en.pngR2i9698R3R56R5R59R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_fr.pngR2i10189R3R56R5R60R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_it.pngR2i10024R3R56R5R61R6tgoR0y35:assets%2Fimages%2Fui%2Fall-good.pngR2i4661R3R56R5R62R6tgoR0y31:assets%2Fimages%2Fui%2Fback.pngR2i7760R3R56R5R63R6tgoR0y36:assets%2Fimages%2Fui%2FclipBoard.pngR2i2456R3R56R5R64R6tgoR0y32:assets%2Fimages%2Fui%2Fclose.pngR2i4989R3R56R5R65R6tgoR0y34:assets%2Fimages%2Fui%2Fcomment.pngR2i6291R3R56R5R66R6tgoR0y29:assets%2Fimages%2Fui%2Fde.pngR2i3650R3R56R5R67R6tgoR0y31:assets%2Fimages%2Fui%2Fdown.pngR2i6660R3R56R5R68R6tgoR0y29:assets%2Fimages%2Fui%2Fen.pngR2i3572R3R56R5R69R6tgoR0y31:assets%2Fimages%2Fui%2Fexit.pngR2i4953R3R56R5R70R6tgoR0y29:assets%2Fimages%2Fui%2Ffr.pngR2i3645R3R56R5R71R6tgoR0y31:assets%2Fimages%2Fui%2Fhelp.pngR2i7180R3R56R5R72R6tgoR0y32:assets%2Fimages%2Fui%2Fhowto.pngR2i3824R3R56R5R73R6tgoR0y29:assets%2Fimages%2Fui%2Fit.pngR2i2051R3R56R5R74R6tgoR0y31:assets%2Fimages%2Fui%2Fleft.pngR2i5261R3R56R5R75R6tgoR0y32:assets%2Fimages%2Fui%2Flight.pngR2i7477R3R56R5R76R6tgoR0y33:assets%2Fimages%2Fui%2Flogout.pngR2i4472R3R56R5R77R6tgoR0y31:assets%2Fimages%2Fui%2Fmail.pngR2i21955R3R56R5R78R6tgoR0y37:assets%2Fimages%2Fui%2FpageLoader.pngR2i11707R3R56R5R79R6tgoR0y32:assets%2Fimages%2Fui%2Fright.pngR2i5276R3R56R5R80R6tgoR0y33:assets%2Fimages%2Fui%2Fscript.pngR2i8958R3R56R5R81R6tgoR0y34:assets%2Fimages%2Fui%2FshowPwd.pngR2i8423R3R56R5R82R6tgoR0y35:assets%2Fimages%2Fui%2Ftemplate.pngR2i11468R3R56R5R83R6tgoR0y39:assets%2Fimages%2Fui%2FtrainingMode.pngR2i5713R3R56R5R84R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardDE.pngR2i197972R3R56R5R85R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardEN.pngR2i194114R3R56R5R86R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardFR.pngR2i197400R3R56R5R87R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardIT.pngR2i196927R3R56R5R88R6tgoR0y34:assets%2Fimages%2Fui%2Fversion.pngR2i33131R3R56R5R89R6tgoR0y43:assets%2Flocales%2Fde-DE%2FbillShock_de.txtR2i1662R3R4R5R90R6tgoR0y41:assets%2Flocales%2Fde-DE%2Fcapture_de.txtR2i4921R3R4R5R91R6tgoR0y40:assets%2Flocales%2Fde-DE%2Fdecide_de.txtR2i3454R3R4R5R92R6tgoR0y41:assets%2Flocales%2Fde-DE%2Fheaders_de.txtR2i1087R3R4R5R93R6tgoR0y38:assets%2Flocales%2Fde-DE%2Fmeta_de.txtR2i648R3R4R5R94R6tgoR0y43:assets%2Flocales%2Fen-GB%2FbillShock_en.txtR2i1436R3R4R5R95R6tgoR0y41:assets%2Flocales%2Fen-GB%2Fcapture_en.txtR2i4219R3R4R5R96R6tgoR0y40:assets%2Flocales%2Fen-GB%2Fdecide_en.txtR2i3092R3R4R5R97R6tgoR0y41:assets%2Flocales%2Fen-GB%2Fheaders_en.txtR2i1064R3R4R5R98R6tgoR0y38:assets%2Flocales%2Fen-GB%2Fmeta_en.txtR2i569R3R4R5R99R6tgoR0y43:assets%2Flocales%2Ffr-FR%2FbillShock_fr.txtR2i1636R3R4R5R100R6tgoR0y41:assets%2Flocales%2Ffr-FR%2Fcapture_fr.txtR2i4733R3R4R5R101R6tgoR0y40:assets%2Flocales%2Ffr-FR%2Fdecide_fr.txtR2i3271R3R4R5R102R6tgoR0y41:assets%2Flocales%2Ffr-FR%2Fheaders_fr.txtR2i1104R3R4R5R103R6tgoR0y38:assets%2Flocales%2Ffr-FR%2Fmeta_fr.txtR2i648R3R4R5R104R6tgoR0y28:assets%2Flocales%2Findex.xmlR2i3214R3R4R5R105R6tgoR0y43:assets%2Flocales%2Fit-IT%2FbillShock_it.txtR2i1461R3R4R5R106R6tgoR0y41:assets%2Flocales%2Fit-IT%2Fcapture_it.txtR2i4474R3R4R5R107R6tgoR0y40:assets%2Flocales%2Fit-IT%2Fdecide_it.txtR2i3216R3R4R5R108R6tgoR0y41:assets%2Flocales%2Fit-IT%2Fheaders_it.txtR2i1115R3R4R5R109R6tgoR0y38:assets%2Flocales%2Fit-IT%2Fmeta_it.txtR2i647R3R4R5R110R6tgoR0y37:assets%2Flocales%2F_icons%2Fcs-CZ.pngR2i3115R3R56R5R111R6tgoR0y37:assets%2Flocales%2F_icons%2Fde-DE.pngR2i822R3R56R5R112R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-CA.pngR2i930R3R56R5R113R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-GB.pngR2i1005R3R56R5R114R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-US.pngR2i954R3R56R5R115R6tgoR0y37:assets%2Flocales%2F_icons%2Fes-ES.pngR2i800R3R56R5R116R6tgoR0y37:assets%2Flocales%2F_icons%2Ffr-FR.pngR2i829R3R56R5R117R6tgoR0y37:assets%2Flocales%2F_icons%2Fit-IT.pngR2i740R3R56R5R118R6tgoR0y37:assets%2Flocales%2F_icons%2Fja-JP.pngR2i771R3R56R5R119R6tgoR0y37:assets%2Flocales%2F_icons%2Fko-KR.pngR2i3281R3R56R5R120R6tgoR0y37:assets%2Flocales%2F_icons%2Fnb-NO.pngR2i858R3R56R5R121R6tgoR0y37:assets%2Flocales%2F_icons%2Fpl-PL.pngR2i2980R3R56R5R122R6tgoR0y37:assets%2Flocales%2F_icons%2Fyo-DA.pngR2i3065R3R56R5R123R6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R124R6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R125R6tgoR0y25:assets%2Fxml%2Fbutton.pngR2i3200R3R56R5R126R6tgoR0y28:assets%2Fxml%2Fhaxeui_96.pngR2i2503R3R56R5R127R6tgoR0y23:assets%2Fxml%2Ftest.xmlR2i4460R3R4R5R128R6tgoR2i2114R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3y9:pathGroupaR130y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R129R5y28:flixel%2Fsounds%2Fflixel.mp3R131aR133y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3y5:SOUNDR5R132R131aR130R132hgoR2i33629R3R135R5R134R131aR133R134hgoR2i15744R3R14R15y35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R14R15y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R56R5R140R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R56R5R141R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Fbox.pngR2i912R3R56R5R142R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fbutton.pngR2i433R3R56R5R143R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_down.pngR2i446R3R56R5R144R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_left.pngR2i459R3R56R5R145R6tgoR0y49:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_right.pngR2i511R3R56R5R146R6tgoR0y46:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_up.pngR2i493R3R56R5R147R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fbutton_thin.pngR2i247R3R56R5R148R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fbutton_toggle.pngR2i534R3R56R5R149R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fcheck_box.pngR2i922R3R56R5R150R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fcheck_mark.pngR2i946R3R56R5R151R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fchrome.pngR2i253R3R56R5R152R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fchrome_flat.pngR2i212R3R56R5R153R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_inset.pngR2i192R3R56R5R154R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_light.pngR2i214R3R56R5R155R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fdropdown_mark.pngR2i156R3R56R5R156R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Ffinger_big.pngR2i1724R3R56R5R157R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Ffinger_small.pngR2i294R3R56R5R158R6tgoR0y38:flixel%2Fflixel-ui%2Fimg%2Fhilight.pngR2i129R3R56R5R159R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Finvis.pngR2i128R3R56R5R160R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fminus_mark.pngR2i136R3R56R5R161R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fplus_mark.pngR2i147R3R56R5R162R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Fradio.pngR2i191R3R56R5R163R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fradio_dot.pngR2i153R3R56R5R164R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fswatch.pngR2i185R3R56R5R165R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Ftab.pngR2i201R3R56R5R166R6tgoR0y39:flixel%2Fflixel-ui%2Fimg%2Ftab_back.pngR2i210R3R56R5R167R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Ftooltip_arrow.pngR2i18509R3R56R5R168R6tgoR0y39:flixel%2Fflixel-ui%2Fxml%2Fdefaults.xmlR2i1263R3R4R5R169R6tgoR0y53:flixel%2Fflixel-ui%2Fxml%2Fdefault_loading_screen.xmlR2i1953R3R4R5R170R6tgoR0y44:flixel%2Fflixel-ui%2Fxml%2Fdefault_popup.xmlR2i1848R3R4R5R171R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy26:assets%2Fdata%2Fadmins.txty4:sizei68y4:typey4:TEXTy2:idR1y7:preloadtgoR0y36:assets%2Fdata%2FcustomerProfile.jsonR2i9974R3R4R5R7R6tgoR0y35:assets%2Fdata%2FdashboardSante.jsonR2i3461R3R4R5R8R6tgoR0y34:assets%2Fdata%2Fdata-goes-here.txtR2zR3R4R5R9R6tgoR0y24:assets%2Fdata%2Ftest.txtR2i9R3R4R5R10R6tgoR0y27:assets%2Fdata%2Ftesters.txtR2i48R3R4R5R11R6tgoR0y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.eotR2i145232R3y6:BINARYR5R12R6tgoR2i145004R3y4:FONTy9:classNamey51:__ASSET__assets_fonts_jetbrainsmono_bold_italic_ttfR5y46:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.ttfR6tgoR0y47:assets%2Ffonts%2FJetBrainsMono-Bold-Italic.woffR2i67044R3R13R5R18R6tgoR0y39:assets%2Ffonts%2FJetBrainsMono-Bold.eotR2i138892R3R13R5R19R6tgoR2i138692R3R14R15y44:__ASSET__assets_fonts_jetbrainsmono_bold_ttfR5y39:assets%2Ffonts%2FJetBrainsMono-Bold.ttfR6tgoR0y40:assets%2Ffonts%2FJetBrainsMono-Bold.woffR2i62276R3R13R5R22R6tgoR0y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.eotR2i145920R3R13R5R23R6tgoR2i145672R3R14R15y56:__ASSET__assets_fonts_jetbrainsmono_extrabold_italic_ttfR5y51:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.ttfR6tgoR0y52:assets%2Ffonts%2FJetBrainsMono-ExtraBold-Italic.woffR2i65812R3R13R5R26R6tgoR0y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.eotR2i139388R3R13R5R27R6tgoR2i139168R3R14R15y49:__ASSET__assets_fonts_jetbrainsmono_extrabold_ttfR5y44:assets%2Ffonts%2FJetBrainsMono-ExtraBold.ttfR6tgoR0y45:assets%2Ffonts%2FJetBrainsMono-ExtraBold.woffR2i61016R3R13R5R30R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Italic.eotR2i141780R3R13R5R31R6tgoR2i141572R3R14R15y46:__ASSET__assets_fonts_jetbrainsmono_italic_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Italic.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Italic.woffR2i64504R3R13R5R34R6tgoR0y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.eotR2i144764R3R13R5R35R6tgoR2i144528R3R14R15y53:__ASSET__assets_fonts_jetbrainsmono_medium_italic_ttfR5y48:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.ttfR6tgoR0y49:assets%2Ffonts%2FJetBrainsMono-Medium-Italic.woffR2i66768R3R13R5R38R6tgoR0y41:assets%2Ffonts%2FJetBrainsMono-Medium.eotR2i138484R3R13R5R39R6tgoR2i138276R3R14R15y46:__ASSET__assets_fonts_jetbrainsmono_medium_ttfR5y41:assets%2Ffonts%2FJetBrainsMono-Medium.ttfR6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Medium.woffR2i62064R3R13R5R42R6tgoR0y42:assets%2Ffonts%2FJetBrainsMono-Regular.eotR2i136920R3R13R5R43R6tgoR2i136708R3R14R15y47:__ASSET__assets_fonts_jetbrainsmono_regular_ttfR5y42:assets%2Ffonts%2FJetBrainsMono-Regular.ttfR6tgoR0y43:assets%2Ffonts%2FJetBrainsMono-Regular.woffR2i60220R3R13R5R46R6tgoR0y31:assets%2Ffonts%2FLato-Black.eotR2i114806R3R13R5R47R6tgoR2i114588R3R14R15y36:__ASSET__assets_fonts_lato_black_ttfR5y31:assets%2Ffonts%2FLato-Black.ttfR6tgoR0y32:assets%2Ffonts%2FLato-Black.woffR2i48592R3R13R5R50R6tgoR0y33:assets%2Ffonts%2FLato-Regular.eotR2i120422R3R13R5R51R6tgoR2i120196R3R14R15y38:__ASSET__assets_fonts_lato_regular_ttfR5y33:assets%2Ffonts%2FLato-Regular.ttfR6tgoR0y34:assets%2Ffonts%2FLato-Regular.woffR2i50140R3R13R5R54R6tgoR0y42:assets%2Fimages%2Fintro%2Fbaby_shocked.pngR2i135091R3y5:IMAGER5R55R6tgoR0y37:assets%2Fimages%2Fintro%2Ffavicon.pngR2i18396R3R56R5R57R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_de.pngR2i10073R3R56R5R58R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_en.pngR2i9698R3R56R5R59R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_fr.pngR2i10189R3R56R5R60R6tgoR0y41:assets%2Fimages%2Fmarylin%2Flimits_it.pngR2i10024R3R56R5R61R6tgoR0y35:assets%2Fimages%2Fui%2Fall-good.pngR2i4661R3R56R5R62R6tgoR0y31:assets%2Fimages%2Fui%2Fback.pngR2i7760R3R56R5R63R6tgoR0y36:assets%2Fimages%2Fui%2FclipBoard.pngR2i2456R3R56R5R64R6tgoR0y32:assets%2Fimages%2Fui%2Fclose.pngR2i4989R3R56R5R65R6tgoR0y34:assets%2Fimages%2Fui%2Fcomment.pngR2i6291R3R56R5R66R6tgoR0y29:assets%2Fimages%2Fui%2Fde.pngR2i3650R3R56R5R67R6tgoR0y31:assets%2Fimages%2Fui%2Fdown.pngR2i6660R3R56R5R68R6tgoR0y29:assets%2Fimages%2Fui%2Fen.pngR2i3572R3R56R5R69R6tgoR0y31:assets%2Fimages%2Fui%2Fexit.pngR2i4953R3R56R5R70R6tgoR0y29:assets%2Fimages%2Fui%2Ffr.pngR2i3645R3R56R5R71R6tgoR0y31:assets%2Fimages%2Fui%2Fhelp.pngR2i7180R3R56R5R72R6tgoR0y32:assets%2Fimages%2Fui%2Fhowto.pngR2i3824R3R56R5R73R6tgoR0y29:assets%2Fimages%2Fui%2Fit.pngR2i2051R3R56R5R74R6tgoR0y31:assets%2Fimages%2Fui%2Fleft.pngR2i5261R3R56R5R75R6tgoR0y32:assets%2Fimages%2Fui%2Flight.pngR2i7477R3R56R5R76R6tgoR0y33:assets%2Fimages%2Fui%2Flogout.pngR2i4472R3R56R5R77R6tgoR0y31:assets%2Fimages%2Fui%2Fmail.pngR2i21955R3R56R5R78R6tgoR0y37:assets%2Fimages%2Fui%2FpageLoader.pngR2i11707R3R56R5R79R6tgoR0y32:assets%2Fimages%2Fui%2Fright.pngR2i5276R3R56R5R80R6tgoR0y33:assets%2Fimages%2Fui%2Fscript.pngR2i8958R3R56R5R81R6tgoR0y34:assets%2Fimages%2Fui%2FshowPwd.pngR2i8423R3R56R5R82R6tgoR0y35:assets%2Fimages%2Fui%2Ftemplate.pngR2i11468R3R56R5R83R6tgoR0y39:assets%2Fimages%2Fui%2FtrainingMode.pngR2i5713R3R56R5R84R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardDE.pngR2i197972R3R56R5R85R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardEN.pngR2i194114R3R56R5R86R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardFR.pngR2i197400R3R56R5R87R6tgoR0y41:assets%2Fimages%2Fui%2FtutoKeyboardIT.pngR2i196927R3R56R5R88R6tgoR0y34:assets%2Fimages%2Fui%2Fversion.pngR2i33131R3R56R5R89R6tgoR0y43:assets%2Flocales%2Fde-DE%2FbillShock_de.txtR2i1669R3R4R5R90R6tgoR0y41:assets%2Flocales%2Fde-DE%2Fcapture_de.txtR2i4934R3R4R5R91R6tgoR0y40:assets%2Flocales%2Fde-DE%2Fdecide_de.txtR2i3454R3R4R5R92R6tgoR0y41:assets%2Flocales%2Fde-DE%2Fheaders_de.txtR2i1110R3R4R5R93R6tgoR0y38:assets%2Flocales%2Fde-DE%2Fmeta_de.txtR2i648R3R4R5R94R6tgoR0y43:assets%2Flocales%2Fen-GB%2FbillShock_en.txtR2i1443R3R4R5R95R6tgoR0y41:assets%2Flocales%2Fen-GB%2Fcapture_en.txtR2i4231R3R4R5R96R6tgoR0y40:assets%2Flocales%2Fen-GB%2Fdecide_en.txtR2i3092R3R4R5R97R6tgoR0y41:assets%2Flocales%2Fen-GB%2Fheaders_en.txtR2i1087R3R4R5R98R6tgoR0y38:assets%2Flocales%2Fen-GB%2Fmeta_en.txtR2i569R3R4R5R99R6tgoR0y43:assets%2Flocales%2Ffr-FR%2FbillShock_fr.txtR2i1643R3R4R5R100R6tgoR0y41:assets%2Flocales%2Ffr-FR%2Fcapture_fr.txtR2i4745R3R4R5R101R6tgoR0y40:assets%2Flocales%2Ffr-FR%2Fdecide_fr.txtR2i3271R3R4R5R102R6tgoR0y41:assets%2Flocales%2Ffr-FR%2Fheaders_fr.txtR2i1127R3R4R5R103R6tgoR0y38:assets%2Flocales%2Ffr-FR%2Fmeta_fr.txtR2i648R3R4R5R104R6tgoR0y28:assets%2Flocales%2Findex.xmlR2i3214R3R4R5R105R6tgoR0y43:assets%2Flocales%2Fit-IT%2FbillShock_it.txtR2i1468R3R4R5R106R6tgoR0y41:assets%2Flocales%2Fit-IT%2Fcapture_it.txtR2i4486R3R4R5R107R6tgoR0y40:assets%2Flocales%2Fit-IT%2Fdecide_it.txtR2i3216R3R4R5R108R6tgoR0y41:assets%2Flocales%2Fit-IT%2Fheaders_it.txtR2i1138R3R4R5R109R6tgoR0y38:assets%2Flocales%2Fit-IT%2Fmeta_it.txtR2i647R3R4R5R110R6tgoR0y37:assets%2Flocales%2F_icons%2Fcs-CZ.pngR2i3115R3R56R5R111R6tgoR0y37:assets%2Flocales%2F_icons%2Fde-DE.pngR2i822R3R56R5R112R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-CA.pngR2i930R3R56R5R113R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-GB.pngR2i1005R3R56R5R114R6tgoR0y37:assets%2Flocales%2F_icons%2Fen-US.pngR2i954R3R56R5R115R6tgoR0y37:assets%2Flocales%2F_icons%2Fes-ES.pngR2i800R3R56R5R116R6tgoR0y37:assets%2Flocales%2F_icons%2Ffr-FR.pngR2i829R3R56R5R117R6tgoR0y37:assets%2Flocales%2F_icons%2Fit-IT.pngR2i740R3R56R5R118R6tgoR0y37:assets%2Flocales%2F_icons%2Fja-JP.pngR2i771R3R56R5R119R6tgoR0y37:assets%2Flocales%2F_icons%2Fko-KR.pngR2i3281R3R56R5R120R6tgoR0y37:assets%2Flocales%2F_icons%2Fnb-NO.pngR2i858R3R56R5R121R6tgoR0y37:assets%2Flocales%2F_icons%2Fpl-PL.pngR2i2980R3R56R5R122R6tgoR0y37:assets%2Flocales%2F_icons%2Fyo-DA.pngR2i3065R3R56R5R123R6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R124R6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R125R6tgoR0y25:assets%2Fxml%2Fbutton.pngR2i3200R3R56R5R126R6tgoR0y28:assets%2Fxml%2Fhaxeui_96.pngR2i2503R3R56R5R127R6tgoR0y23:assets%2Fxml%2Ftest.xmlR2i4460R3R4R5R128R6tgoR2i2114R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3y9:pathGroupaR130y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R129R5y28:flixel%2Fsounds%2Fflixel.mp3R131aR133y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3y5:SOUNDR5R132R131aR130R132hgoR2i33629R3R135R5R134R131aR133R134hgoR2i15744R3R14R15y35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R14R15y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R56R5R140R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R56R5R141R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Fbox.pngR2i912R3R56R5R142R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fbutton.pngR2i433R3R56R5R143R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_down.pngR2i446R3R56R5R144R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_left.pngR2i459R3R56R5R145R6tgoR0y49:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_right.pngR2i511R3R56R5R146R6tgoR0y46:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_up.pngR2i493R3R56R5R147R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fbutton_thin.pngR2i247R3R56R5R148R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fbutton_toggle.pngR2i534R3R56R5R149R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fcheck_box.pngR2i922R3R56R5R150R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fcheck_mark.pngR2i946R3R56R5R151R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fchrome.pngR2i253R3R56R5R152R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fchrome_flat.pngR2i212R3R56R5R153R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_inset.pngR2i192R3R56R5R154R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_light.pngR2i214R3R56R5R155R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fdropdown_mark.pngR2i156R3R56R5R156R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Ffinger_big.pngR2i1724R3R56R5R157R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Ffinger_small.pngR2i294R3R56R5R158R6tgoR0y38:flixel%2Fflixel-ui%2Fimg%2Fhilight.pngR2i129R3R56R5R159R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Finvis.pngR2i128R3R56R5R160R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fminus_mark.pngR2i136R3R56R5R161R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fplus_mark.pngR2i147R3R56R5R162R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Fradio.pngR2i191R3R56R5R163R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fradio_dot.pngR2i153R3R56R5R164R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fswatch.pngR2i185R3R56R5R165R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Ftab.pngR2i201R3R56R5R166R6tgoR0y39:flixel%2Fflixel-ui%2Fimg%2Ftab_back.pngR2i210R3R56R5R167R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Ftooltip_arrow.pngR2i18509R3R56R5R168R6tgoR0y39:flixel%2Fflixel-ui%2Fxml%2Fdefaults.xmlR2i1263R3R4R5R169R6tgoR0y53:flixel%2Fflixel-ui%2Fxml%2Fdefault_loading_screen.xmlR2i1953R3R4R5R170R6tgoR0y44:flixel%2Fflixel-ui%2Fxml%2Fdefault_popup.xmlR2i1848R3R4R5R171R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -5146,8 +5206,8 @@ tstool_process_Descision.__name__ = "tstool.process.Descision";
 tstool_process_Descision.__super__ = tstool_process_Process;
 tstool_process_Descision.prototype = $extend(tstool_process_Process.prototype,{
 	create: function() {
-		this.set__buttonYesTxt(this.translate(this._buttonYesTxt,"RIGHT-BTN"));
-		this.set__buttonNoTxt(this.translate(this._buttonNoTxt,"LEFT-BTN"));
+		this.set__buttonYesTxt(tstool_MainApp.translator.translate(this.get__name(),this._buttonYesTxt,"RIGHT-BTN"));
+		this.set__buttonNoTxt(tstool_MainApp.translator.translate(this.get__name(),this._buttonNoTxt,"LEFT-BTN"));
 		tstool_process_Process.prototype.create.call(this);
 		this.btnYes = new flixel_ui_FlxButton(0,0,this._buttonYesTxt,$bind(this,this.onYesClick));
 		this.registerButton(this.btnYes);
@@ -5171,7 +5231,6 @@ tstool_process_Descision.prototype = $extend(tstool_process_Process.prototype,{
 		this.btnYes.updateHitbox();
 		this.btnNo.updateHitbox();
 		this.positionThis();
-		this.setStyle();
 		this.setStyle();
 	}
 	,positionThis: function(offSet) {
@@ -5328,8 +5387,10 @@ tstool_process_DescisionMultipleInput.prototype = $extend(tstool_process_Descisi
 			var j = _g1[_g];
 			++_g;
 			if(j.hasTranslation != null && j.hasTranslation) {
-				var tmp = this.get__name();
-				j.input.titleTranslated = this.translate(tmp,j.input.prefix,"headers");
+				var tmp = tstool_MainApp.translator;
+				var tmp1 = this.get__name();
+				var tmp2 = this.get__name();
+				j.input.titleTranslated = tmp.translate(tmp1,tmp2,j.input.prefix,"headers");
 			}
 		}
 		var _g = [];
@@ -5368,22 +5429,28 @@ tstool_process_DescisionMultipleInput.prototype = $extend(tstool_process_Descisi
 		this.positionButtons(p);
 	}
 	,pushToHistory: function(buttonTxt,interactionType,values) {
-		var _g = new haxe_ds_StringMap();
-		var h = this.multipleInputs.get_inputs().h;
-		var _g1_h = h;
-		var _g1_keys = Object.keys(h);
-		var _g1_length = _g1_keys.length;
-		var _g1_current = 0;
-		while(_g1_current < _g1_length) {
-			var key = _g1_keys[_g1_current++];
-			var _g2_key = key;
-			var _g2_value = _g1_h[key];
-			var k = _g2_key;
-			var v = _g2_value;
-			var value = v.getInputedText();
-			_g.h[k] = value;
+		var tmp;
+		if(values == null) {
+			var _g = new haxe_ds_StringMap();
+			var h = this.multipleInputs.get_inputs().h;
+			var _g1_h = h;
+			var _g1_keys = Object.keys(h);
+			var _g1_length = _g1_keys.length;
+			var _g1_current = 0;
+			while(_g1_current < _g1_length) {
+				var key = _g1_keys[_g1_current++];
+				var _g2_key = key;
+				var _g2_value = _g1_h[key];
+				var k = _g2_key;
+				var v = _g2_value;
+				var value = v.getInputedText();
+				_g.h[k] = value;
+			}
+			tmp = _g;
+		} else {
+			tmp = values;
 		}
-		tstool_process_Descision.prototype.pushToHistory.call(this,buttonTxt,interactionType,_g);
+		tstool_process_Descision.prototype.pushToHistory.call(this,buttonTxt,interactionType,tmp);
 	}
 	,destroy: function() {
 		tstool_process_Descision.prototype.destroy.call(this);
@@ -5435,10 +5502,12 @@ capture_HighUsageData.prototype = $extend(tstool_process_DescisionMultipleInput.
 	}
 	,prepareTacking: function() {
 		Main.trackH.setVerb(xapi_Verb.initialized);
-		Main.trackH.setStatementRefs(null);
+		Main.trackH.setDefaultContext(tstool_MainApp.translator.locale,"mobile.qtool@salt.ch");
 		var extensions = new haxe_ds_StringMap();
 		var value = Main.customer.get_iri();
 		extensions.h["https://customercare.salt.ch/admin/contracts/customer/"] = value;
+		var key = $global.location.origin + "/troubleshooting/script_version/";
+		extensions.h[key] = Main.VERSION;
 		Main.trackH.setActivityObject("non-data",null,null,"http://activitystrea.ms/schema/1.0/process",extensions);
 		Main.trackH.send();
 		Main.trackH.setVerb(xapi_Verb.resolved);
@@ -5536,9 +5605,9 @@ tstool_process_Triplet.__name__ = "tstool.process.Triplet";
 tstool_process_Triplet.__super__ = tstool_process_Process;
 tstool_process_Triplet.prototype = $extend(tstool_process_Process.prototype,{
 	create: function() {
-		this.set__buttonYesTxt(this.translate(this._buttonYesTxt,"RIGHT-BTN"));
-		this.set__buttonMidTxt(this.translate(this._buttonMidTxt,"MID-BTN"));
-		this.set__buttonNoTxt(this.translate(this._buttonNoTxt,"LEFT-BTN"));
+		this.set__buttonYesTxt(tstool_MainApp.translator.translate(this.get__name(),this._buttonYesTxt,"RIGHT-BTN"));
+		this.set__buttonMidTxt(tstool_MainApp.translator.translate(this.get__name(),this._buttonMidTxt,"MID-BTN"));
+		this.set__buttonNoTxt(tstool_MainApp.translator.translate(this.get__name(),this._buttonNoTxt,"LEFT-BTN"));
 		tstool_process_Process.prototype.create.call(this);
 		this.btnYes = new flixel_ui_FlxButton(0,0,this._buttonYesTxt,$bind(this,this.onYesClick));
 		this.registerButton(this.btnYes);
@@ -5796,14 +5865,14 @@ tstool_process_ActionRadios.prototype = $extend(tstool_process_Action.prototype,
 			var i = _g1[_g];
 			++_g;
 			if(i.hasTranslation != null && i.hasTranslation == true) {
-				i.titleTranslation = this.translate(this.get__name(),i.title,"headers");
+				i.titleTranslation = tstool_MainApp.translator.translate(this.get__name(),this.get__name(),i.title,"headers");
 				labels = [];
 				var _g2 = 0;
 				var _g3 = i.values;
 				while(_g2 < _g3.length) {
 					var j = _g3[_g2];
 					++_g2;
-					labels.push(this.translate(this.get__name(),j,"headers"));
+					labels.push(tstool_MainApp.translator.translate(this.get__name(),this.get__name(),j,"headers"));
 				}
 			}
 			r = new tstool_layout_RadioTitle(i.title,i.values,labels,i.titleTranslation,null,i.widthMultiplier);
@@ -5967,7 +6036,6 @@ capture__$HowMadeHugeAmount.prototype = $extend(tstool_process_ActionRadios.prot
 	}
 	,prepareTacking: function(activity) {
 		Main.trackH.setVerb(xapi_Verb.initialized);
-		Main.trackH.setStatementRefs(null);
 		var extensions = new haxe_ds_StringMap();
 		var value = Main.customer.get_iri();
 		extensions.h["https://customercare.salt.ch/admin/contracts/customer/"] = value;
@@ -5991,7 +6059,7 @@ var capture__$SelectPP = function() {
 		var k = k_keys[k_current++];
 		_g.push(k);
 	}
-	tstool_process_ActionRadios.call(this,[{ title : "Price Plan", values : _g, titleTranslation : this.translate("capture._SelectPP","Price Plan","headers")},{ title : "RC", values : [], titleTranslation : this.translate("capture._SelectPP","RC","headers")}]);
+	tstool_process_ActionRadios.call(this,[{ title : "Price Plan", values : _g, titleTranslation : tstool_MainApp.translator.translate("capture._SelectPP","Price Plan","headers")},{ title : "RC", values : [], titleTranslation : tstool_MainApp.translator.translate("capture._SelectPP","RC","headers")}]);
 	this.status.h["Price Plan"] = "";
 	this.status.h["RC"] = "";
 };
@@ -7368,11 +7436,17 @@ firetongue_Replace.flags = function(string,flags,values) {
 	var j = 0;
 	while(j < flags.length) {
 		var flag = flags[j];
+		firetongue_Replace.registerTags(flag);
 		var value = values[j];
 		while(string.indexOf(flag) != -1) string = StringTools.replace(string,flag,value);
 		++j;
 	}
 	return string;
+};
+firetongue_Replace.registerTags = function(tag) {
+	if(firetongue_Replace.TAGS.indexOf(tag) == -1) {
+		firetongue_Replace.TAGS.push(tag);
+	}
 };
 var firetongue_TSV = function(input) {
 	firetongue_CSV.call(this,input,"\t",false);
@@ -41782,34 +41856,6 @@ haxe_Serializer.prototype = {
 	}
 	,__class__: haxe_Serializer
 };
-var haxe_Timer = function(time_ms) {
-	var me = this;
-	this.id = setInterval(function() {
-		me.run();
-	},time_ms);
-};
-$hxClasses["haxe.Timer"] = haxe_Timer;
-haxe_Timer.__name__ = "haxe.Timer";
-haxe_Timer.delay = function(f,time_ms) {
-	var t = new haxe_Timer(time_ms);
-	t.run = function() {
-		t.stop();
-		f();
-	};
-	return t;
-};
-haxe_Timer.prototype = {
-	stop: function() {
-		if(this.id == null) {
-			return;
-		}
-		clearInterval(this.id);
-		this.id = null;
-	}
-	,run: function() {
-	}
-	,__class__: haxe_Timer
-};
 var haxe__$Unserializer_DefaultResolver = function() {
 };
 $hxClasses["haxe._Unserializer.DefaultResolver"] = haxe__$Unserializer_DefaultResolver;
@@ -44844,6 +44890,51 @@ haxe_zip_Reader.prototype = {
 	}
 	,__class__: haxe_zip_Reader
 };
+var http_XapiHelper = function(url) {
+	haxe_http_HttpJs.call(this,url);
+	this.async = true;
+	haxe_Serializer.USE_CACHE = true;
+	haxe_Serializer.USE_ENUM_INDEX = true;
+	this.statementsRefs = [];
+	this.dispatcher = new signals_Signal1();
+	this.onData = $bind(this,this.onMyData);
+};
+$hxClasses["http.XapiHelper"] = http_XapiHelper;
+http_XapiHelper.__name__ = "http.XapiHelper";
+http_XapiHelper.__super__ = haxe_http_HttpJs;
+http_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
+	sendMany: function(stmts) {
+		var s = "";
+		try {
+			s = haxe_Serializer.run(stmts);
+			this.setParameter("statements",encodeURIComponent(s));
+			this.request(true);
+		} catch( _g ) {
+		}
+	}
+	,onMyData: function(data) {
+		try {
+			var d = new haxe_format_JsonParser(data).doParse();
+			if(d.status == "success") {
+				var stmtIDS = js_Boot.__cast(d.statementsIds , Array);
+				var _g = 0;
+				while(_g < stmtIDS.length) {
+					var i = stmtIDS[_g];
+					++_g;
+					this.statementsRefs.push(new xapi_types_StatementRef(i));
+				}
+				this.dispatcher.dispatch(true);
+			} else {
+				this.dispatcher.dispatch(false);
+			}
+		} catch( _g ) {
+			var e = haxe_Exception.caught(_g);
+			haxe_Log.trace(e,{ fileName : "http/XapiHelper.hx", lineNumber : 173, className : "http.XapiHelper", methodName : "onMyData"});
+			this.dispatcher.dispatch(false);
+		}
+	}
+	,__class__: http_XapiHelper
+});
 var js_Browser = function() { };
 $hxClasses["js.Browser"] = js_Browser;
 js_Browser.__name__ = "js.Browser";
@@ -51203,7 +51294,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 470964;
+	this.version = 940595;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -81236,14 +81327,182 @@ signals_Signal1.prototype = $extend(signals_BaseSignal.prototype,{
 	}
 	,__class__: signals_Signal1
 });
+var thx_DateTime = {};
+thx_DateTime.localOffset = function() {
+	var now = thx_DateTimeUtc.now();
+	var local = new Date(thx_DateTimeUtc.getDatePart(now,thx_DateTimeUtc.DATE_PART_YEAR),thx_DateTimeUtc.getDatePart(now,thx_DateTimeUtc.DATE_PART_MONTH) - 1,thx_DateTimeUtc.getDatePart(now,thx_DateTimeUtc.DATE_PART_DAY),thx_DateTimeUtc.get_hour(now),thx_DateTimeUtc.get_minute(now),thx_DateTimeUtc.get_second(now));
+	var a = now;
+	var b = thx_DateTimeUtc.unixEpochTicks;
+	var high = a.high - b.high | 0;
+	var low = a.low - b.low | 0;
+	if(haxe_Int32.ucompare(a.low,b.low) < 0) {
+		var ret = high--;
+		high = high | 0;
+	}
+	var this1 = new haxe__$Int64__$_$_$Int64(high,low);
+	var delta = Math.floor(thx_Int64s.toFloat(haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerMillisecondI64).quotient) / 1000) * 1000 - local.getTime();
+	var a = thx_Int64s.fromFloat(delta);
+	var b = thx_DateTimeUtc.ticksPerMillisecondI64;
+	var mask = 65535;
+	var al = a.low & mask;
+	var ah = a.low >>> 16;
+	var bl = b.low & mask;
+	var bh = b.low >>> 16;
+	var p00 = haxe_Int32._mul(al,bl);
+	var p10 = haxe_Int32._mul(ah,bl);
+	var p01 = haxe_Int32._mul(al,bh);
+	var p11 = haxe_Int32._mul(ah,bh);
+	var low = p00;
+	var high = (p11 + (p01 >>> 16) | 0) + (p10 >>> 16) | 0;
+	p01 <<= 16;
+	low = low + p01 | 0;
+	if(haxe_Int32.ucompare(low,p01) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	p10 <<= 16;
+	low = low + p10 | 0;
+	if(haxe_Int32.ucompare(low,p10) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	high = high + (haxe_Int32._mul(a.low,b.high) + haxe_Int32._mul(a.high,b.low) | 0) | 0;
+	var this1 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this2 = this1;
+	return this2;
+};
+thx_DateTime.toString = function(this1) {
+	if(null == this1) {
+		return "";
+	}
+	var this2 = this1[0];
+	var this3 = thx_Int64s.abs(this2);
+	var this2 = this1[1];
+	var abs_0 = this3;
+	var abs_1 = this2;
+	var decimals;
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	if(thx_DateTimeUtc.get_tickInSecond(this3) != 0) {
+		var this2 = abs_0;
+		var a = this2;
+		var this2 = abs_1;
+		var b = this2;
+		var high = a.high + b.high | 0;
+		var low = a.low + b.low | 0;
+		if(haxe_Int32.ucompare(low,a.low) < 0) {
+			var ret = high++;
+			high = high | 0;
+		}
+		var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+		var this3 = this2;
+		decimals = "." + thx_Strings.trimCharsRight(thx_Ints.lpad(thx_DateTimeUtc.get_tickInSecond(this3),"0",7),")");
+	} else {
+		decimals = "";
+	}
+	var this2 = this1[0];
+	var a = this2;
+	var b = thx_Int64s.zero;
+	var v = a.high - b.high | 0;
+	if(v == 0) {
+		v = haxe_Int32.ucompare(a.low,b.low);
+	}
+	var isneg = (a.high < 0 ? b.high < 0 ? v : -1 : b.high >= 0 ? v : 1) < 0;
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp = "" + thx_DateTimeUtc.getDatePart(this3,thx_DateTimeUtc.DATE_PART_YEAR) + "-";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp1 = tmp + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(this3,thx_DateTimeUtc.DATE_PART_MONTH),"0",2) + "-";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp = tmp1 + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(this3,thx_DateTimeUtc.DATE_PART_DAY),"0",2) + "T";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp1 = tmp + thx_Ints.lpad(thx_DateTimeUtc.get_hour(this3),"0",2) + ":";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp = tmp1 + thx_Ints.lpad(thx_DateTimeUtc.get_minute(this3),"0",2) + ":";
+	var this2 = abs_0;
+	var a = this2;
+	var this2 = abs_1;
+	var b = this2;
+	var high = a.high + b.high | 0;
+	var low = a.low + b.low | 0;
+	if(haxe_Int32.ucompare(low,a.low) < 0) {
+		var ret = high++;
+		high = high | 0;
+	}
+	var this2 = new haxe__$Int64__$_$_$Int64(high,low);
+	var this3 = this2;
+	var tmp1 = tmp + thx_Ints.lpad(thx_DateTimeUtc.get_second(this3),"0",2) + decimals;
+	var this2 = this1[1];
+	return (isneg ? "-" : "") + (tmp1 + thx_Time.toGmtString(this2));
+};
 var thx_DateTimeUtc = {};
 thx_DateTimeUtc.__properties__ = {get_tickInSecond:"get_tickInSecond",get_second:"get_second",get_minute:"get_minute",get_hour:"get_hour"};
 thx_DateTimeUtc.now = function() {
 	return thx_DateTimeUtc.fromDate(new Date());
-};
-thx_DateTimeUtc.fromInt64 = function(ticks) {
-	var this1 = ticks;
-	return this1;
 };
 thx_DateTimeUtc.fromDate = function(date) {
 	return thx_DateTimeUtc.fromTime(date.getTime());
@@ -81322,21 +81581,6 @@ thx_DateTimeUtc.getDatePart = function(this1,part) {
 		return m;
 	}
 	return n - days[m - 1] + 1;
-};
-thx_DateTimeUtc.toString = function(this1) {
-	if(null == this1) {
-		return "";
-	}
-	var abs = thx_DateTimeUtc.fromInt64(thx_Int64s.abs(this1));
-	var decimals = thx_DateTimeUtc.get_tickInSecond(abs) != 0 ? "." + thx_Strings.trimCharsRight(thx_Ints.lpad(thx_DateTimeUtc.get_tickInSecond(abs),"0",7),")") : "";
-	var a = this1;
-	var b = thx_Int64s.zero;
-	var v = a.high - b.high | 0;
-	if(v == 0) {
-		v = haxe_Int32.ucompare(a.low,b.low);
-	}
-	var isneg = (a.high < 0 ? b.high < 0 ? v : -1 : b.high >= 0 ? v : 1) < 0;
-	return (isneg ? "-" : "") + ("" + thx_DateTimeUtc.getDatePart(abs,thx_DateTimeUtc.DATE_PART_YEAR) + "-" + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(abs,thx_DateTimeUtc.DATE_PART_MONTH),"0",2) + "-" + thx_Ints.lpad(thx_DateTimeUtc.getDatePart(abs,thx_DateTimeUtc.DATE_PART_DAY),"0",2) + "T" + thx_Ints.lpad(thx_DateTimeUtc.get_hour(abs),"0",2) + ":" + thx_Ints.lpad(thx_DateTimeUtc.get_minute(abs),"0",2) + ":" + thx_Ints.lpad(thx_DateTimeUtc.get_second(abs),"0",2) + decimals + "Z");
 };
 thx_DateTimeUtc.get_hour = function(this1) {
 	var a = haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerHourI64).quotient;
@@ -81445,16 +81689,71 @@ thx_Int64s.compare = function(a,b) {
 		return 1;
 	}
 };
+thx_Int64s.toFloat = function(i) {
+	var isNegative = false;
+	var b_high = 0;
+	var b_low = 0;
+	var v = i.high - b_high | 0;
+	if(v == 0) {
+		v = haxe_Int32.ucompare(i.low,b_low);
+	}
+	if((i.high < 0 ? b_high < 0 ? v : -1 : b_high >= 0 ? v : 1) < 0) {
+		var b = thx_Int64s.min;
+		var v = i.high - b.high | 0;
+		if(v == 0) {
+			v = haxe_Int32.ucompare(i.low,b.low);
+		}
+		if((i.high < 0 ? b.high < 0 ? v : -1 : b.high >= 0 ? v : 1) < 0) {
+			return -9223372036854775808.0;
+		}
+		isNegative = true;
+		var high = ~i.high;
+		var low = ~i.low + 1 | 0;
+		if(low == 0) {
+			var ret = high++;
+			high = high | 0;
+		}
+		var this1 = new haxe__$Int64__$_$_$Int64(high,low);
+		i = this1;
+	}
+	var multiplier = 1.0;
+	var ret = 0.0;
+	var _g = 0;
+	while(_g < 64) {
+		var _ = _g++;
+		var b = thx_Int64s.one;
+		var a_high = i.high & b.high;
+		var a_low = i.low & b.low;
+		var b1 = thx_Int64s.zero;
+		if(a_high != b1.high || a_low != b1.low) {
+			ret += multiplier;
+		}
+		multiplier *= 2.0;
+		var b2 = 1;
+		b2 &= 63;
+		if(b2 == 0) {
+			var this1 = new haxe__$Int64__$_$_$Int64(i.high,i.low);
+			i = this1;
+		} else if(b2 < 32) {
+			var this2 = new haxe__$Int64__$_$_$Int64(i.high >> b2,i.high << 32 - b2 | i.low >>> b2);
+			i = this2;
+		} else {
+			var this3 = new haxe__$Int64__$_$_$Int64(i.high >> 31,i.high >> b2 - 32);
+			i = this3;
+		}
+	}
+	return (isNegative ? -1 : 1) * ret;
+};
 thx_Int64s.fromFloat = function(f) {
 	if(isNaN(f) || !isFinite(f)) {
-		throw new thx_Error("Conversion to Int64 failed. Number is NaN or Infinite",null,{ fileName : "thx/Int64s.hx", lineNumber : 153, className : "thx.Int64s", methodName : "fromFloat"});
+		throw new thx_Error("Conversion to Int64 failed. Number is NaN or Infinite",null,{ fileName : "thx/Int64s.hx", lineNumber : 162, className : "thx.Int64s", methodName : "fromFloat"});
 	}
 	var noFractions = f - f % 1;
 	if(noFractions > 9007199254740991.0) {
-		throw new thx_Error("Conversion to Int64 failed. Conversion overflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 159, className : "thx.Int64s", methodName : "fromFloat"});
+		throw new thx_Error("Conversion to Int64 failed. Conversion overflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 168, className : "thx.Int64s", methodName : "fromFloat"});
 	}
 	if(noFractions < -9007199254740991.0) {
-		throw new thx_Error("Conversion to Int64 failed. Conversion underflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 161, className : "thx.Int64s", methodName : "fromFloat"});
+		throw new thx_Error("Conversion to Int64 failed. Conversion underflow",null,{ fileName : "thx/Int64s.hx", lineNumber : 170, className : "thx.Int64s", methodName : "fromFloat"});
 	}
 	var result = thx_Int64s.zero;
 	var neg = noFractions < 0.0;
@@ -81538,6 +81837,31 @@ thx_Strings.trimCharsRight = function(value,charlist) {
 	}
 	return value.substring(0,pos);
 };
+var thx_Time = {};
+thx_Time.toGmtString = function(this1) {
+	var x = haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerHourI64).quotient;
+	if(x.high != x.low >> 31) {
+		throw haxe_Exception.thrown("Overflow");
+	}
+	var h = thx_Ints.lpad(x.low,"0",2);
+	var a = this1;
+	var b_high = 0;
+	var b_low = 0;
+	var v = a.high - b_high | 0;
+	if(v == 0) {
+		v = haxe_Int32.ucompare(a.low,b_low);
+	}
+	if((a.high < 0 ? b_high < 0 ? v : -1 : b_high >= 0 ? v : 1) >= 0) {
+		h = "+" + h;
+	}
+	var a = haxe_Int64.divMod(this1,thx_DateTimeUtc.ticksPerMinuteI64).quotient;
+	var this1 = new haxe__$Int64__$_$_$Int64(0,60);
+	var x = haxe_Int64.divMod(a,this1).modulus;
+	if(x.high != x.low >> 31) {
+		throw haxe_Exception.thrown("Overflow");
+	}
+	return "" + h + ":" + thx_Ints.lpad(x.low,"0",2);
+};
 var tstool_process_ActionMemo = function() {
 	tstool_process_Action.call(this);
 };
@@ -81547,8 +81871,8 @@ tstool_process_ActionMemo.__super__ = tstool_process_Action;
 tstool_process_ActionMemo.prototype = $extend(tstool_process_Action.prototype,{
 	create: function() {
 		this.memoTxt = "";
-		this.memoDefault = this.translate("describeIssue","UI1","meta");
-		this.memoTxtArea = new tstool_layout_BIGUIInputTfCore(750,50,this.memoDefault,[tstool_layout_Direction.bottom,tstool_layout_Direction.left]);
+		this.memoDefault = tstool_MainApp.translator.translate(this.get__name(),"describeIssue","UI1","meta");
+		this.memoTxtArea = new tstool_layout_BIGUIInputTfCore(750,250,this.memoDefault,[tstool_layout_Direction.bottom,tstool_layout_Direction.left]);
 		this.defaultMemo = "";
 		tstool_process_Action.prototype.create.call(this);
 		this.memoTxtArea.get_inputtextfield().set_text(this.defaultMemo);
@@ -81567,8 +81891,8 @@ tstool_process_ActionMemo.prototype = $extend(tstool_process_Action.prototype,{
 	,positionThis: function(offSet) {
 		tstool_process_Action.prototype.positionThis.call(this);
 		var p = this.memoTxtArea.positionMe(this.get_question().get_boundingRect(),0);
-		this.positionBottom(p);
 		this.positionButtons(p);
+		this.positionBottom(new flixel_math_FlxPoint(this.memoTxtArea.get_boundingRect().x,this.memoTxtArea.get_y() + this.memoTxtArea.get_height()));
 	}
 	,onClick: function() {
 		if(this.validate()) {
@@ -81589,16 +81913,16 @@ tstool_process_ActionMemo.prototype = $extend(tstool_process_Action.prototype,{
 	,listener: function(s) {
 		switch(s) {
 		case "de-DE":
-			this.switchLang("de-DE",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 83, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("de-DE",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 97, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "en-GB":
-			this.switchLang("en-GB",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 81, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("en-GB",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 95, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "fr-FR":
-			this.switchLang("fr-FR",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 84, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("fr-FR",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 98, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "it-IT":
-			this.switchLang("it-IT",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 82, className : "tstool.process.ActionMemo", methodName : "listener"});
+			this.switchLang("it-IT",{ fileName : "tstool/process/ActionMemo.hx", lineNumber : 96, className : "tstool.process.ActionMemo", methodName : "listener"});
 			break;
 		case "onBack":
 			this.onBack();
@@ -81649,28 +81973,38 @@ var tstool_process_ActionTicket = function(ticket,resolved) {
 	if(resolved == null) {
 		resolved = false;
 	}
-	tstool_process_ActionMemo.call(this);
-	this.ticket = ticket;
-	this.mail = new tstool_salt_TicketMail(this.ticket,this,resolved);
+	try {
+		tstool_process_ActionMemo.call(this);
+		this.ticket = ticket;
+		this.mail = new tstool_salt_TicketMail(this.ticket,this,resolved);
+	} catch( _g ) {
+		var e = haxe_Exception.caught(_g);
+		haxe_Log.trace(e,{ fileName : "tstool/process/ActionTicket.hx", lineNumber : 50, className : "tstool.process.ActionTicket", methodName : "new"});
+	}
 };
 $hxClasses["tstool.process.ActionTicket"] = tstool_process_ActionTicket;
 tstool_process_ActionTicket.__name__ = "tstool.process.ActionTicket";
 tstool_process_ActionTicket.__super__ = tstool_process_ActionMemo;
 tstool_process_ActionTicket.prototype = $extend(tstool_process_ActionMemo.prototype,{
 	create: function() {
-		tstool_process_ActionMemo.prototype.create.call(this);
-		if(Main.customer.get_contract().mobile != "" || Main.customer.get_contract().getEmails() != []) {
-			this.defaultMemo = "CONTACT:";
-			if(Main.customer.get_contract().mobile != "") {
-				this.defaultMemo += " " + Main.customer.get_contract().mobile;
+		try {
+			tstool_process_ActionMemo.prototype.create.call(this);
+			if(Main.customer.get_contract().mobile != "" || Main.customer.get_contract().getEmails() != []) {
+				this.defaultMemo = "CONTACT:";
+				if(Main.customer.get_contract().mobile != "") {
+					this.defaultMemo += " " + Main.customer.get_contract().mobile;
+				}
+				if(Main.customer.get_contract().getEmails() != []) {
+					this.defaultMemo += " " + Main.customer.get_contract().getEmails().join(" ");
+				}
 			}
-			if(Main.customer.get_contract().getEmails() != []) {
-				this.defaultMemo += " " + Main.customer.get_contract().getEmails().join(" ");
-			}
+			this.memoTxtArea.get_inputtextfield().set_text(this.defaultMemo);
+			this.get_details().set_autoSize(true);
+			this.get_details().textField.set_htmlText(this._detailTxt);
+		} catch( _g ) {
+			var e = haxe_Exception.caught(_g);
+			haxe_Log.trace(e,{ fileName : "tstool/process/ActionTicket.hx", lineNumber : 78, className : "tstool.process.ActionTicket", methodName : "create"});
 		}
-		this.memoTxtArea.get_inputtextfield().set_text(this.defaultMemo);
-		this.get_details().set_autoSize(true);
-		this.get_details().textField.set_htmlText(this._detailTxt);
 	}
 	,onMailError: function(parameter0) {
 		this.closeSubState();
@@ -81679,7 +82013,7 @@ tstool_process_ActionTicket.prototype = $extend(tstool_process_ActionMemo.protot
 		this.closeSubState();
 		Main.trackH.setVerb(xapi_Verb.submitted);
 		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
-		var value = this.ticket.get_domain() + "_" + this.ticket.get_number();
+		var value = this.ticket.toString();
 		this1.h["https://cs.salt.ch"] = value;
 		switch(data.status) {
 		case "failed":
@@ -81821,7 +82155,7 @@ tstool_layout_UIInputTfCore.prototype = {
 	}
 	,addToParent: function(parent) {
 		if(this._label == "" || this.get_imputLabel().text == "") {
-			this.get_imputLabel().set_text(parent.translate(parent.get__name(),this.get_id(),"headers"));
+			this.get_imputLabel().set_text(tstool_MainApp.translator.translate(parent.get__name(),parent.get__name(),this.get_id(),"headers"));
 		}
 		parent.add(this.get_imputLabel());
 		flixel_FlxG.addChildBelowMouse(this.get_inputtextfield());
@@ -82052,6 +82386,9 @@ $hxClasses["tstool.layout.History"] = tstool_layout_History;
 tstool_layout_History.__name__ = "tstool.layout.History";
 tstool_layout_History.stripTags = function(s,skip) {
 	var t = ["<B>","<b>","<N>","<T>","<EM>","<em>","\t","\n"];
+	if(firetongue_Replace.TAGS.length > 0) {
+		t = Lambda.concat(t,firetongue_Replace.TAGS);
+	}
 	var _g = 0;
 	while(_g < t.length) {
 		var i = t[_g];
@@ -82179,194 +82516,12 @@ tstool_layout_History.prototype = {
 		var steps = this.getStoredStepsArray();
 		steps.push({ processName : _currentProcess.get__name(), interaction : tstool_layout_Interactions.Next, processTitle : "", iteractionTitle : "", values : null, start : new Date()});
 		b += "<h4>Steps:</h4>";
-		var s = "";
-		var title = "";
-		var values = "";
-		var interaction = "";
-		var b1;
-		if(steps == null) {
-			b1 = "";
-		} else {
-			var _g = 0;
-			while(_g < steps.length) {
-				var h = steps[_g];
-				++_g;
-				title = tstool_layout_History.stripTags(tstool_MainApp.translator.get("$" + h.processName + "_TITLE","data"));
-				if(h.interaction == tstool_layout_Interactions.Next) {
-					interaction = "";
-				} else {
-					var interaction1 = h.interaction;
-					var choice = tstool_MainApp.translator;
-					var choice1 = "$" + h.processName + "_";
-					var choice2;
-					switch(interaction1._hx_index) {
-					case 0:
-						choice2 = "RIGHT-BTN";
-						break;
-					case 1:
-						choice2 = "LEFT-BTN";
-						break;
-					case 2:
-						choice2 = "MID-BTN";
-						break;
-					default:
-						choice2 = "MID-BTN";
-					}
-					var choice3 = choice.get(choice1 + choice2,"data");
-					if(choice3 == "" || choice3 == null || choice3.indexOf("$") == 0) {
-						var choice4 = tstool_MainApp.translator;
-						var choice5;
-						switch(interaction1._hx_index) {
-						case 0:
-							choice5 = "UI3";
-							break;
-						case 1:
-							choice5 = "UI1";
-							break;
-						case 2:
-							choice5 = "UI2";
-							break;
-						default:
-							choice5 = "UI2";
-						}
-						choice3 = choice4.get("$defaultBtn_" + choice5,"meta");
-					}
-					interaction = "... <strong>" + choice3 + "</strong>";
-				}
-				if(h.values == null) {
-					values = "";
-				} else {
-					var processName = h.processName;
-					var out = "";
-					var translation = "";
-					var h1 = h.values.h;
-					var _g_h = h1;
-					var _g_keys = Object.keys(h1);
-					var _g_length = _g_keys.length;
-					var _g_current = 0;
-					while(_g_current < _g_length) {
-						var key = _g_keys[_g_current++];
-						var _g1_key = key;
-						var _g1_value = _g_h[key];
-						var title1 = _g1_key;
-						var value = _g1_value;
-						if(StringTools.trim(value) != "") {
-							translation = tstool_MainApp.translator.get("$" + processName + title1.split(" ").join(""),"headers");
-							if(translation == null || translation == "" || translation.indexOf("$") == 0) {
-								translation = title1;
-							}
-							out += "<li>" + translation + " ... <strong>" + Std.string(value) + "</strong></li>";
-						}
-					}
-					values = out == "" ? "" : "<ul>" + out + "</ul>";
-				}
-				if(interaction == "") {
-					s += "<li>" + title + " " + values + "</li>";
-				} else if(values == "") {
-					s += "<li>" + title + " " + interaction + "</li>";
-				} else {
-					s += "<li>" + title + " " + values + " " + interaction + "</li>";
-				}
-			}
-			b1 = s;
-		}
-		b += "<ol>" + b1 + "</ol>";
+		b += "<ol>" + this.listSteps(steps) + "</ol>";
 		if(translate && needsEnTranslation) {
 			b += "<h4>English:</h4>";
-			tstool_MainApp.translator.initialize("en-GB",null,{ fileName : "tstool/layout/History.hx", lineNumber : 328, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
-			var s = "";
-			var title = "";
-			var values = "";
-			var interaction = "";
-			var b1;
-			if(steps == null) {
-				b1 = "";
-			} else {
-				var _g = 0;
-				while(_g < steps.length) {
-					var h = steps[_g];
-					++_g;
-					title = tstool_layout_History.stripTags(tstool_MainApp.translator.get("$" + h.processName + "_TITLE","data"));
-					if(h.interaction == tstool_layout_Interactions.Next) {
-						interaction = "";
-					} else {
-						var interaction1 = h.interaction;
-						var choice = tstool_MainApp.translator;
-						var choice1 = "$" + h.processName + "_";
-						var choice2;
-						switch(interaction1._hx_index) {
-						case 0:
-							choice2 = "RIGHT-BTN";
-							break;
-						case 1:
-							choice2 = "LEFT-BTN";
-							break;
-						case 2:
-							choice2 = "MID-BTN";
-							break;
-						default:
-							choice2 = "MID-BTN";
-						}
-						var choice3 = choice.get(choice1 + choice2,"data");
-						if(choice3 == "" || choice3 == null || choice3.indexOf("$") == 0) {
-							var choice4 = tstool_MainApp.translator;
-							var choice5;
-							switch(interaction1._hx_index) {
-							case 0:
-								choice5 = "UI3";
-								break;
-							case 1:
-								choice5 = "UI1";
-								break;
-							case 2:
-								choice5 = "UI2";
-								break;
-							default:
-								choice5 = "UI2";
-							}
-							choice3 = choice4.get("$defaultBtn_" + choice5,"meta");
-						}
-						interaction = "... <strong>" + choice3 + "</strong>";
-					}
-					if(h.values == null) {
-						values = "";
-					} else {
-						var processName = h.processName;
-						var out = "";
-						var translation = "";
-						var h1 = h.values.h;
-						var _g_h = h1;
-						var _g_keys = Object.keys(h1);
-						var _g_length = _g_keys.length;
-						var _g_current = 0;
-						while(_g_current < _g_length) {
-							var key = _g_keys[_g_current++];
-							var _g1_key = key;
-							var _g1_value = _g_h[key];
-							var title1 = _g1_key;
-							var value = _g1_value;
-							if(StringTools.trim(value) != "") {
-								translation = tstool_MainApp.translator.get("$" + processName + title1.split(" ").join(""),"headers");
-								if(translation == null || translation == "" || translation.indexOf("$") == 0) {
-									translation = title1;
-								}
-								out += "<li>" + translation + " ... <strong>" + Std.string(value) + "</strong></li>";
-							}
-						}
-						values = out == "" ? "" : "<ul>" + out + "</ul>";
-					}
-					if(interaction == "") {
-						s += "<li>" + title + " " + values + "</li>";
-					} else if(values == "") {
-						s += "<li>" + title + " " + interaction + "</li>";
-					} else {
-						s += "<li>" + title + " " + values + " " + interaction + "</li>";
-					}
-				}
-				b1 = s;
-			}
-			b += "<ol>" + b1 + "</ol>";
-			tstool_MainApp.translator.initialize(lang,null,{ fileName : "tstool/layout/History.hx", lineNumber : 333, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
+			tstool_MainApp.translator.initialize("en-GB",null,{ fileName : "tstool/layout/History.hx", lineNumber : 339, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
+			b += "<ol>" + this.listSteps(steps) + "</ol>";
+			tstool_MainApp.translator.initialize(lang,null,{ fileName : "tstool/layout/History.hx", lineNumber : 344, className : "tstool.layout.History", methodName : "buildHistoryEmailBody"});
 		}
 		return b;
 	}
@@ -82414,6 +82569,18 @@ tstool_layout_History.prototype = {
 		}
 		return t;
 	}
+	,getRawStepsArray: function() {
+		var t = [];
+		var s = 0;
+		var _g = 0;
+		var _g1 = this.get_history();
+		while(_g < _g1.length) {
+			var i = _g1[_g];
+			++_g;
+			t.push({ nb : s++, processName : i.processName, interaction : i.interaction, values : i.values == null ? "" : haxe_ds_StringMap.stringify(i.values.h)});
+		}
+		return t;
+	}
 	,getStoredStepsTranslatedArray: function(toLangPair,pos) {
 		if(toLangPair == null) {
 			toLangPair = "en-GB";
@@ -82421,7 +82588,7 @@ tstool_layout_History.prototype = {
 		var t = [];
 		var question = "";
 		var choice = "";
-		tstool_MainApp.translator.initialize(toLangPair,null,{ fileName : "tstool/layout/History.hx", lineNumber : 396, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
+		tstool_MainApp.translator.initialize(toLangPair,null,{ fileName : "tstool/layout/History.hx", lineNumber : 413, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
 		var _g = 0;
 		var _g1 = this.get_history();
 		while(_g < _g1.length) {
@@ -82467,7 +82634,7 @@ tstool_layout_History.prototype = {
 			choice = choice4;
 			t.push({ step : question, interaction : choice, values : i.values == null ? "" : haxe_ds_StringMap.stringify(i.values.h)});
 		}
-		tstool_MainApp.translator.initialize(tstool_MainApp.agent.get_mainLanguage(),null,{ fileName : "tstool/layout/History.hx", lineNumber : 406, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
+		tstool_MainApp.translator.initialize(tstool_MainApp.agent.get_mainLanguage(),null,{ fileName : "tstool/layout/History.hx", lineNumber : 423, className : "tstool.layout.History", methodName : "getStoredStepsTranslatedArray"});
 		return t;
 	}
 	,prepareListHistory: function(forClipBoard) {
@@ -82505,6 +82672,97 @@ tstool_layout_History.prototype = {
 			t += t1 + t2;
 		}
 		return t;
+	}
+	,listSteps: function(stepsArray) {
+		var s = "";
+		var title = "";
+		var values = "";
+		var interaction = "";
+		if(stepsArray == null) {
+			return "";
+		}
+		var _g = 0;
+		while(_g < stepsArray.length) {
+			var h = stepsArray[_g];
+			++_g;
+			title = tstool_layout_History.stripTags(tstool_MainApp.translator.get("$" + h.processName + "_TITLE","data"));
+			if(h.interaction == tstool_layout_Interactions.Next) {
+				interaction = "";
+			} else {
+				var interaction1 = h.interaction;
+				var choice = tstool_MainApp.translator;
+				var choice1 = "$" + h.processName + "_";
+				var choice2;
+				switch(interaction1._hx_index) {
+				case 0:
+					choice2 = "RIGHT-BTN";
+					break;
+				case 1:
+					choice2 = "LEFT-BTN";
+					break;
+				case 2:
+					choice2 = "MID-BTN";
+					break;
+				default:
+					choice2 = "MID-BTN";
+				}
+				var choice3 = choice.get(choice1 + choice2,"data");
+				if(choice3 == "" || choice3 == null || choice3.indexOf("$") == 0) {
+					var choice4 = tstool_MainApp.translator;
+					var choice5;
+					switch(interaction1._hx_index) {
+					case 0:
+						choice5 = "UI3";
+						break;
+					case 1:
+						choice5 = "UI1";
+						break;
+					case 2:
+						choice5 = "UI2";
+						break;
+					default:
+						choice5 = "UI2";
+					}
+					choice3 = choice4.get("$defaultBtn_" + choice5,"meta");
+				}
+				interaction = "... <strong>" + choice3 + "</strong>";
+			}
+			if(h.values == null) {
+				values = "";
+			} else {
+				var processName = h.processName;
+				var out = "";
+				var translation = "";
+				var h1 = h.values.h;
+				var _g_h = h1;
+				var _g_keys = Object.keys(h1);
+				var _g_length = _g_keys.length;
+				var _g_current = 0;
+				while(_g_current < _g_length) {
+					var key = _g_keys[_g_current++];
+					var _g1_key = key;
+					var _g1_value = _g_h[key];
+					var title1 = _g1_key;
+					var value = _g1_value;
+					if(StringTools.trim(value) != "") {
+						translation = tstool_MainApp.translator.get("$" + processName + title1.split(" ").join(""),"headers");
+						if(translation == null || translation == "" || translation.indexOf("$") == 0) {
+							translation = title1;
+						}
+						out += "<li>" + translation + " ... <strong>" + Std.string(value) + "</strong></li>";
+					}
+				}
+				values = out == "" ? "" : "<ul>" + out + "</ul>";
+			}
+			if(interaction == "") {
+				s += "<li>" + title + " " + values + "</li>";
+			} else if(values == "") {
+				s += "<li>" + title + " " + interaction + "</li>";
+			} else {
+				s += "<li>" + title + " " + values + " " + interaction + "</li>";
+			}
+		}
+		return s;
 	}
 	,__class__: tstool_layout_History
 	,__properties__: {get_history:"get_history"}
@@ -82936,7 +83194,7 @@ tstool_layout_Question.prototype = $extend(flixel_text_FlxText.prototype,{
 		this.boundingRect.height = this.get_height();
 		return this.boundingRect;
 	}
-	,positionMe: function(p,padding,positionsToParent) {
+	,positionMe: function(parentRectangle,padding,positionsToParent) {
 		if(padding == null) {
 			padding = 4;
 		}
@@ -82949,13 +83207,13 @@ tstool_layout_Question.prototype = $extend(flixel_text_FlxText.prototype,{
 			case 1:
 				throw new haxe_Exception("cant position $[d[0]} and $[d[1]}");
 			case 2:
-				this.set_y(p.height + p.y + padding);
+				this.set_y(parentRectangle.height + parentRectangle.y + padding);
 				break;
 			case 3:
-				this.set_y(p.y);
+				this.set_y(parentRectangle.y);
 				break;
 			}
-			this.set_x(p.x);
+			this.set_x(parentRectangle.x);
 			break;
 		case 1:
 			switch(d[1]._hx_index) {
@@ -82964,43 +83222,43 @@ tstool_layout_Question.prototype = $extend(flixel_text_FlxText.prototype,{
 			case 1:
 				throw new haxe_Exception("cant position $[d[0]} and $[d[1]}");
 			case 2:
-				this.set_y(p.height + p.y + padding);
+				this.set_y(parentRectangle.height + parentRectangle.y + padding);
 				break;
 			case 3:
-				this.set_y(p.y);
+				this.set_y(parentRectangle.y);
 				break;
 			}
-			this.set_x(p.x + p.width + padding);
+			this.set_x(parentRectangle.x + parentRectangle.width + padding);
 			break;
 		case 2:
 			switch(d[1]._hx_index) {
 			case 0:
-				this.set_x(p.x);
+				this.set_x(parentRectangle.x);
 				break;
 			case 1:
-				this.set_x(p.x + p.width + padding);
+				this.set_x(parentRectangle.x + parentRectangle.width + padding);
 				break;
 			case 2:
 				throw new haxe_Exception("cant position $[d[0]} and $[d[1]}");
 			case 3:
 				throw new haxe_Exception("cant position $[d[0]} and $[d[1]}");
 			}
-			this.set_y(p.y + p.height);
+			this.set_y(parentRectangle.y + parentRectangle.height);
 			break;
 		case 3:
 			switch(d[1]._hx_index) {
 			case 0:
-				this.set_x(p.x);
+				this.set_x(parentRectangle.x);
 				break;
 			case 1:
-				this.set_x(p.x + p.width + padding);
+				this.set_x(parentRectangle.x + parentRectangle.width + padding);
 				break;
 			case 2:
 				throw new haxe_Exception("cant position $[d[0]} and $[d[1]}");
 			case 3:
 				throw new haxe_Exception("cant position $[d[0]} and $[d[1]}");
 			}
-			this.set_y(p.y);
+			this.set_y(parentRectangle.y);
 			break;
 		}
 		this.pt.set_x(this.get_boundingRect().x + this.get_boundingRect().width);
@@ -83612,8 +83870,10 @@ tstool_process_ActionMultipleInput.prototype = $extend(tstool_process_Action.pro
 			var j = _g1[_g];
 			++_g;
 			if(j.hasTranslation != null && j.hasTranslation) {
-				var tmp = this.get__name();
-				j.input.titleTranslated = this.translate(tmp,j.input.prefix,"headers");
+				var tmp = tstool_MainApp.translator;
+				var tmp1 = this.get__name();
+				var tmp2 = this.get__name();
+				j.input.titleTranslated = tmp.translate(tmp1,tmp2,j.input.prefix,"headers");
 			}
 		}
 		var _g = [];
@@ -84045,8 +84305,10 @@ tstool_process_TripletMultipleInput.prototype = $extend(tstool_process_Triplet.p
 			var j = _g1[_g];
 			++_g;
 			if(j.hasTranslation != null && j.hasTranslation) {
-				var tmp = this.get__name();
-				j.input.titleTranslated = this.translate(tmp,j.input.prefix,"headers");
+				var tmp = tstool_MainApp.translator;
+				var tmp1 = this.get__name();
+				var tmp2 = this.get__name();
+				j.input.titleTranslated = tmp.translate(tmp1,tmp2,j.input.prefix,"headers");
 			}
 		}
 		var _g = [];
@@ -84085,22 +84347,28 @@ tstool_process_TripletMultipleInput.prototype = $extend(tstool_process_Triplet.p
 		this.positionButtons(p);
 	}
 	,pushToHistory: function(buttonTxt,interactionType,values) {
-		var _g = new haxe_ds_StringMap();
-		var h = this.multipleInputs.get_inputs().h;
-		var _g1_h = h;
-		var _g1_keys = Object.keys(h);
-		var _g1_length = _g1_keys.length;
-		var _g1_current = 0;
-		while(_g1_current < _g1_length) {
-			var key = _g1_keys[_g1_current++];
-			var _g2_key = key;
-			var _g2_value = _g1_h[key];
-			var k = _g2_key;
-			var v = _g2_value;
-			var value = v.getInputedText();
-			_g.h[k] = value;
+		var tmp;
+		if(values == null) {
+			var _g = new haxe_ds_StringMap();
+			var h = this.multipleInputs.get_inputs().h;
+			var _g1_h = h;
+			var _g1_keys = Object.keys(h);
+			var _g1_length = _g1_keys.length;
+			var _g1_current = 0;
+			while(_g1_current < _g1_length) {
+				var key = _g1_keys[_g1_current++];
+				var _g2_key = key;
+				var _g2_value = _g1_h[key];
+				var k = _g2_key;
+				var v = _g2_value;
+				var value = v.getInputedText();
+				_g.h[k] = value;
+			}
+			tmp = _g;
+		} else {
+			tmp = values;
 		}
-		tstool_process_Triplet.prototype.pushToHistory.call(this,buttonTxt,interactionType,_g);
+		tstool_process_Triplet.prototype.pushToHistory.call(this,buttonTxt,interactionType,tmp);
 	}
 	,onYesClick: function() {
 		if(this.validateYes()) {
@@ -84364,7 +84632,7 @@ var tstool_salt_Contractor = function(vtiContractor,vtiVoip,vtiFix,vtiMobile,vti
 	this.set_user(vtiUser);
 	this.ownerValidateEmail = vtiOwnerValidateEmail;
 	this.balance = vtiBalance;
-	this.service = serviceVti;
+	this.set_service(serviceVti);
 	if(this.get_owner() != null) {
 		this.setRoles();
 	}
@@ -84435,11 +84703,14 @@ tstool_salt_Contractor.prototype = {
 	,get_user: function() {
 		return this.user;
 	}
+	,set_service: function(value) {
+		return this.service = value;
+	}
 	,set_user: function(value) {
 		return this.user = value;
 	}
 	,__class__: tstool_salt_Contractor
-	,__properties__: {set_user:"set_user",get_user:"get_user",set_payer:"set_payer",get_payer:"get_payer",set_owner:"set_owner",get_owner:"get_owner"}
+	,__properties__: {set_user:"set_user",get_user:"get_user",set_payer:"set_payer",get_payer:"get_payer",set_owner:"set_owner",get_owner:"get_owner",set_service:"set_service"}
 };
 var tstool_salt_Customer = function() {
 	tstool_process_Actor.call(this,"not found",true);
@@ -84556,7 +84827,10 @@ var tstool_salt_SuperOffice = function(domain,number,queue,desc,email) {
 $hxClasses["tstool.salt.SuperOffice"] = tstool_salt_SuperOffice;
 tstool_salt_SuperOffice.__name__ = "tstool.salt.SuperOffice";
 tstool_salt_SuperOffice.prototype = {
-	get_domain: function() {
+	toString: function() {
+		return "" + this.get_domain() + "_" + this.get_number() + "_" + this.get_queue() + "_" + this.get_desc();
+	}
+	,get_domain: function() {
 		return this.domain;
 	}
 	,get_number: function() {
@@ -84798,8 +85072,8 @@ tstool_utils_SwiftMailWrapper.prototype = $extend(haxe_http_HttpJs.prototype,{
 	,setCommonStyle: function() {
 		var b = "<style type=\"text/css\">";
 		b += "table {border-collapse: collapse;}";
-		b += "@font-face {font-family: \"Superior\"; src: url(\"http://intranet.salt.ch/static/fonts/superior/SuperiorTitle-Black.woff\") format(\"woff\"); font-weight: normal;}";
-		b += "@font-face {font-family: \"Univers\"; src: url(\"http://intranet.salt.ch/static/fonts/univers/ecf89914-1896-43f6-a0a0-fe733d1db6e7.woff\") format(\"woff\"); font-weight: normal;}";
+		b += "@font-face {font-family: \"Superior\"; src: url(\"https://fiber.salt.ch/themes/custom/salt_details_base/salt-common-style/assets/fonts/SuperiorTitleBlack.woff2\") format(\"woff\"); font-weight: normal;}";
+		b += "@font-face {font-family: \"Univers\"; src: url(\"https://fonts.gstatic.com/s/opensans/v28/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVI.woff2\") format(\"woff\"); font-weight: normal;}";
 		b += "h3,h4,h5,h5 {color: #65a63c;}";
 		b += "body, table, td, li, span, h3,h4,h5,h5  {font-family: \"Univers\", Arial, Helvetica, sans-serif !important;}";
 		b += "h2{color: #000000; font-family: \"Superior\" !important;}";
@@ -84854,6 +85128,32 @@ tstool_utils_Translator.__super__ = firetongue_FireTongue;
 tstool_utils_Translator.prototype = $extend(firetongue_FireTongue.prototype,{
 	initialize: function(lang,callback,pos) {
 		this.init(lang,callback,false,false,null,this.folder);
+	}
+	,translate: function(fullClassName,txt,suffix,context) {
+		if(context == null) {
+			context = "data";
+		}
+		if(suffix == null) {
+			suffix = "";
+		}
+		var tString;
+		if(context == null) {
+			tString = "$" + txt + "_" + suffix;
+		} else {
+			switch(context) {
+			case "data":
+				tString = "$" + fullClassName + "_" + suffix;
+				break;
+			case "headers":
+				tString = "$" + txt + "." + suffix.split(" ").join("");
+				break;
+			default:
+				tString = "$" + txt + "_" + suffix;
+			}
+		}
+		var t = this.get(tString,context);
+		var s = t.indexOf("$") == 0 || StringTools.trim(t) == "" ? context == "headers" ? suffix : txt : t;
+		return s;
 	}
 	,__class__: tstool_utils_Translator
 });
@@ -84914,28 +85214,37 @@ tstool_utils_VersionTracker.prototype = $extend(haxe_http_HttpJs.prototype,{
 	,__class__: tstool_utils_VersionTracker
 	,__properties__: $extend(haxe_http_HttpJs.prototype.__properties__,{get_scriptChangedSignal:"get_scriptChangedSignal"})
 });
-var tstool_utils_XapiHelper = function(url) {
-	haxe_http_HttpJs.call(this,url + "xapi/index.php");
+var tstool_utils_XapiTracker = function(url) {
+	http_XapiHelper.call(this,url + "xapi-new/index.php");
 	this._mainDebug = $global.location.origin.indexOf("salt.ch") > -1;
-	this.async = true;
-	haxe_Serializer.USE_CACHE = true;
-	haxe_Serializer.USE_ENUM_INDEX = true;
-	this.statementsRefs = [];
 	this.statement = null;
 	this.set_actor(null);
 	this.set_object(null);
 	this.verb = null;
 	this.context = null;
 	this.result = new xapi_Result();
-	this.dispatcher = new signals_Signal1();
-	this.canRequest = true;
+	this._start = new Date().getTime();
 	this.onData = $bind(this,this.onMyData);
 };
-$hxClasses["tstool.utils.XapiHelper"] = tstool_utils_XapiHelper;
-tstool_utils_XapiHelper.__name__ = "tstool.utils.XapiHelper";
-tstool_utils_XapiHelper.__super__ = haxe_http_HttpJs;
-tstool_utils_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
-	setActor: function(agent) {
+$hxClasses["tstool.utils.XapiTracker"] = tstool_utils_XapiTracker;
+tstool_utils_XapiTracker.__name__ = "tstool.utils.XapiTracker";
+tstool_utils_XapiTracker.__super__ = http_XapiHelper;
+tstool_utils_XapiTracker.prototype = $extend(http_XapiHelper.prototype,{
+	reset: function(referenceLast) {
+		if(referenceLast == null) {
+			referenceLast = false;
+		}
+		if(!referenceLast) {
+			this.statementsRefs = [];
+			this._start = new Date().getTime();
+		}
+		this.statement = null;
+		this.set_actor(null);
+		this.set_object(null);
+		this.verb = null;
+		this.context = null;
+	}
+	,setActor: function(agent) {
 		this.set_actor(agent);
 	}
 	,setActivityObject: function(objectID,name,description,type,extensions,moreInfo) {
@@ -84969,28 +85278,24 @@ tstool_utils_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
 	,setVerb: function(did) {
 		this.verb = did;
 	}
-	,setStatementRefs: function(statementRef) {
-		this.statementsRefs = [statementRef];
+	,setDefaultContext: function(locale,instructor) {
+		this.setContext(new xapi_Agent(instructor),$global.location.protocol + $global.location.hostname + $global.location.pathname,"trouble",locale,null);
+	}
+	,setContext: function(instructor,parentActivity,platform,language,extensions) {
+		this.context = new xapi_Context(null,instructor,null,null,null,platform,language,this.statementsRefs.length > 0 ? this.statementsRefs[this.statementsRefs.length - 1] : null,extensions);
+		if(parentActivity != null) {
+			this.context.addContextActivity(xapi_ContextActivity.parent,new xapi_Activity(parentActivity));
+		}
+	}
+	,updateStatementRef: function() {
+		this.context.set_statement(this.statementsRefs.length > 0 ? this.statementsRefs[this.statementsRefs.length - 1] : null);
 	}
 	,send: function() {
 		try {
+			this.result.toISO8601Duration(new Date().getTime() - this._start);
 			this.statement = new xapi_Statement(this.get_actor(),this.verb,this.get_object(),this.result,this.context);
-			this.setParameter("statement",haxe_Serializer.run(this.statement));
-			this.request(true);
+			this.sendMany([this.statement]);
 		} catch( _g ) {
-		}
-	}
-	,onMyData: function(data) {
-		try {
-			var d = new haxe_format_JsonParser(data).doParse();
-			if(d.status == "success") {
-				this.statementsRefs.push(new xapi_types_StatementRef(d.statementsIds[0]));
-				this.dispatcher.dispatch(true);
-			} else {
-				this.dispatcher.dispatch(false);
-			}
-		} catch( _g ) {
-			this.dispatcher.dispatch(false);
 		}
 	}
 	,get_actor: function() {
@@ -85005,8 +85310,8 @@ tstool_utils_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
 	,set_object: function(value) {
 		return this.object = value;
 	}
-	,__class__: tstool_utils_XapiHelper
-	,__properties__: $extend(haxe_http_HttpJs.prototype.__properties__,{set_actor:"set_actor",get_actor:"get_actor",set_object:"set_object",get_object:"get_object"})
+	,__class__: tstool_utils_XapiTracker
+	,__properties__: $extend(http_XapiHelper.prototype.__properties__,{set_actor:"set_actor",get_actor:"get_actor",set_object:"set_object",get_object:"get_object"})
 });
 var xapi_types_IUnique = function() { };
 $hxClasses["xapi.types.IUnique"] = xapi_types_IUnique;
@@ -85016,6 +85321,10 @@ var xapi_types_IObject = function() { };
 $hxClasses["xapi.types.IObject"] = xapi_types_IObject;
 xapi_types_IObject.__name__ = "xapi.types.IObject";
 xapi_types_IObject.__isInterface__ = true;
+xapi_types_IObject.prototype = {
+	__class__: xapi_types_IObject
+	,__properties__: {get_objectType:"get_objectType"}
+};
 var xapi_Activity = function(uri,definition) {
 	this.objectType = "Activity";
 	this.id = uri;
@@ -85025,14 +85334,20 @@ $hxClasses["xapi.Activity"] = xapi_Activity;
 xapi_Activity.__name__ = "xapi.Activity";
 xapi_Activity.__interfaces__ = [xapi_types_IUnique,xapi_types_IObject];
 xapi_Activity.prototype = {
-	get_definition: function() {
+	get_id: function() {
+		return this.id;
+	}
+	,get_objectType: function() {
+		return this.objectType;
+	}
+	,get_definition: function() {
 		return this.definition;
 	}
 	,set_definition: function(value) {
 		return this.definition = value;
 	}
 	,__class__: xapi_Activity
-	,__properties__: {set_definition:"set_definition",get_definition:"get_definition"}
+	,__properties__: {get_objectType:"get_objectType",get_id:"get_id",set_definition:"set_definition",get_definition:"get_definition"}
 };
 var xapi_types_IActor = function() { };
 $hxClasses["xapi.types.IActor"] = xapi_types_IActor;
@@ -85064,8 +85379,11 @@ xapi_Agent.prototype = {
 	get_mbox: function() {
 		return this.mbox;
 	}
+	,get_objectType: function() {
+		return this.objectType;
+	}
 	,__class__: xapi_Agent
-	,__properties__: {get_mbox:"get_mbox"}
+	,__properties__: {get_objectType:"get_objectType",get_mbox:"get_mbox"}
 };
 var xapi_MissingActorIri = function(agent) {
 	this.agent = agent;
@@ -85084,11 +85402,104 @@ xapi_BadEmailFormat.__name__ = "xapi.BadEmailFormat";
 xapi_BadEmailFormat.prototype = {
 	__class__: xapi_BadEmailFormat
 };
-var xapi_Context = function() { };
+var xapi_ContextActivity = $hxEnums["xapi.ContextActivity"] = { __ename__:"xapi.ContextActivity",__constructs__:null
+	,parent: {_hx_name:"parent",_hx_index:0,__enum__:"xapi.ContextActivity",toString:$estr}
+	,grouping: {_hx_name:"grouping",_hx_index:1,__enum__:"xapi.ContextActivity",toString:$estr}
+	,category: {_hx_name:"category",_hx_index:2,__enum__:"xapi.ContextActivity",toString:$estr}
+	,other: {_hx_name:"other",_hx_index:3,__enum__:"xapi.ContextActivity",toString:$estr}
+};
+xapi_ContextActivity.__constructs__ = [xapi_ContextActivity.parent,xapi_ContextActivity.grouping,xapi_ContextActivity.category,xapi_ContextActivity.other];
+var xapi_Context = function(uuid,instructor,team,context_activities,revision,platform,language,statement,extensions) {
+	this.set_language(language);
+	this.extensions = extensions;
+	this.set_statement(statement);
+	this.set_platform(platform);
+	this.revision = revision;
+	this.team = team;
+	this.initContextActivities();
+	this.set_instructor(instructor);
+	var tmp;
+	if(xapi_types_Standards.UUID.match(uuid) || uuid == null) {
+		tmp = uuid;
+	} else {
+		throw haxe_Exception.thrown("Context.new :: uuid \"" + uuid + "\" is not valid UUID");
+	}
+	this.registration = tmp;
+};
 $hxClasses["xapi.Context"] = xapi_Context;
 xapi_Context.__name__ = "xapi.Context";
+xapi_Context.prototype = {
+	initContextActivities: function() {
+		if(this.get_contextActivities() == null) {
+			this.contextActivities = new haxe_ds_StringMap();
+		}
+		var this1 = this.get_contextActivities();
+		if(!Object.prototype.hasOwnProperty.call(this1.h,"parent")) {
+			this.get_contextActivities().h["parent"] = [];
+		}
+		var this1 = this.get_contextActivities();
+		if(!Object.prototype.hasOwnProperty.call(this1.h,"grouping")) {
+			this.get_contextActivities().h["grouping"] = [];
+		}
+		var this1 = this.get_contextActivities();
+		if(!Object.prototype.hasOwnProperty.call(this1.h,"other")) {
+			this.get_contextActivities().h["other"] = [];
+		}
+		var this1 = this.get_contextActivities();
+		if(!Object.prototype.hasOwnProperty.call(this1.h,"category")) {
+			this.get_contextActivities().h["category"] = [];
+		}
+		return this.get_contextActivities();
+	}
+	,addContextActivity: function(type,activity) {
+		var tmp = this.get_contextActivities().h[Std.string(type)];
+		var _g = new haxe_ds_StringMap();
+		var value = activity.get_id();
+		_g.h["id"] = value;
+		tmp.push(_g);
+		return this.get_contextActivities();
+	}
+	,get_contextActivities: function() {
+		return this.contextActivities;
+	}
+	,get_platform: function() {
+		return this.platform;
+	}
+	,set_platform: function(value) {
+		return this.platform = value;
+	}
+	,set_language: function(value) {
+		return this.language = value;
+	}
+	,set_instructor: function(value) {
+		return this.instructor = value;
+	}
+	,set_statement: function(value) {
+		return this.statement = value;
+	}
+	,__class__: xapi_Context
+	,__properties__: {set_instructor:"set_instructor",get_contextActivities:"get_contextActivities",set_platform:"set_platform",get_platform:"get_platform",set_statement:"set_statement",set_language:"set_language"}
+};
+var xapi_Group = function(id,uri,members) {
+	this.id = id;
+	this.uri = uri;
+	this.objectType = "Group";
+	this.member = members;
+};
+$hxClasses["xapi.Group"] = xapi_Group;
+xapi_Group.__name__ = "xapi.Group";
+xapi_Group.__interfaces__ = [xapi_types_IActor,xapi_types_IUnique];
+xapi_Group.prototype = {
+	get_objectType: function() {
+		return this.objectType;
+	}
+	,__class__: xapi_Group
+	,__properties__: {get_objectType:"get_objectType"}
+};
 var xapi_Result = function(score,success,completion,response,duration,extensions) {
-	this.duration = duration == null ? this.toISO8601Duration(0) : this.toISO8601Duration(duration);
+	if(duration != null) {
+		this.toISO8601Duration(duration);
+	}
 	this.response = response;
 	this.completion = completion;
 	this.success = success;
@@ -85117,18 +85528,22 @@ xapi_Result.prototype = {
 		modulo = temp % s;
 		t.push((temp - modulo) / s);
 		temp = modulo;
-		return Std.string("P" + t[0] + "DT" + t[1] + "H" + t[2] + "M" + t[3] + "S");
+		this.duration = Std.string("P" + t[0] + "DT" + t[1] + "H" + t[2] + "M" + t[3] + "S");
 	}
 	,__class__: xapi_Result
 };
 var xapi_Statement = function(actor,verb,object,result,context) {
 	this.set_attachments(null);
-	this.timestamp = thx_DateTimeUtc.toString(thx_DateTimeUtc.now());
+	var this1 = [thx_DateTimeUtc.now(),thx_DateTime.localOffset()];
+	this.timestamp = thx_DateTime.toString(this1);
 	this.set_context(context);
 	this.result = result;
 	this.object = object;
 	this.verb = verb;
 	this.actor = actor;
+	if(object.get_objectType() == "Agent" && context.get_platform() != null) {
+		throw haxe_Exception.thrown("The context's \"platform\" property MUST only be used if the Statement's Object is an Activity objectType=" + object.get_objectType() + " context.platform = " + context.get_platform());
+	}
 };
 $hxClasses["xapi.Statement"] = xapi_Statement;
 xapi_Statement.__name__ = "xapi.Statement";
@@ -85230,7 +85645,11 @@ $hxClasses["xapi.types.StatementRef"] = xapi_types_StatementRef;
 xapi_types_StatementRef.__name__ = "xapi.types.StatementRef";
 xapi_types_StatementRef.__interfaces__ = [xapi_types_IObject,xapi_types_IUnique];
 xapi_types_StatementRef.prototype = {
-	__class__: xapi_types_StatementRef
+	get_objectType: function() {
+		return this.objectType;
+	}
+	,__class__: xapi_types_StatementRef
+	,__properties__: {get_objectType:"get_objectType"}
 };
 function $getIterator(o) { if( o instanceof Array ) return new haxe_iterators_ArrayIterator(o); else return o.iterator(); }
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $global.$haxeUID++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = m.bind(o); o.hx__closures__[m.__id__] = f; } return f; }
@@ -85310,6 +85729,9 @@ openfl_display_DisplayObject.__tempStack = new lime_utils_ObjectPool(function() 
 },function(stack) {
 	stack.set_length(0);
 });
+tstool_MainApp.idleTimer = new haxe_Timer(1000);
+tstool_MainApp.VERSION_TIMER_DURATION = 300;
+tstool_MainApp.VERSION_TIMER_value = tstool_MainApp.VERSION_TIMER_DURATION;
 flixel_FlxBasic.idEnumerator = 0;
 tstool_process_Process.STORAGE = new haxe_ds_StringMap();
 Main.LANGS = ["fr-FR","de-DE","it-IT","en-GB"];
@@ -85874,6 +86296,7 @@ decide_NewSimplComp.COMPENSATE = "compensate (100 max to compensate)";
 decide_SimplComp.TOTAL_SCHOCK = "total shock";
 decide_SimplComp.COMPENSATE = "compensate (max 150 to pay)";
 firetongue_FireTongue.defaultLocale = "en-US";
+firetongue_Replace.TAGS = [];
 flixel_math_FlxPoint._pool = new flixel_util_FlxPool_$flixel_$math_$FlxPoint(flixel_math_FlxPoint);
 flixel_math_FlxRect._pool = new flixel_util_FlxPool_$flixel_$math_$FlxRect(flixel_math_FlxRect);
 openfl_geom_Matrix.__meta__ = { fields : { equals : { SuppressWarnings : ["checkstyle:FieldDocComment"]}}};
@@ -86655,9 +87078,21 @@ thx_DateTimeUtc.DATE_PART_MONTH = 2;
 thx_DateTimeUtc.DATE_PART_DAY = 3;
 thx_DateTimeUtc.daysToMonth365 = [0,31,59,90,120,151,181,212,243,273,304,334,365];
 thx_DateTimeUtc.daysToMonth366 = [0,31,60,91,121,152,182,213,244,274,305,335,366];
+thx_Int64s.one = (function($this) {
+	var $r;
+	var this1 = new haxe__$Int64__$_$_$Int64(0,1);
+	$r = this1;
+	return $r;
+}(this));
 thx_Int64s.zero = (function($this) {
 	var $r;
 	var this1 = new haxe__$Int64__$_$_$Int64(0,0);
+	$r = this1;
+	return $r;
+}(this));
+thx_Int64s.min = (function($this) {
+	var $r;
+	var this1 = new haxe__$Int64__$_$_$Int64(-2147483648,0);
 	$r = this1;
 	return $r;
 }(this));
@@ -86671,7 +87106,7 @@ tstool_layout_UI.WHITE_THEME = { bg : -1, title : -16777216, basic : -11776691, 
 tstool_layout_UI.THEME = tstool_layout_UI.DARK_THEME;
 tstool_process_ActionDropDown.LIST_SIZE = 12;
 tstool_salt_SOTickets.MOBILE_511_ACCEPT = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_FINANCIAL_BILLSHOCK_SO","5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
-tstool_salt_SOTickets.MOBILE_511_REFUSES = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_FINANCIAL_COMPLAINT_SO"," REFUSES 5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
+tstool_salt_SOTickets.MOBILE_511_REFUSES = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_FINANCIAL_BILLSHOCK_REFUSED_SO"," REFUSES 5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
 tstool_salt_SOTickets.MOBILE_511 = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_FINANCIAL_COMPLAINT_SO","5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
 tstool_utils_Mail.PHP_MAIL_PATH = "/commonlibs/mail/index.php";
 xapi_Verb.initialized = new xapi_Verb("http://adlnet.gov/expapi/verbs/initialized");

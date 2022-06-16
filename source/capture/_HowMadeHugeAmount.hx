@@ -3,6 +3,7 @@ package capture;
 import decide.SimplComp;
 import ticket.TicketMobileFiveOneOne;
 import ticket.TicketMobileFiveOneOneRefuse;
+import tstool.MainApp;
 import tstool.process.ActionRadios;
 import tstool.process.Process;
 import xapi.Verb;
@@ -51,8 +52,10 @@ class _HowMadeHugeAmount extends ActionRadios {
 	function prepareTacking(activity) 
 	{
 		//Main.track.initKeepActor();
+		
 		Main.trackH.setVerb(Verb.initialized);
-		Main.trackH.setStatementRefs(null);
+		//Main.trackH.setStatementRefs(null);
+		
 		//Main.track.setVerb("initialized");
 		//Main.track.setStatementRef(null);
 		var extensions:Map<String,Dynamic> = [];

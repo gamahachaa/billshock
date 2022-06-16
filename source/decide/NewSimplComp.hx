@@ -42,7 +42,7 @@ class NewSimplComp extends Descision
 	}
 	override public function onYesClick():Void
 	{
-		this._nexts = [{step: compensate > 40 ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
+		this._nexts = [{step: compensate > Intro.FRONT_COMP_LIMIT ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void

@@ -1,8 +1,10 @@
 package capture;
 
 import decide._InformAboutNewLaw;
+import js.Browser;
 import ticket.TicketMobileFiveOneOne;
 import ticket.TicketMobileFiveOneOneRefuse;
+import tstool.MainApp;
 import xapi.Verb;
 //import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
@@ -107,12 +109,15 @@ class HighUsageData extends DescisionMultipleInput
 	function prepareTacking() 
 	{
 		//Main.track.initKeepActor();
+		
 		Main.trackH.setVerb(Verb.initialized);
-		Main.trackH.setStatementRefs(null);
+		Main.trackH.setDefaultContext(MainApp.translator.locale, "mobile.qtool@salt.ch");
+		//Main.trackH.setStatementRefs(null);
 		//Main.track.setVerb("initialized");
 		//Main.track.setStatementRef(null);
 		var extensions:Map<String,Dynamic> = [];
 		extensions.set("https://customercare.salt.ch/admin/contracts/customer/", Main.customer.iri);
+		extensions.set(Browser.location.origin +"/troubleshooting/script_version/", Main.VERSION);
 		//Main.track.setCustomer(true);
 		Main.trackH.setActivityObject( "non-data",null,null,"http://activitystrea.ms/schema/1.0/process",extensions );
         Main.trackH.send();

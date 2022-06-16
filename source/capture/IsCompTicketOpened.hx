@@ -5,9 +5,9 @@ import tstool.layout.History.Interactions;
 import tstool.process.DescisionMultipleInput;
 import tstool.process.Process;
 import tstool.salt.Role;
-import tstool.utils.ExpReg;
+import regex.ExpReg;
 
-using tstool.utils.StringUtils;
+using string.StringUtils;
 
 /**
  * ...
