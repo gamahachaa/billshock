@@ -154,7 +154,7 @@ class PPmap
 				"39.95"=> [NEW_PLAN =>'Europe 1Go', SPECIAL_RC=> "49.95", STANDARD_RC=>"89.95"]
 			],
 			DAS_ABO_AB_PP + UNLIMITED_CALLS => [
-				"19.95"=> [NEW_PLAN =>'Europe_unlimited', SPECIAL_RC=>"49.95", STANDARD_RC=>"89.95"],
+				"19.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"49.95", STANDARD_RC=>"89.95"],
 				"24.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"54.95", STANDARD_RC=>"89.95"],
 				"29.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"59.95", STANDARD_RC=>"89.95"],
 				"34.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"59.95", STANDARD_RC=>"89.95"],
@@ -222,7 +222,7 @@ class PPmap
 				"39.95"=> [NEW_PLAN =>'Europe 1Go', SPECIAL_RC=> "49.95", STANDARD_RC=>"89.95"]
 			],
 			DAS_ABO_AB_PP + UNLIMITED_CALLS => [
-				"19.95"=> [NEW_PLAN =>'Europe_unlimited', SPECIAL_RC=>"49.95", STANDARD_RC=>"89.95"],
+				"19.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"49.95", STANDARD_RC=>"89.95"],
 				"24.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"54.95", STANDARD_RC=>"89.95"],
 				"29.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"59.95", STANDARD_RC=>"89.95"],
 				"34.95"=> [NEW_PLAN =>'Europe unlimited', SPECIAL_RC=>"59.95", STANDARD_RC=>"89.95"],

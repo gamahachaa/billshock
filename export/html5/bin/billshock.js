@@ -803,7 +803,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "21";
+	app.meta.h["build"] = "22";
 	app.meta.h["company"] = "";
 	app.meta.h["file"] = "billshock";
 	app.meta.h["name"] = "billshock";
@@ -2711,7 +2711,7 @@ var tstool_MainApp = function(cfg) {
 	tstool_MainApp.versionTracker = new tstool_utils_VersionTracker(tstool_MainApp.location.origin + tstool_MainApp.config.libFolder,tstool_MainApp.config.scriptName);
 	tstool_MainApp.cust = new tstool_salt_Customer();
 	tstool_MainApp.translator.initialize("fr-FR",function() {
-	},{ fileName : "tstool/MainApp.hx", lineNumber : 121, className : "tstool.MainApp", methodName : "new"});
+	},{ fileName : "tstool/MainApp.hx", lineNumber : 122, className : "tstool.MainApp", methodName : "new"});
 };
 $hxClasses["tstool.MainApp"] = tstool_MainApp;
 tstool_MainApp.__name__ = "tstool.MainApp";
@@ -3691,6 +3691,7 @@ tstool_process_EndAction.prototype = $extend(tstool_process_Action.prototype,{
 			++_g;
 			stepsCode += "" + i.processName + "|" + Std.string(i.interaction) + "£";
 		}
+		Main.trackH.updateStatementRef();
 		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
 		var key = $global.location.origin + "/troubleshooting/total_steps/";
 		this1.h[key] = h.length == null ? "null" : "" + h.length;
@@ -3733,6 +3734,8 @@ Intro.prototype = $extend(tstool_process_Action.prototype,{
 		tstool_process_Action.prototype.create.call(this);
 		Main.VERSION_TRACKER.get_scriptChangedSignal().addOnce($bind(this,this.onNewVersion));
 		Main.VERSION_TRACKER.request();
+		Main.trackH.reset(false);
+		Main.trackH.setDefaultContext(tstool_MainApp.translator.locale,"mobile.qtool@salt.ch");
 		this.openSubState(new tstool_process_CheckUpdateSub(tstool_layout_UI.THEME.bg));
 	}
 	,onNewVersion: function(needsUpdate) {
@@ -5499,7 +5502,7 @@ capture_HighUsageData.prototype = $extend(tstool_process_DescisionMultipleInput.
 	}
 	,prepareTacking: function() {
 		Main.trackH.setVerb(xapi_Verb.initialized);
-		Main.trackH.setStatementRefs(null);
+		Main.trackH.setDefaultContext(tstool_MainApp.translator.locale,"mobile.qtool@salt.ch");
 		var extensions = new haxe_ds_StringMap();
 		var value = Main.customer.get_iri();
 		extensions.h["https://customercare.salt.ch/admin/contracts/customer/"] = value;
@@ -6033,7 +6036,6 @@ capture__$HowMadeHugeAmount.prototype = $extend(tstool_process_ActionRadios.prot
 	}
 	,prepareTacking: function(activity) {
 		Main.trackH.setVerb(xapi_Verb.initialized);
-		Main.trackH.setStatementRefs(null);
 		var extensions = new haxe_ds_StringMap();
 		var value = Main.customer.get_iri();
 		extensions.h["https://customercare.salt.ch/admin/contracts/customer/"] = value;
@@ -44901,12 +44903,11 @@ $hxClasses["http.XapiHelper"] = http_XapiHelper;
 http_XapiHelper.__name__ = "http.XapiHelper";
 http_XapiHelper.__super__ = haxe_http_HttpJs;
 http_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
-	setStatementRefs: function(statementRef) {
-		this.statementsRefs = [statementRef];
-	}
-	,sendMany: function(stmts) {
+	sendMany: function(stmts) {
+		var s = "";
 		try {
-			this.setParameter("statements",haxe_Serializer.run(stmts));
+			s = haxe_Serializer.run(stmts);
+			this.setParameter("statements",encodeURIComponent(s));
 			this.request(true);
 		} catch( _g ) {
 		}
@@ -44928,7 +44929,7 @@ http_XapiHelper.prototype = $extend(haxe_http_HttpJs.prototype,{
 			}
 		} catch( _g ) {
 			var e = haxe_Exception.caught(_g);
-			haxe_Log.trace(e,{ fileName : "http/XapiHelper.hx", lineNumber : 166, className : "http.XapiHelper", methodName : "onMyData"});
+			haxe_Log.trace(e,{ fileName : "http/XapiHelper.hx", lineNumber : 173, className : "http.XapiHelper", methodName : "onMyData"});
 			this.dispatcher.dispatch(false);
 		}
 	}
@@ -51293,7 +51294,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 563705;
+	this.version = 940595;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -82011,7 +82012,6 @@ tstool_process_ActionTicket.prototype = $extend(tstool_process_ActionMemo.protot
 	,onMailSuccess: function(data) {
 		this.closeSubState();
 		Main.trackH.setVerb(xapi_Verb.submitted);
-		Main.trackH.setContext(null,$global.location.protocol + $global.location.hostname + $global.location.pathname,"trouble",tstool_MainApp.translator.locale,null);
 		var this1 = (js_Boot.__cast(Main.trackH.get_object() , xapi_Activity)).get_definition().get_extensions();
 		var value = this.ticket.toString();
 		this1.h["https://cs.salt.ch"] = value;
@@ -85230,7 +85230,21 @@ $hxClasses["tstool.utils.XapiTracker"] = tstool_utils_XapiTracker;
 tstool_utils_XapiTracker.__name__ = "tstool.utils.XapiTracker";
 tstool_utils_XapiTracker.__super__ = http_XapiHelper;
 tstool_utils_XapiTracker.prototype = $extend(http_XapiHelper.prototype,{
-	setActor: function(agent) {
+	reset: function(referenceLast) {
+		if(referenceLast == null) {
+			referenceLast = false;
+		}
+		if(!referenceLast) {
+			this.statementsRefs = [];
+			this._start = new Date().getTime();
+		}
+		this.statement = null;
+		this.set_actor(null);
+		this.set_object(null);
+		this.verb = null;
+		this.context = null;
+	}
+	,setActor: function(agent) {
 		this.set_actor(agent);
 	}
 	,setActivityObject: function(objectID,name,description,type,extensions,moreInfo) {
@@ -85264,11 +85278,17 @@ tstool_utils_XapiTracker.prototype = $extend(http_XapiHelper.prototype,{
 	,setVerb: function(did) {
 		this.verb = did;
 	}
+	,setDefaultContext: function(locale,instructor) {
+		this.setContext(new xapi_Agent(instructor),$global.location.protocol + $global.location.hostname + $global.location.pathname,"trouble",locale,null);
+	}
 	,setContext: function(instructor,parentActivity,platform,language,extensions) {
 		this.context = new xapi_Context(null,instructor,null,null,null,platform,language,this.statementsRefs.length > 0 ? this.statementsRefs[this.statementsRefs.length - 1] : null,extensions);
 		if(parentActivity != null) {
 			this.context.addContextActivity(xapi_ContextActivity.parent,new xapi_Activity(parentActivity));
 		}
+	}
+	,updateStatementRef: function() {
+		this.context.set_statement(this.statementsRefs.length > 0 ? this.statementsRefs[this.statementsRefs.length - 1] : null);
 	}
 	,send: function() {
 		try {
@@ -85392,7 +85412,7 @@ xapi_ContextActivity.__constructs__ = [xapi_ContextActivity.parent,xapi_ContextA
 var xapi_Context = function(uuid,instructor,team,context_activities,revision,platform,language,statement,extensions) {
 	this.set_language(language);
 	this.extensions = extensions;
-	this.statement = statement;
+	this.set_statement(statement);
 	this.set_platform(platform);
 	this.revision = revision;
 	this.team = team;
@@ -85454,8 +85474,11 @@ xapi_Context.prototype = {
 	,set_instructor: function(value) {
 		return this.instructor = value;
 	}
+	,set_statement: function(value) {
+		return this.statement = value;
+	}
 	,__class__: xapi_Context
-	,__properties__: {set_instructor:"set_instructor",get_contextActivities:"get_contextActivities",set_platform:"set_platform",get_platform:"get_platform",set_language:"set_language"}
+	,__properties__: {set_instructor:"set_instructor",get_contextActivities:"get_contextActivities",set_platform:"set_platform",get_platform:"get_platform",set_statement:"set_statement",set_language:"set_language"}
 };
 var xapi_Group = function(id,uri,members) {
 	this.id = id;
@@ -87083,7 +87106,7 @@ tstool_layout_UI.WHITE_THEME = { bg : -1, title : -16777216, basic : -11776691, 
 tstool_layout_UI.THEME = tstool_layout_UI.DARK_THEME;
 tstool_process_ActionDropDown.LIST_SIZE = 12;
 tstool_salt_SOTickets.MOBILE_511_ACCEPT = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_FINANCIAL_BILLSHOCK_SO","5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
-tstool_salt_SOTickets.MOBILE_511_REFUSES = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_SA_COMPLAINT_SO"," REFUSES 5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
+tstool_salt_SOTickets.MOBILE_511_REFUSES = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_FINANCIAL_BILLSHOCK_REFUSED_SO"," REFUSES 5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
 tstool_salt_SOTickets.MOBILE_511 = new tstool_salt_SOTickets("MOBILE","5.1.1","B2C_FINANCIAL_COMPLAINT_SO","5.Escalation 1.Compensation 1.Request for Compensation","mobile.qtool@salt.ch");
 tstool_utils_Mail.PHP_MAIL_PATH = "/commonlibs/mail/index.php";
 xapi_Verb.initialized = new xapi_Verb("http://adlnet.gov/expapi/verbs/initialized");

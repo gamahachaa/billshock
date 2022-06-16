@@ -4,6 +4,7 @@ import decide._InformAboutNewLaw;
 import js.Browser;
 import ticket.TicketMobileFiveOneOne;
 import ticket.TicketMobileFiveOneOneRefuse;
+import tstool.MainApp;
 import xapi.Verb;
 //import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
@@ -108,8 +109,10 @@ class HighUsageData extends DescisionMultipleInput
 	function prepareTacking() 
 	{
 		//Main.track.initKeepActor();
+		
 		Main.trackH.setVerb(Verb.initialized);
-		Main.trackH.setStatementRefs(null);
+		Main.trackH.setDefaultContext(MainApp.translator.locale, "mobile.qtool@salt.ch");
+		//Main.trackH.setStatementRefs(null);
 		//Main.track.setVerb("initialized");
 		//Main.track.setStatementRef(null);
 		var extensions:Map<String,Dynamic> = [];

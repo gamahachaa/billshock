@@ -18,6 +18,7 @@ class SimplComp extends Descision
 	var compensate:Float;
 	var amount:Float;
 	static inline var TOTAL_SCHOCK:String = "total shock";
+	//static inline var FRONT_COMP_LIMIT:Float = 40;
 	public static inline var COMPENSATE:String = "compensate (max 150 to pay)";
 	override public function create()
 	{
@@ -50,7 +51,7 @@ class SimplComp extends Descision
 	override public function onYesClick():Void
 	{
 		//this._nextYesProcesses = [new TicketMobileFiveOneOne()];
-		this._nexts = [{step: compensate > 40 ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
+		this._nexts = [{step: compensate > Intro.FRONT_COMP_LIMIT ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void

@@ -15,7 +15,7 @@ import tstool.process.Process;
 class Intro extends Action 
 {
 
-	
+	public static inline var FRONT_COMP_LIMIT:Float = 50;
 	override public function create()
 	{
 		//Main.customer.reset();
@@ -24,6 +24,8 @@ class Intro extends Action
 		//#if !debug
 		Main.VERSION_TRACKER.scriptChangedSignal.addOnce(onNewVersion);
 		Main.VERSION_TRACKER.request();
+		Main.trackH.reset(false);
+		Main.trackH.setDefaultContext(MainApp.translator.locale, "mobile.qtool@salt.ch");
 		#if debug
 		if (Main.DEBUG){
 			trace("Main.DEBUG OPEN ROBOT");
