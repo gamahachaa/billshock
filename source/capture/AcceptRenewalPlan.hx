@@ -56,7 +56,7 @@ class AcceptRenewalPlan extends Descision
 			return switch(history.interaction)
 			{
 				case Yes: PPmap.UNLIMITED_CALLS;
-				case Mid: PPmap.NO_MORE_AB;
+				case Mid: PPmap.NO_MORE_EUROPE;
 				case No: PPmap.JUST_CALLS;
 				default: "";
 			}

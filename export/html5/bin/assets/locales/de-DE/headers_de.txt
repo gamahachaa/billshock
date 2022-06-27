@@ -10,8 +10,10 @@ $capture._ElligibleForRet.eRet	eRet
 $capture._ElligibleForRet.Notelligible	Nicht berechtigt
 $capture._HowMadeHugeAmount.How	In welcher Situation?
 $capture._HowMadeHugeAmount.ch	In der Schweiz
-$capture._HowMadeHugeAmount.ab	Zone AB
-$capture._HowMadeHugeAmount.cdef	Zone CDEF
+$capture._HowMadeHugeAmount.europe	Zone EUROPE
+$capture._HowMadeHugeAmount.travel	Zone TRAVEL
+$capture._HowMadeHugeAmount.world	Zone WORLD
+$capture._HowMadeHugeAmount.far	Zone FAR
 $capture._HowMadeHugeAmount.sat	Zone SAT
 $capture._HowMadeHugeAmount.surfv2	Mit Surf V2
 $capture.IsCompTicketOpened.MSISDN	MSISDN

@@ -1,6 +1,7 @@
 package capture;
 
 import decide.SimplComp;
+import haxe.Json;
 import ticket.TicketMobileFiveOneOne;
 import ticket.TicketMobileFiveOneOneRefuse;
 import tstool.MainApp;
@@ -16,8 +17,10 @@ import xapi.Verb;
 class _HowMadeHugeAmount extends ActionRadios {
 	public static inline var HOW:String = "How";
 	public static inline var CH:String = "ch";
-	public static inline var AB:String = "ab";
-	public static inline var CDEF:String = "cdef";
+	public static inline var EUROPE:String = "europe";
+	public static inline var TRAVEL:String = "travel";
+	public static inline var WORLD:String = "world";
+	public static inline var FAR:String = "far";
 	public static inline var SAT:String = "sat";
 	public static inline var SURF:String = "surfv2";
 	
@@ -26,22 +29,28 @@ class _HowMadeHugeAmount extends ActionRadios {
 		super([
 			{
 				title: HOW,
-				values: [CH, AB, CDEF, SAT, SURF],
+					values: Main.HISTORY.isClassInteractionInHistory(HighUsageData, Yes)?[CH, EUROPE, TRAVEL, WORLD, FAR, SAT, SURF] : [CH, EUROPE, TRAVEL, WORLD, FAR, SAT]
+					,
 				hasTranslation: true
 			}
 		]);
 	}
-
+    override public function create()
+	{
+		var jsonDetails = Json.parse(_detailTxt);
+		_detailTxt = Main.HISTORY.isClassInteractionInHistory(HighUsageData, Yes)?jsonDetails.data: jsonDetails.call;
+		super.create();
+	}
 	override public function onClick() {
 		if (validate()) {
 			var how = status.get(HOW);
 			var next:Class<Process> = switch (how) {
 				case CH: _ElligibleForRet;
-				case AB: WasLimitsChanged; // _ElligibleForRet;// WasLimitsChanged
-				case CDEF: WasLimitsChanged; //  SimplComp; // WasLimitsChanged
+				//case AB: WasLimitsChanged; // _ElligibleForRet;// WasLimitsChanged
+				//case CDEF: WasLimitsChanged; //  SimplComp; // WasLimitsChanged
 				case SAT: TicketMobileFiveOneOne; //NOT REFUSE TicketMobileFiveOneOneRefuse
 				case SURF: SimplComp;
-				default: SimplComp;
+				case _ : WasLimitsChanged;
 			}
 			//Main.track.sendInitial(how);
             prepareTacking( how );

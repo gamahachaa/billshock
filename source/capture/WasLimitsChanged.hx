@@ -65,11 +65,11 @@ class WasLimitsChanged extends DescisionDropDown
 		}
 		catch (e){
 			#if debug
-			 howMade = {exists:true, value:_HowMadeHugeAmount.AB };
+			 howMade = {exists:true, value:_HowMadeHugeAmount.EUROPE };
 			#else
 			throw(e);
 			#end
 		}
-		return if (howMade.exists && howMade.value == _HowMadeHugeAmount.AB) _ElligibleForRet else NewSimplComp;
+		return if (howMade.exists && howMade.value == _HowMadeHugeAmount.EUROPE) _ElligibleForRet else NewSimplComp;
 	}
 }

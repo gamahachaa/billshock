@@ -56,7 +56,7 @@ class _SelectPP extends ActionRadios
 		//
 		if (validate())
 		{
-			if (status.get(PRICE_PLAN) == PPmap.DAS_ABO_AB_PP)
+			if (status.get(PRICE_PLAN) == PPmap.DAS_ABO_EUROPE_PP)
 			{
 				this._nexts = [{step: (where ==  _HowMadeHugeAmount.CH ? WhatDasAboCHWish : WhatDasAboABWish), params: []}];
 				//this._nextProcesses = [where == _HowMadeHugeAmount.CH ? WhatDasAboCHWish : WhatDasAboABWish];

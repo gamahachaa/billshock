@@ -42,6 +42,16 @@ class NewSimplComp extends Descision
 	}
 	override public function onYesClick():Void
 	{
+		this._nexts = [{step: ExplainBSProtections}];
+		super.onYesClick();
+	}
+	override public function onNoClick():Void
+	{
+		this._nexts = [{step: ExplainBSProtections}];
+		super.onNoClick();
+	}
+	/*override public function onYesClick():Void
+	{
 		this._nexts = [{step: compensate > Intro.FRONT_COMP_LIMIT ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
 		super.onYesClick();
 	}
@@ -49,7 +59,7 @@ class NewSimplComp extends Descision
 	{
 		this._nexts = [{step: TicketMobileFiveOneOneRefuse}];
 		super.onNoClick();
-	}
+	}*/
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
 		super.pushToHistory(buttonTxt, interactionType, [TOTAL_SCHOCK => amount, COMPENSATE => compensate]);

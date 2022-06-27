@@ -100,7 +100,8 @@ class HighUsageData extends DescisionMultipleInput
 		{
 			//Main.track.sendInitial("non-data");
 			prepareTacking();
-			this._nexts = [{step: TicketMobileFiveOneOne}];
+			//this._nexts = [{step: TicketMobileFiveOneOne}];
+			this._nexts = [{step: _HowMadeHugeAmount}];
 			// NOT REFUSE
 			super.onNoClick();
 		}
