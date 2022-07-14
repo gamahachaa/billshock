@@ -41,42 +41,19 @@ class _ElligibleForRet extends ActionRadios
 		]
 		);
 	}
-	/*
+	/**/
 	override public function create()
 	{
-		this._nextProcesses = [];
+		//this._nextProcesses = [];
 		super.create();
 	}
-	*/
+	/**/
 	override public function onClick():Void
 	{
-		//var how:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount");
 		if (validate())
 		{
 			var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
 			var zone = how.values.get(_HowMadeHugeAmount.HOW);
-			#if debug
-			trace("capture._ElligibleForRet::onClick::zone", zone );
-			#end
-			/*var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET)
-			{
-				if (zone == _HowMadeHugeAmount.CH)
-				{
-					AlternativeCompensation;
-				}
-				else{
-					ActivateInternetEurope;
-				}
-			}
-			else{
-				if (status.get(SUB_TYPE) == DEVICE)
-				{
-					ActivateInternetEurope;
-				}
-				else{
-					_SelectPP;
-				}
-			}*/
 			
 			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET && status.get(SUB_TYPE) == DEVICE) 
 			{
@@ -91,7 +68,7 @@ class _ElligibleForRet extends ActionRadios
 			else _SelectPP;
 			
 			this._nexts = [{step: next}];
-			//this._nextProcesses = [next];
+			
 			super.onClick();
 		}
 	}
