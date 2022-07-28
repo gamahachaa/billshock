@@ -19,4 +19,4 @@ $capture.calls.IsLineCreditBlocked		La tua linea è bloccata?
 $capture.calls.SpeechIsrael		I costi generati dall'utilizzo verranno adeguati e verrà aggiunta un'opzione gratuita per evitare gli addebiti.
 $capture.calls.SpeechNoWorryAdjustment		Abbiamo aggiunto un'opzione gratuita valida per l'intera zona Travel, per cui il volume di chiamate è limitato a 600 minuti. La rinnoveremo e compenseremo i costi.
 $capture.calls.WhichAddonForWhichPP	Copio l'intestazione da Marilyn come nell'immagine.<N>Fai attenzione a non copiare anche il prezzo.<N>Nel passaggio successivo il sistema ti suggerirà quali opzioni attivare in base al piano tariffario che hai incollato. Se non viene riconosciuto, non funziona.	Nel nostro CRM, il titolo del tuo piano tariffario mi permette di determinare quale opzione gratuita posso attivare per te.	marylin/copyppmarilyn	
-$capture.calls._ReassueSpeech		Non preoccuparti, non pagherai questa cifra.
+$capture.calls._ReassueSpeech		Non si preoccupi, troveremo una soluzione

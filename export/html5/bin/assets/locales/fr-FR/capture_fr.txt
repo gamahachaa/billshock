@@ -19,4 +19,4 @@ $capture.calls.IsLineCreditBlocked		Votre ligne est-elle bloquée ?
 $capture.calls.SpeechIsrael		Les coûts générés par l'utilisation seront ajustés et une option gratuite sera ajoutée pour éviter des frais.
 $capture.calls.SpeechNoWorryAdjustment		Nous vous avons ajouté une option gratuite qui est valable pour toute la zone « Travel », de ce fait, le volume d'appel est limité à 600 minutes nous allons la renouveller et compenser les frais.
 $capture.calls.WhichAddonForWhichPP	Je copie l'intitulé depuis Marilyn comme sur l'image.<N> Attention de ne pas copier le prix avec.<N>à l'étape suivante le système va proposer quelles options activer en fonction du plan tarrifaire que tu as collé. S'il n'est pas reconnu cela ne fonctionnera pas.	Je regarde dans notre CRM l'intitulé de votre plan tarrifaire pour déterminer quelle option gratuite je vas pouvoir vous activer.	marylin/copyppmarilyn	
-$capture.calls._ReassueSpeech		Ne vous inquiétez pas, vous n’allez pas payer ce montant
+$capture.calls._ReassueSpeech		Ne vous inquiétez pas, nous allons trouver une solution
