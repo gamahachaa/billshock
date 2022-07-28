@@ -1,5 +1,6 @@
 package capture;
 
+import capture.calls.AboutWhatZone;
 import tstool.MainApp;
 import tstool.layout.History.Snapshot;
 import tstool.process.ActionRadios;
@@ -18,8 +19,8 @@ class _SelectPP extends ActionRadios
 	var ppMap:Map<String,Map<String,Array<String>>>;
 	public function new() 
 	{
-		
-		var choices:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._HowMadeHugeAmount);
+		var calls:Bool = Main.HISTORY.isClassInteractionInHistory(HighUsageData, No);
+		var choices:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(calls ? AboutWhatZone: capture._HowMadeHugeAmount);
 		where = choices.values.get(_HowMadeHugeAmount.HOW);
 		
 		ppMap = PPmap.ppMap;
@@ -56,6 +57,7 @@ class _SelectPP extends ActionRadios
 		//
 		if (validate())
 		{
+			
 			if (status.get(PRICE_PLAN) == PPmap.DAS_ABO_EUROPE_PP)
 			{
 				this._nexts = [{step: (where ==  _HowMadeHugeAmount.CH ? WhatDasAboCHWish : WhatDasAboABWish), params: []}];

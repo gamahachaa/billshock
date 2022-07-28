@@ -3,5 +3,8 @@ $End	Faire le rapport de l'appel dans un wrap-up comme il se doit.	Merci pour vo
 $Intro	Assurez-vous à 100 % que vous avez identifié l'appelant comme étant le <em>propriétaire légal<em> du contrat.<N><N>Nous proposons un renouvellement du contrat et accordons une compensation, même si le client avait auparavant déjà reçu une compensation pour un billshock.<N><N>Il est important de rester le plus compréhensif possible et montrer notre empathie lorsque le client est choqué par le montant facturé.	Vous êtes choqué par le montant de votre facture ?<N>Qu'à cela ne tienne, nous allons étudier ensemble la situation.<N>Je suis sûr que nous allons trouver une solution !					https://qoom.salt.ch/knowledge/handling/ticket/create_a_ticket_for_a_compensation_request
 $ticket.TicketMobileFiveOneOneRefuse		Je transmets votre plainte à un autre département. Il se peut que vous soyez contacté.
 $ticket.TicketMobileFiveOneOneAccept		Je transmets votre plainte à un autre département. Il se peut que vous soyez contacté.
-$ticket.TicketMobileFiveOneOnePPRenewalAccept		Je transmets dès maintenant votre offre au département contrats qui va effectuer le renouvellement et ajuster le montant des données facturées.<N>Il se peut que vous soyez recontacté.<N>Vous recevrez un message de confirmation une fois que tout sera fait.
+$ticket.TicketMobileFiveOneOnePPRenewalAccept		Je transmets dès maintenant votre offre au département contrats qui va effectuer le renouvellement et ajuster le montant facturé.<N>Il se peut que vous soyez recontacté.<N>Vous recevrez un message de confirmation une fois que tout sera fait.
+$ticket.TicketFourFourOne		Je transmets votre plainte à un autre département. Il se peut que vous soyez contacté.
+$ticket.TicketOneThreeOne		Voilà, je transmets le cas.<N>Cela prendra maximum 72h pour que tout soit en ordre.
+$ticket.TicketOneThreeOneB		Je fais tout de suite le nécessaire pour que votre ligne soit débloquée au plus vite !
 $Tuto			ui/tutoKeyboardFR

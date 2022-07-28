@@ -2,6 +2,7 @@ package;
 
 //import decide.ActivateInternetEurope;
 import capture.WasLimitsChanged;
+import capture.calls.WhichAddonForWhichPP;
 import flixel.FlxG;
 import flixel.FlxGame;
 import tstool.utils.XapiTracker;
@@ -108,13 +109,13 @@ class Main extends MainApp
 		//#else
 		//if(Main.DEBUG) Main.track.setActor();
 		//#end
-		trackH.setActor(new xapi.Agent(MainApp.agent.iri, MainApp.agent.sAMAccountName));
+		//trackH.setActor(new xapi.Agent(MainApp.agent.iri, MainApp.agent.sAMAccountName));
 		#if debug
 			/**
 			 * USe this  to debug a slide
 			 */
 			next = new Intro();
-			//next = new WasLimitsChanged();
+			//next = new WhichAddonForWhichPP();
 			//tuto = new WasLimitsChanged();
 		#else
 			next = Type.createInstance(Main.START_STEP,[]);

@@ -1,8 +1,13 @@
 package capture;
 
 
+import capture.calls.AboutWhatZone;
 import decide.ActivateInternetEurope;
 import decide.AlternativeCompensation;
+import decide.calls.CompensateFullAmount;
+import haxe.ds.Either;
+//import haxe.extern.EitherType;
+import ticket.TicketFourFourOne;
 import tstool.layout.History.Interactions;
 import tstool.layout.History.Snapshot;
 import tstool.process.ActionRadios;
@@ -52,20 +57,47 @@ class _ElligibleForRet extends ActionRadios
 	{
 		if (validate())
 		{
-			var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
-			var zone = how.values.get(_HowMadeHugeAmount.HOW);
+			//var how:Snapshot;
+			var clss: Class<Process>;
+			//var zone:String;
+			var calls:Bool = Main.HISTORY.isClassInteractionInHistory(HighUsageData, No);
+			var how:Snapshot = if ( calls )
+			{
+				//zone = if (Main.HISTORY.isClassInteractionInHistory(AboutWhatZone, Yes)) AboutWhatZone.WORLD else if (Main.HISTORY.isClassInteractionInHistory(AboutWhatZone, No)) AboutWhatZone.EUROPE else AboutWhatZone.TRAVEL;
+			//clss = AboutWhatZone;
+			 Main.HISTORY.findFirstStepsClassInHistory(AboutWhatZone);
+			}
+			else{
+				//clss = _HowMadeHugeAmount;
+				 Main.HISTORY.findFirstStepsClassInHistory(_HowMadeHugeAmount);
+				
+			}
+			//var how:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(clss);
+			//zone = how.values.get(clss.HOW);
+			//var zone = how.values.get(_HowMadeHugeAmount.HOW);
+			//var calls:Bool = Main.HISTORY.isClassInteractionInHistory(HighUsageData, No);
 			
 			var next:Class<Process> = if (status.get(RET_ELLIGIBLE) == NO_RET && status.get(SUB_TYPE) == DEVICE) 
 			{
-				if (zone == _HowMadeHugeAmount.CH)
+				// no ret
+				if (!calls &&  how.values.get(_HowMadeHugeAmount.HOW) == _HowMadeHugeAmount.CH)
 				{
 					AlternativeCompensation;
+				}
+				else if (calls && how.values.get(AboutWhatZone.HOW) == AboutWhatZone.EUROPE)
+				{
+					TicketFourFourOne;
 				}
 				else{
 					ActivateInternetEurope;
 				}
 			}
-			else _SelectPP;
+			else {
+				//if ((zone == AboutWhatZone.EUROPE) && calls)
+				    //CompensateFullAmount;
+				//else
+					_SelectPP;
+			}
 			
 			this._nexts = [{step: next}];
 			

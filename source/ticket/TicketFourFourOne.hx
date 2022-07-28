@@ -8,16 +8,15 @@ import tstool.salt.SOTickets;
  * ...
  * @author bb
  */
-class TicketOneThreeOne extends ActionTicket 
+class TicketFourFourOne extends ActionTicket 
 {
 
 	public function new() 
 	{
-		
 		if(Main.HISTORY.isClassInteractionInHistory(IsCompTicketOpened, Mid))
-			super(SOTickets.MOBILE_142_B2B);
+			super(SOTickets.MOBILE_511_B2B);
 		else
-			super(SOTickets.MOBILE_131_B2C);
+			super(SOTickets.MOBILE_441_B2C);
 	}
 	override public function onClick():Void
 	{

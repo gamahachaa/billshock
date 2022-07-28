@@ -13,7 +13,7 @@ class TicketOneThreeOneB extends ActionTicket
 
 	public function new() 
 	{
-		super(SOTickets.MOBILE_131b);
+		super(SOTickets.MOBILE_131_CREDITLIMIT);
 	}
 	override public function onClick():Void
 	{

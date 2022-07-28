@@ -1,20 +1,18 @@
 package capture.calls;
 
-import js.Browser;
+import ticket.TicketOneThreeOne;
 import tstool.process.Action;
-import xapi.Verb;
 
 /**
  * ...
  * @author bb
  */
-class _ReassueSpeech extends Action 
+class SpeechNoWorryAdjustment extends Action 
 {
 
 	override public function onClick():Void
 	{
-		this._nexts = [{step: AboutWhatZone, params: []}];
-		
+		this._nexts = [{step: TicketOneThreeOne, params: []}];
 		super.onClick();
 	}
 	

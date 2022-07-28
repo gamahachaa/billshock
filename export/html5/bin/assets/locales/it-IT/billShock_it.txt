@@ -3,5 +3,8 @@ $End	Effettuare il rapporto della chiamata in un corretto wrap-up.	Ci stiamo occ
 $Intro	Assicurarsi al 100 % di aver identificato l'interlocutore al telefono come il <em>proprietario legale<em> del contratto.<N><N>Proponiamo un rinnovo del contratto e concediamo un rimoborso, anche se il cliente aveva già ricevuto in precedenza un rimborso per un billshock.<N><N> È importante essere il più comprensivi possibile e mostrare empatia se il cliente è sconvolto per via dell'importo della fattura.	L'importo della sua fattrura l'ha stupito? <N> Non si preoccupi, valutiamo la situazione insieme.<N> Sono sicuro che troveremo una soluzione! 					https://qoom.salt.ch/knowledge/handling/ticket/create_a_ticket_for_a_compensation_request
 $ticket.TicketMobileFiveOneOneRefuse		Devo trasmettere il suo caso a un altro dipartimento. Potremmo ricontattarla.
 $ticket.TicketMobileFiveOneOneAccept		Devo trasmettere il suo caso a un altro dipartimento. Potremmo ricontattarla.
-$ticket.TicketMobileFiveOneOnePPRenewalAccept		Inoltro immediatamente la sua offerta al dipartimento contratti, che effettuerà il rinnovo e correggerà l'importo dei dati fatturati.<N>Potremmo ricontattarla.<N>Riceverà un messaggio di conferma quando avremo sistemato tutto.
+$ticket.TicketMobileFiveOneOnePPRenewalAccept		Inoltro immediatamente la sua offerta al dipartimento contratti, che effettuerà il rinnovo e correggerà l'importo fatturati.<N>Potremmo ricontattarla.<N>Riceverà un messaggio di conferma quando avremo sistemato tutto.
+$ticket.TicketFourFourOne		Inoltro il suo reclamo a un altro dipartimento. Puoi essere contattato.
+$ticket.TicketOneThreeOne		Ci vorranno al massimo 72 ore perché tutto sia in ordine.
+$ticket.TicketOneThreeOneB		Mi assicurerò che la tua linea venga sbloccata al più presto! 
 $Tuto			ui/tutoKeyboardIT

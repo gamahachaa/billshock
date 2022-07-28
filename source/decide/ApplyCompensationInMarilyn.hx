@@ -1,9 +1,13 @@
 package decide;
 
+import capture.calls.AboutWhatZone;
+import decide.calls.CompensateFullAmount;
 import firetongue.Replace;
 import ticket.TicketMobileFiveOneOneAccept;
+import ticket.TicketOneThreeOne;
 import tstool.process.Descision;
 import haxe.Json;
+import tstool.process.Process;
 
 
 class ApplyCompensationInMarilyn extends Descision 
@@ -16,8 +20,18 @@ class ApplyCompensationInMarilyn extends Descision
 	}
 	override public function onNoClick():Void
 	{
-		this._nexts = [{step: TicketMobileFiveOneOneAccept, params: []}];
+		this._nexts = [{step: getNext(), params: []}];
 		super.onNoClick();
+	}
+	inline function getNext():Class<Process>
+	{
+		return if (Main.HISTORY.isClassInteractionInHistory(AboutWhatZone, Yes))
+		{
+			TicketOneThreeOne;
+		}
+		else{
+			TicketMobileFiveOneOneAccept;
+		}
 	}
 	override public function create():Void
 	{
@@ -51,6 +65,11 @@ class ApplyCompensationInMarilyn extends Descision
 		else if ( activateEurope )
 		{
 			Main.HISTORY.findValueOfFirstClassInHistory(ActivateInternetEurope, ActivateInternetEurope.COMPENSATE).value;
+		}
+		else if (Main.HISTORY.isClassInHistory(CompensateFullAmount))
+		{
+			// rezoning calls
+			Main.HISTORY.findValueOfFirstClassInHistory(CompensateFullAmount, CompensateFullAmount.COMPENSATE).value;
 		}
 		else 0;
 	}

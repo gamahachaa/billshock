@@ -1,5 +1,6 @@
 package capture.calls;
 
+import tstool.layout.History.Interactions;
 import tstool.process.ActionMultipleInput;
 import tstool.process.Process;
 
@@ -9,7 +10,8 @@ import tstool.process.Process;
  */
 class WhichAddonForWhichPP extends ActionMultipleInput 
 {
-	static inline var MARILYN_PASTED_PP:String = "MarilynPastedPP";
+	public inline static var ADD_ON:String = "Add-On";
+	public static inline var MARILYN_PASTED_PP:String = "MarilynPastedPP";
 
 	public function new ()
 	{
@@ -17,7 +19,7 @@ class WhichAddonForWhichPP extends ActionMultipleInput
 		[{
 			ereg: new EReg("[\\s\\S]*","i"),
 			input:{
-				width:250,
+				width:400,
 				prefix:MARILYN_PASTED_PP,
 				position: [bottom, left]
 			}
@@ -30,15 +32,21 @@ class WhichAddonForWhichPP extends ActionMultipleInput
 	*****************************/
 	override public function onClick():Void
 	{
-		if (validateYes()){
-			this._nexts = [{step: getNext(), params: []}];
-			super.onYesClick();
+		if (validate()){
+			this._nexts = [{step: ActivateRezonOption, params: []}];
+			super.onClick();
 		}	
 	}
-	
-	inline function getNext():Class<Process>{
-		return ActivateRezonOption;
+	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
+	{
+		var pp = multipleInputs.getText(MARILYN_PASTED_PP);
+		//var addon = findAddon();
+		super.pushToHistory(buttonTxt, interactionType, [MARILYN_PASTED_PP=>pp]);
 	}
+	
+	/*inline function getNext():Class<Process>{
+		//return ActivateRezonOption;
+	}*/
 	/*
 	override public function validateYes():Bool
 	{

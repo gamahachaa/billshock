@@ -1,9 +1,12 @@
 package capture;
 
 //import decide.AlternativeCompensation;
+import capture.calls.AboutWhatZone;
 import decide.NewSimplComp;
 import decide._InformAboutNewLaw;
+import decide.calls.CompensateFullAmount;
 import firetongue.Replace;
+import ticket.TicketFourFourOne;
 import ticket.TicketMobileFiveOneOneAccept;
 import ticket.TicketMobileFiveOneOnePPRenewalAccept;
 //import ticket.TicketMobileFiveOneOne;
@@ -19,6 +22,7 @@ class AcceptRenewalPlan extends Descision
 {
 	var proposal:Map < String,String>;
 	var where:String;
+	var calls:Bool;
 	/*public function new ()
 	{
 		var howMadeHugeAmount:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount");
@@ -66,7 +70,8 @@ class AcceptRenewalPlan extends Descision
 	
 	override public function create()
 	{
-		var howMadeHugeAmount:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._HowMadeHugeAmount);
+		calls = Main.HISTORY.isClassInteractionInHistory(HighUsageData, No);
+		var howMadeHugeAmount:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(calls ? AboutWhatZone: capture._HowMadeHugeAmount);
 		var selectPP: Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._SelectPP);
 		where = howMadeHugeAmount.values.get(_HowMadeHugeAmount.HOW);
 		var pp = selectPP.values.get(_SelectPP.PRICE_PLAN) + specialCases();
@@ -75,7 +80,7 @@ class AcceptRenewalPlan extends Descision
 		var rc = selectPP.values.get(_SelectPP.RC);
 		//trace(where, pp, rc);
 		proposal = PPmap.ppMapProposal.get(where).get(pp).get(rc);
-		this._titleTxt = Replace.flags(_titleTxt,  ["<PP>","<RC>","<STANDARD>"], [proposal.get(PPmap.NEW_PLAN), proposal.get(PPmap.SPECIAL_RC), proposal.get(PPmap.STANDARD_RC)]);
+		this._titleTxt = Replace.flags(_titleTxt,  ["<PP>","<RC>","<STANDARD>","<OLD_PP>", "<OLD_RC>"], [proposal.get(PPmap.NEW_PLAN), proposal.get(PPmap.SPECIAL_RC), proposal.get(PPmap.STANDARD_RC), pp, rc]);
 		super.create();
 		
 	}
@@ -91,13 +96,13 @@ class AcceptRenewalPlan extends Descision
 	override public function onYesClick():Void
 	{
 		//this._nextYesProcesses = [new TicketMobileFiveOneOne()];
-		this._nexts = [{step: TicketMobileFiveOneOnePPRenewalAccept}];
+		this._nexts = calls ?  [{step: CompensateFullAmount}]: [{step: TicketMobileFiveOneOnePPRenewalAccept}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
 	{
 		//this._nextNoProcesses = [new AlternativeCompensation()];
-		this._nexts = [{step: NewSimplComp}];
+		this._nexts = calls ?  [{step: TicketFourFourOne}] :  [{step: NewSimplComp}];
 		super.onNoClick();
 	}
 	

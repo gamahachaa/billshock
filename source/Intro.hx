@@ -25,6 +25,7 @@ class Intro extends Action
 		Main.VERSION_TRACKER.scriptChangedSignal.addOnce(onNewVersion);
 		Main.VERSION_TRACKER.request();
 		Main.trackH.reset(false);
+		Main.trackH.setActor(new xapi.Agent(MainApp.agent.iri, MainApp.agent.sAMAccountName));
 		Main.trackH.setDefaultContext(MainApp.translator.locale, "mobile.qtool@salt.ch");
 		#if debug
 		if (Main.DEBUG){

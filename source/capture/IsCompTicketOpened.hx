@@ -2,8 +2,9 @@ package capture;
 
 import tstool.MainApp;
 import tstool.layout.History.Interactions;
-import tstool.process.DescisionMultipleInput;
+//import tstool.process.DescisionMultipleInput;
 import tstool.process.Process;
+import tstool.process.TripletMultipleInput;
 import tstool.salt.Role;
 import regex.ExpReg;
 
@@ -13,7 +14,7 @@ using string.StringUtils;
  * ...
  * @author bb
  */
-class IsCompTicketOpened extends DescisionMultipleInput 
+class IsCompTicketOpened extends TripletMultipleInput
 {
 	static inline var MSISDN:String = "MSISDN";
 	static inline var SO_TICKET:String = "SO ticket";
@@ -100,9 +101,16 @@ class IsCompTicketOpened extends DescisionMultipleInput
 	
 	override public function onNoClick():Void
 	{
-		//this._nextNoProcesses = [new HighUsageData()];
+		//B2C
 		this._nexts = [{step: HighUsageData, params: []}];
 		super.onNoClick();
+		
+	}
+	override public function onMidClick():Void
+	{
+		//B2B
+		this._nexts = [{step: HighUsageData, params: []}];
+		super.onMidClick();
 		
 	}
 	

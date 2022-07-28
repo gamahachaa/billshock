@@ -1,5 +1,6 @@
 package capture;
 
+import capture.calls._ReassueSpeech;
 import decide._InformAboutNewLaw;
 import js.Browser;
 import ticket.TicketMobileFiveOneOne;
@@ -83,6 +84,7 @@ class HighUsageData extends DescisionMultipleInput
 		//this._nextYesProcesses = [new HowMadeHugeAmount()];
 		if (validateYes())
 		{
+			prepareTacking();
 			this._nexts = [{step: _HowMadeHugeAmount}];
 			super.onYesClick();
 		}
@@ -101,29 +103,13 @@ class HighUsageData extends DescisionMultipleInput
 			//Main.track.sendInitial("non-data");
 			prepareTacking();
 			//this._nexts = [{step: TicketMobileFiveOneOne}];
-			this._nexts = [{step: _HowMadeHugeAmount}];
+			this._nexts = [{step: _ReassueSpeech}];
 			// NOT REFUSE
 			super.onNoClick();
 		}
 	}
 	
-	function prepareTacking() 
-	{
-		//Main.track.initKeepActor();
-		
-		Main.trackH.setVerb(Verb.initialized);
-		Main.trackH.setDefaultContext(MainApp.translator.locale, "mobile.qtool@salt.ch");
-		//Main.trackH.setStatementRefs(null);
-		//Main.track.setVerb("initialized");
-		//Main.track.setStatementRef(null);
-		var extensions:Map<String,Dynamic> = [];
-		extensions.set("https://customercare.salt.ch/admin/contracts/customer/", Main.customer.iri);
-		extensions.set(Browser.location.origin +"/troubleshooting/script_version/", Main.VERSION);
-		//Main.track.setCustomer(true);
-		Main.trackH.setActivityObject( "non-data",null,null,"http://activitystrea.ms/schema/1.0/process",extensions );
-        Main.trackH.send();
-		Main.trackH.setVerb(Verb.resolved);
-	}
+	
 	override public function validate(interaction:Interactions):Bool
 	{
 		var amounts = this.multipleInputs.inputs.get(AMOUNTS).getInputedText();
@@ -182,4 +168,18 @@ class HighUsageData extends DescisionMultipleInput
         Main.track.send();
 		Main.track.setVerb("resolved");
 	}*/
+	function prepareTacking() 
+	{
+		//Main.track.initKeepActor();
+		
+		Main.trackH.setVerb(Verb.initialized);
+		
+		Main.trackH.setDefaultContext(MainApp.translator.locale, "mobile.qtool@salt.ch");
+		//var extensions:Map<String,Dynamic> = [];
+		//extensions.set("https://customercare.salt.ch/admin/contracts/customer/", Main.customer.iri);
+		//extensions.set(Browser.location.origin +"/troubleshooting/script_version/", Main.VERSION);
+		//Main.trackH.setActivityObject("non-data",null,null,"http://activitystrea.ms/schema/1.0/process",extensions );
+        //Main.trackH.send();
+		//Main.trackH.setVerb(Verb.resolved);
+	}
 }

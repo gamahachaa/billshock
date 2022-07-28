@@ -11,7 +11,7 @@ class AlreadyHasOptionButChargeAboveSixHundreds extends Descision
 
 	override public function onYesClick():Void
 	{
-		this._nexts = [{step: CHANGEME, params: []}];
+		this._nexts = [{step: SpeechNoWorryAdjustment, params: []}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
