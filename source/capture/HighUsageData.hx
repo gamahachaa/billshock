@@ -6,6 +6,7 @@ import js.Browser;
 import ticket.TicketMobileFiveOneOne;
 import ticket.TicketMobileFiveOneOneRefuse;
 import tstool.MainApp;
+import tstool.process.TripletMultipleInput;
 import xapi.Verb;
 //import ticket.TicketMobileFiveOneOne;
 import tstool.layout.History.Interactions;
@@ -17,7 +18,7 @@ import tstool.salt.Balance;
  * ...
  * @author bb
  */
-class HighUsageData extends DescisionMultipleInput 
+class HighUsageData extends TripletMultipleInput
 {
 	var rSeparator:EReg;
 	public static inline var STORAGE_TOTAL_AMOUNT:String = "SCHOCK CHF";
@@ -36,6 +37,7 @@ class HighUsageData extends DescisionMultipleInput
 				input:{
 					width:200,
 					prefix:BA,
+					mustValidate : [Yes],
 					position: [bottom, left],
 					debug:"123456"
 				}
@@ -49,7 +51,7 @@ class HighUsageData extends DescisionMultipleInput
 					prefix:INVOICE,
 					buddy:BA,
 					position: [bottom, left],
-					mustValidate : [Yes, No],
+					mustValidate : [Yes],
 					debug:"12345678912345"
 				}
 			},
@@ -61,7 +63,7 @@ class HighUsageData extends DescisionMultipleInput
 					prefix:AMOUNTS,
 					buddy:INVOICE,
 					position: [bottom, left],
-					mustValidate : [Yes, No],
+					mustValidate : [Yes, Mid, No],
 					debug:"150"
 				}
 			}
@@ -85,7 +87,8 @@ class HighUsageData extends DescisionMultipleInput
 		if (validateYes())
 		{
 			prepareTacking();
-			this._nexts = [{step: _HowMadeHugeAmount}];
+			//this._nexts = [{step: _HowMadeHugeAmount}];
+			this._nexts = [{step: HasSerenity}];
 			super.onYesClick();
 		}
 	}
@@ -106,6 +109,19 @@ class HighUsageData extends DescisionMultipleInput
 			this._nexts = [{step: _ReassueSpeech}];
 			// NOT REFUSE
 			super.onNoClick();
+		}
+	}
+	override public function onMidClick():Void
+	{
+		//this._nextNoProcesses = [new TicketMobileFiveOneOne()];
+		if (validateMid())
+		{
+			//Main.track.sendInitial("non-data");
+			prepareTacking();
+			//this._nexts = [{step: TicketMobileFiveOneOne}];
+			this._nexts = [{step: TicketMobileFiveOneOne}];
+			// NOT REFUSE
+			super.onMidClick();
 		}
 	}
 	
