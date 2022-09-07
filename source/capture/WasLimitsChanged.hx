@@ -1,6 +1,7 @@
 package capture;
 
 import decide.NewSimplComp;
+import decide.ProposeSerenity;
 import decide.SimplComp;
 import decide._InformAboutNewLaw;
 import flixel.addons.ui.StrNameLabel;
@@ -35,7 +36,9 @@ class WasLimitsChanged extends DescisionDropDown
 	override public function onYesClick():Void
 	{
 		
-		this._nexts = [{step: _InformAboutNewLaw, params: []}];
+		//this._nexts = [{step: _InformAboutNewLaw, params: []}];
+		this._nexts = [{step: IsContractMoreThan12MonthLeft, params: []}];
+		this._nexts = [{step: ProposeSerenity, params: []}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
@@ -70,6 +73,6 @@ class WasLimitsChanged extends DescisionDropDown
 			throw(e);
 			#end
 		}
-		return if (howMade.exists && howMade.value == _HowMadeHugeAmount.EUROPE) _ElligibleForRet else NewSimplComp;
+		return if (howMade.exists && (howMade.value == _HowMadeHugeAmount.EUROPE || howMade.value == _HowMadeHugeAmount.TRAVEL) ) _ElligibleForRet else NewSimplComp;
 	}
 }

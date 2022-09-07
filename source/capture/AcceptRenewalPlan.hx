@@ -80,7 +80,7 @@ class AcceptRenewalPlan extends Descision
 		var rc = selectPP.values.get(_SelectPP.RC);
 		//trace(where, pp, rc);
 		proposal = PPmap.ppMapProposal.get(where).get(pp).get(rc);
-		this._titleTxt = Replace.flags(_titleTxt,  ["<PP>","<RC>","<STANDARD>","<OLD_PP>", "<OLD_RC>"], [proposal.get(PPmap.NEW_PLAN), proposal.get(PPmap.SPECIAL_RC), proposal.get(PPmap.STANDARD_RC), pp, rc]);
+		this._titleTxt = Replace.flags(_titleTxt,  ["<PP>","<RC>","<STANDARD>","<OLD_PP>", "<OLD_RC>","<WHERE>"], [proposal.get(PPmap.NEW_PLAN), proposal.get(PPmap.SPECIAL_RC), proposal.get(PPmap.STANDARD_RC), pp, rc, where.toUpperCase()]);
 		super.create();
 		
 	}
@@ -102,7 +102,9 @@ class AcceptRenewalPlan extends Descision
 	override public function onNoClick():Void
 	{
 		//this._nextNoProcesses = [new AlternativeCompensation()];
-		this._nexts = calls ?  [{step: TicketFourFourOne}] :  [{step: NewSimplComp}];
+		var proposeSerenity = where == _HowMadeHugeAmount.TRAVEL ||  where ==_HowMadeHugeAmount.EUROPE;
+		this._nexts = calls ?  [{step: TicketFourFourOne}] :  [{step: proposeSerenity ? IsContractMoreThan12MonthLeft : NewSimplComp}];
+		//this._nexts = calls ?  [{step: TicketFourFourOne}] :  [{step: NewSimplComp}];
 		super.onNoClick();
 	}
 	

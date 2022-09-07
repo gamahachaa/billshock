@@ -58,6 +58,7 @@ class _HowMadeHugeAmount extends ActionRadios
 				switch (how)
 				{
 					case CH: _ElligibleForRet;
+					//case TRAVEL: _ElligibleForRet;
 					//case AB: WasLimitsChanged; // _ElligibleForRet;// WasLimitsChanged
 					//case CDEF: WasLimitsChanged; //  SimplComp; // WasLimitsChanged
 					case SAT: TicketMobileFiveOneOne; //NOT REFUSE TicketMobileFiveOneOneRefuse

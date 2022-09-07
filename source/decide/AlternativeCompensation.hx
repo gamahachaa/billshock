@@ -1,7 +1,7 @@
 package decide;
 
 import capture.TravelInfoRecieved;
-import capture._HowMadeHugeAmount;
+//import capture._HowMadeHugeAmount;
 import decide._InformAboutNewLaw;
 import firetongue.Replace;
 import ticket.TicketMobileFiveOneOneAccept;
