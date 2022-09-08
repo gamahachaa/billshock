@@ -1,5 +1,7 @@
 package capture;
 
+import firetongue.Replace;
+import tstool.layout.History.Snapshot;
 import tstool.process.Descision;
 
 /**
@@ -9,15 +11,15 @@ import tstool.process.Descision;
 class WhatDasAboABWish extends Descision 
 {
 
-	/*
-	override public function create()
+	
+	/*override public function create()
 	{
-		this._nextNoProcesses = [];
-		this._nextYesProcesses = [];
+		var howMadeHugeAmount:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._HowMadeHugeAmount);
+		var where = howMadeHugeAmount.values.get(_HowMadeHugeAmount.HOW);
+		this._titleTxt = Replace.flags(_titleTxt,  ["<WHERE>"], [where.toUpperCase()]);
 		super.create();
-	}
-	*/
-	/****************************
+	}*/
+		/****************************
 	* Needed for validation
 	*****************************/
 	

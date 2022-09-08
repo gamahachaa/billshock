@@ -1,12 +1,14 @@
 package capture;
 
-import tstool.process.Triplet;
+import tstool.process.Descision;
+//import tstool.process.Triplet;
 
 /**
  * ...
  * @author bb
  */
-class WhatDasAboCHWish extends Triplet
+//class WhatDasAboCHWish extends Triplet
+class WhatDasAboCHWish extends Descision
 {
 	/*
 	override public function create()
@@ -30,11 +32,11 @@ class WhatDasAboCHWish extends Triplet
 		super.onNoClick();
 	}
 	
-	override public function onMidClick():Void
-	{
-		//this._nextMidProcesses = [new AcceptRenewalPlan()];
-		this._nexts = [{step: AcceptRenewalPlan}];
-		super.onMidClick();
-	}
+	//override public function onMidClick():Void
+	//{
+		////this._nextMidProcesses = [new AcceptRenewalPlan()];
+		//this._nexts = [{step: AcceptRenewalPlan}];
+		//super.onMidClick();
+	//}
 	
 }

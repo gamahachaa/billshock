@@ -11,13 +11,15 @@ class PPmap
 	public static inline var BASIC_PP:String = "Basic";
 	public static inline var DASABO_EASY_PP:String = "DasAbo easy";
 	public static inline var DASABO_NO_EUROPE_PP:String = "DasAbo no EUROPE calls";
+	public static inline var DASABO_NO_INTL_PP:String = "DasAbo no INTERNATIONAL calls";
 	public static inline var DAS_ABO_EUROPE_PP:String = "DasAbo with EUROPE calls";
+	public static inline var DASABO_INTL_PP:String = "DasAbo with INTERNATIONAL calls";
 	public static inline var DAS_ABO_SWISS:String = "DasAbo Swiss";
 	public static inline var SMART_PP:String = "SmartSwiss";
 	public static inline var SWISS_PP:String = "Swiss";
-	public static inline var NO_MORE_EUROPE:String = " no_more_EU_AB_calls";
-	public static inline var JUST_CALLS:String = " just_EU_AB_calls";
-	public static inline var UNLIMITED_CALLS:String = " unlimited_call_and_data_in_EU_AB";
+	public static inline var NO_MORE_EUROPE:String = " no_more_EUROPE_calls";
+	public static inline var JUST_CALLS:String = " just_EUROPE_calls";
+	public static inline var UNLIMITED_CALLS_DATA:String = " unlimited_call_and_data_in_EUROPE";
 	public static inline var NEW_PLAN:String = "newPlan";
 	public static inline var SPECIAL_RC:String = "specialRc";
 	public static inline var STANDARD_RC:String = "standardRc";
@@ -55,13 +57,13 @@ class PPmap
 	static inline var PRICE_89_95:String = "89.95";
 	static inline var PRICE_99_95:String = "99.95";
 	
-	static inline var SmartSwiss:String = 'Smart Swiss';
-	static inline var SwissMax:String = 'Swiss Max';
-	static inline var EuropeMax:String = 'Europe Max';
-	static inline var SwissXxl:String = 'Swiss XXL';
-	static inline var Europe1Go:String = 'Europe 1Go';
-	static inline var EuropeUnlimited:String = 'Europe unlimited';
-	static inline var TravelMax:String = 'Travel Max';
+	public static inline var SmartSwiss:String = 'Smart Swiss';
+	public static inline var SwissMax:String = 'Swiss Max';
+	public static inline var EuropeMax:String = 'Europe Max';
+	public static inline var SwissXxl:String = 'Swiss XXL';
+	public static inline var Europe1Go:String = 'Europe 1Go';
+	//public static inline var EuropeUnlimited:String = 'Europe unlimited';
+	public static inline var TravelMax:String = 'Travel Max';
 	static var START:Array<String> = [
 										 PRICE_5,
 										 PRICE_9,
@@ -127,7 +129,8 @@ class PPmap
 			PRICE_24_95,
 			PRICE_29_95,
 			PRICE_34_95,
-			PRICE_39_95
+			PRICE_39_95,
+			PRICE_49_95
 
 											];
 
@@ -139,8 +142,8 @@ class PPmap
 				START_MAX_PP => START_MAX,
 				BASIC_PP=> BASIC,
 				DASABO_EASY_PP => DAS_ABO_EASY,
-				DASABO_NO_EUROPE_PP => DAS_ABO_NO_INTL,
-				DAS_ABO_EUROPE_PP=> DAS_ABO_INTL
+				DASABO_NO_INTL_PP => DAS_ABO_NO_INTL,
+				DASABO_INTL_PP=> DAS_ABO_INTL
 			]
 			,
 			_HowMadeHugeAmount.EUROPE =>
@@ -151,8 +154,8 @@ class PPmap
 				SMART_PP => SMART_SWISS,
 				SWISS_PP => SWISS,
 				DASABO_EASY_PP => DAS_ABO_EASY,
-				DASABO_NO_EUROPE_PP => DAS_ABO_NO_INTL,
-				DAS_ABO_EUROPE_PP => DAS_ABO_INTL
+				DASABO_NO_INTL_PP => DAS_ABO_NO_INTL,
+				DASABO_INTL_PP => DAS_ABO_INTL
 			]
 			,
 			_HowMadeHugeAmount.TRAVEL =>
@@ -163,8 +166,8 @@ class PPmap
 				SMART_PP => SMART_SWISS,
 				SWISS_PP => SWISS,
 				DASABO_EASY_PP => DAS_ABO_EASY,
-				DASABO_NO_EUROPE_PP => DAS_ABO_NO_INTL,
-				DAS_ABO_EUROPE_PP => DAS_ABO_INTL
+				DASABO_NO_INTL_PP => DAS_ABO_NO_INTL,
+				DASABO_INTL_PP => DAS_ABO_INTL
 			]
 		];
 
@@ -207,28 +210,28 @@ class PPmap
 					PRICE_34_95=>[NEW_PLAN =>SwissMax, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_39_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_79_95]
 				],
-				DASABO_NO_EUROPE_PP => [
+				DASABO_NO_INTL_PP => [
 					PRICE_19_95=>[NEW_PLAN =>SwissMax, SPECIAL_RC=>PRICE_29_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_24_95=>[NEW_PLAN =>SwissMax, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_29=>[NEW_PLAN =>SwissMax, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_34_95=>[NEW_PLAN =>SwissMax, SPECIAL_RC=>PRICE_44_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_39=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_79_95]
 				],
-				DAS_ABO_EUROPE_PP + NO_MORE_EUROPE => [
+				DASABO_INTL_PP + NO_MORE_EUROPE => [
 					PRICE_19_95=> [NEW_PLAN =>SwissMax, SPECIAL_RC=>PRICE_29_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_24_95=> [NEW_PLAN =>SwissMax, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_29_95=> [NEW_PLAN =>SwissMax, SPECIAL_RC=> PRICE_39_95, STANDARD_RC => PRICE_69_95],
 					PRICE_34_95=> [NEW_PLAN =>SwissMax, SPECIAL_RC=> PRICE_44_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_39_95=> [NEW_PLAN =>SwissXxl, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_79_95]
 				],
-				DAS_ABO_EUROPE_PP + JUST_CALLS => [
+				DASABO_INTL_PP + JUST_CALLS => [
 					PRICE_19_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_24_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_29_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_34_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=> PRICE_44_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_39_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_79_95]
 				],
-				DAS_ABO_EUROPE_PP + UNLIMITED_CALLS => [
+				DASABO_INTL_PP + UNLIMITED_CALLS_DATA => [
 					PRICE_19_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_24_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_29_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_79_95],
@@ -289,29 +292,37 @@ class PPmap
 					PRICE_24_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_29_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_79_95],
 					PRICE_34_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_79_95],
-					PRICE_39_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_79_95]
+					PRICE_39_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_79_95],
+					PRICE_49_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=> PRICE_55_95, STANDARD_RC=>PRICE_79_95]
 				],
-				DASABO_NO_EUROPE_PP => [
+				DASABO_NO_INTL_PP => [
 					PRICE_19_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=>PRICE_29_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_24_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_29=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_34_95=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=>PRICE_44_95, STANDARD_RC=>PRICE_69_95],
 					PRICE_39=>[NEW_PLAN =>SwissXxl, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_69_95]
 				],
-				DAS_ABO_EUROPE_PP + JUST_CALLS=> [
+				DASABO_INTL_PP => [
+					PRICE_19_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_89_95],
+					PRICE_24_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_89_95],
+					PRICE_29_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_89_95],
+					PRICE_34_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=> PRICE_44_95, STANDARD_RC=>PRICE_89_95],
+					PRICE_39_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_89_95]
+				]/*,
+				DASABO_INTL_PP + JUST_CALLS=> [
 					PRICE_19_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_24_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_29_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_34_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=> PRICE_44_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_39_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_89_95]
 				],
-				DAS_ABO_EUROPE_PP + UNLIMITED_CALLS => [
+				DASABO_INTL_PP + UNLIMITED_CALLS_DATA => [
 					PRICE_19_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_24_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_34_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_29_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_39_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_34_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_44_95, STANDARD_RC=>PRICE_89_95],
 					PRICE_39_95=> [NEW_PLAN =>Europe1Go, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_89_95]
-				]
+				] */
 			],
 			_HowMadeHugeAmount.TRAVEL =>
 			[
@@ -368,27 +379,35 @@ class PPmap
 					PRICE_49_95=>[NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_55_95, STANDARD_RC=>PRICE_99_95]
 				],
 				// DASABO_NO_TRAVEL_PP
-				DASABO_NO_EUROPE_PP => [
+				DASABO_NO_INTL_PP => [
 					PRICE_19_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
 					PRICE_24_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
 					PRICE_29=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
-					PRICE_29_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					//PRICE_29_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					PRICE_34_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
 					PRICE_39=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_99_95]
 				],
-				DAS_ABO_EUROPE_PP + JUST_CALLS=> [
+				DASABO_INTL_PP => [
 					PRICE_19_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
 					PRICE_24_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
 					PRICE_29_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
-					PRICE_39=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_99_95],
-					PRICE_49=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_55_95, STANDARD_RC=>PRICE_99_95]
+					PRICE_34_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					PRICE_39_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_55_95, STANDARD_RC=>PRICE_99_95]
+				]/*,
+				DASABO_INTL_PP + JUST_CALLS=> [
+					PRICE_19_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					PRICE_24_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					PRICE_29_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					PRICE_34_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					PRICE_39_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_55_95, STANDARD_RC=>PRICE_99_95]
 				],
-				DAS_ABO_EUROPE_PP + UNLIMITED_CALLS => [
+				DASABO_INTL_PP + UNLIMITED_CALLS_DATA => [
 					PRICE_19_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
 					PRICE_24_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
 					PRICE_29_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=>PRICE_49_95, STANDARD_RC=>PRICE_99_95],
-					PRICE_39_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_99_95],
-					PRICE_49=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_55_95, STANDARD_RC=>PRICE_99_95]
-				]
+					PRICE_34_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_49_95, STANDARD_RC=>PRICE_99_95],
+					PRICE_39_95=> [NEW_PLAN =>TravelMax, SPECIAL_RC=> PRICE_55_95, STANDARD_RC=>PRICE_99_95]
+				]*/
 			]
 
 		];

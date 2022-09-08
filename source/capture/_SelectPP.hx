@@ -58,9 +58,10 @@ class _SelectPP extends ActionRadios
 		if (validate())
 		{
 			
-			if (status.get(PRICE_PLAN) == PPmap.DAS_ABO_EUROPE_PP)
+			if (status.get(PRICE_PLAN) == PPmap.DASABO_INTL_PP && where == _HowMadeHugeAmount.CH)
 			{
-				this._nexts = [{step: (where ==  _HowMadeHugeAmount.CH ? WhatDasAboCHWish : WhatDasAboABWish), params: []}];
+				this._nexts = [{step: WhatDasAboCHWish, params: []}];
+				//this._nexts = [{step: (where ==  _HowMadeHugeAmount.CH ? WhatDasAboCHWish : where ==  _HowMadeHugeAmount.EUROPE ? WhatDasAboABWish : AcceptRenewalPlan ), params: []}];
 				//this._nextProcesses = [where == _HowMadeHugeAmount.CH ? WhatDasAboCHWish : WhatDasAboABWish];
 			}
 			else this._nexts = [{step: AcceptRenewalPlan, params: []}];

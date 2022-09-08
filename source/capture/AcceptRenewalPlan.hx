@@ -59,9 +59,10 @@ class AcceptRenewalPlan extends Descision
 		{
 			return switch(history.interaction)
 			{
-				case Yes: PPmap.UNLIMITED_CALLS;
-				case Mid: PPmap.NO_MORE_EUROPE;
-				case No: PPmap.JUST_CALLS;
+				case Yes: PPmap.UNLIMITED_CALLS_DATA;
+				//case Mid: PPmap.NO_MORE_EUROPE;
+				//case No: PPmap.JUST_CALLS;
+				case No: PPmap.NO_MORE_EUROPE;
 				default: "";
 			}
 		}
@@ -74,13 +75,25 @@ class AcceptRenewalPlan extends Descision
 		var howMadeHugeAmount:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(calls ? AboutWhatZone: capture._HowMadeHugeAmount);
 		var selectPP: Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._SelectPP);
 		where = howMadeHugeAmount.values.get(_HowMadeHugeAmount.HOW);
-		var pp = selectPP.values.get(_SelectPP.PRICE_PLAN) + specialCases();
+		var old_pp = selectPP.values.get(_SelectPP.PRICE_PLAN);
+		var pp = old_pp + specialCases();
 		
 		//trace("capture.AcceptRenewalPlan::create::pp", pp );
 		var rc = selectPP.values.get(_SelectPP.RC);
 		//trace(where, pp, rc);
 		proposal = PPmap.ppMapProposal.get(where).get(pp).get(rc);
-		this._titleTxt = Replace.flags(_titleTxt,  ["<PP>","<RC>","<STANDARD>","<OLD_PP>", "<OLD_RC>","<WHERE>"], [proposal.get(PPmap.NEW_PLAN), proposal.get(PPmap.SPECIAL_RC), proposal.get(PPmap.STANDARD_RC), pp, rc, where.toUpperCase()]);
+		this._titleTxt = Replace.flags(_titleTxt,  ["<PP>", "<RC>", "<STANDARD>", "<OLD_PP>", "<OLD_RC>", "<WHERE>"], [proposal.get(PPmap.NEW_PLAN), proposal.get(PPmap.SPECIAL_RC), proposal.get(PPmap.STANDARD_RC), old_pp, rc, where.toUpperCase()]);
+		
+		this._qookLink = ["https://qoom.salt.ch/productservices/priceplans/" + switch (proposal.get(PPmap.NEW_PLAN)) {
+			
+			case PPmap.SmartSwiss : "salt/salt_digital/smart_swiss";
+			case PPmap.SwissMax : "salt/max/max_swiss";
+			case PPmap.EuropeMax : "salt/max/max_europe";
+			case PPmap.SwissXxl : "salt/salt_digital/swiss_xxl";
+			case PPmap.Europe1Go : "legacy/salt/digital_europe_1gb";
+			case PPmap.TravelMax : "salt/max/max_travel";
+			case _ : "";
+		}];
 		super.create();
 		
 	}
