@@ -34,7 +34,7 @@ class ProposeSerenity extends Descision
 		var optionPrice = 4.95;
 		var serenityCover = 250;
 		//compensate = Math.round((amount - optionPrice)*100)/100; //
-		compensate = Math.min( amount - optionPrice, serenityCover );
+		compensate = Math.round(Math.min( amount - optionPrice, serenityCover )*100)/100;
 		var formula = '$amount - $optionPrice (max 250.-) = $compensate';
 		var pay = Math.round((amount - compensate)*100)/100;
 		this._titleTxt = Replace.flags(_titleTxt, ["<COMP>", "<OPTION>"], [Std.string(compensate), Std.string(optionPrice)]);

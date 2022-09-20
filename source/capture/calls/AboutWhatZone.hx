@@ -106,7 +106,7 @@ class AboutWhatZone extends ActionRadios
 			var next:Class<Process> = switch (how)
 				{
 					case EUROPE: _ElligibleForRet;
-					case TRAVEL: _ElligibleForRet;
+					//case TRAVEL: _ElligibleForRet;
 					case _ : IsLineCreditBlocked;
 				}
 			
