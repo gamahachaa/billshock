@@ -32,7 +32,7 @@ class IsCompTicketOpened extends TripletMultipleInput
 				prefix:MSISDN,
 				position: [bottom, left],
 				debug: "078 787 1676",
-				mustValidate: [Yes, No]
+				mustValidate: [Yes, No, Mid]
 			}
 		},
 		{
@@ -124,6 +124,7 @@ class IsCompTicketOpened extends TripletMultipleInput
 			Main.customer.iri = Main.customer.voIP;
 			Main.customer.contract.mobile = multipleInputs.getText(CONTACT).removeWhite();
 			Main.customer.contract.owner = new Role(owner, "", multipleInputs.getText(EMAIL).removeWhite());
+			Main.STORAGE_DISPLAY.push(MSISDN);
 			Process.STORE(MSISDN, '${Main.customer.voIP}' );
 			//Main.trackH.setActor(new xapi.
 		}

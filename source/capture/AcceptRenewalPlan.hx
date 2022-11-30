@@ -23,6 +23,7 @@ class AcceptRenewalPlan extends Descision
 	var proposal:Map < String,String>;
 	var where:String;
 	var calls:Bool;
+	var historyDasAbo:Snapshot;
 	/*public function new ()
 	{
 		var howMadeHugeAmount:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount");
@@ -40,14 +41,14 @@ class AcceptRenewalPlan extends Descision
 	{
 		var dasAboCH: Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture.WhatDasAboCHWish);
 		var dasAboAB: Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture.WhatDasAboABWish);
-		var history:Snapshot = null;
+		
 		if (dasAboAB != null)
 		{
-			history = dasAboAB;
+			historyDasAbo = dasAboAB;
 		}
 		else if (dasAboCH != null)
 		{
-			history = dasAboCH;
+			historyDasAbo = dasAboCH;
 		}
 		else{
 			#if debug
@@ -55,9 +56,9 @@ class AcceptRenewalPlan extends Descision
 			#end
 		}
 		
-		if (history != null)
+		if (historyDasAbo != null)
 		{
-			return switch(history.interaction)
+			return switch(historyDasAbo.interaction)
 			{
 				case Yes: PPmap.UNLIMITED_CALLS_DATA;
 				//case Mid: PPmap.NO_MORE_EUROPE;
@@ -71,6 +72,7 @@ class AcceptRenewalPlan extends Descision
 	
 	override public function create()
 	{
+		historyDasAbo = null;
 		calls = Main.HISTORY.isClassInteractionInHistory(HighUsageData, No);
 		var howMadeHugeAmount:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(calls ? AboutWhatZone: capture._HowMadeHugeAmount);
 		var selectPP: Snapshot = Main.HISTORY.findFirstStepsClassInHistory(capture._SelectPP);
@@ -116,7 +118,7 @@ class AcceptRenewalPlan extends Descision
 	{
 		//this._nextNoProcesses = [new AlternativeCompensation()];
 		var proposeSerenity = where == _HowMadeHugeAmount.TRAVEL ||  where ==_HowMadeHugeAmount.EUROPE;
-		this._nexts = calls ?  [{step: TicketFourFourOne}] :  [{step: proposeSerenity ? IsContractMoreThan12MonthLeft : NewSimplComp}];
+		this._nexts = calls ?  [{step: TicketFourFourOne}] :  [{step: proposeSerenity && historyDasAbo==null ? IsContractMoreThan12MonthLeft : NewSimplComp}];
 		//this._nexts = calls ?  [{step: TicketFourFourOne}] :  [{step: NewSimplComp}];
 		super.onNoClick();
 	}

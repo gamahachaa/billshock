@@ -117,8 +117,13 @@ class HighUsageData extends TripletMultipleInput
 		if (validateMid())
 		{
 			//Main.track.sendInitial("non-data");
+			var extensions:Map<String,Dynamic> = [];
+			extensions.set("https://customercare.salt.ch/admin/contracts/customer/", Main.customer.iri);
+			Main.trackH.setActivityObject( "other",null,null,"http://activitystrea.ms/schema/1.0/process",extensions );
+			Main.trackH.send();
+			Main.trackH.setVerb(Verb.resolved);
 			prepareTacking();
-			//this._nexts = [{step: TicketMobileFiveOneOne}];
+			//this._nexts = [{step: TestCheck}];
 			this._nexts = [{step: TicketMobileFiveOneOne}];
 			// NOT REFUSE
 			super.onMidClick();
@@ -137,7 +142,8 @@ class HighUsageData extends TripletMultipleInput
 		
 		if (numAmounts == numInvoices)
 		{
-			Main.customer.contract.balance = new Balance("", numAmounts>1 ? Std.string(compute(amounts)): amounts);
+			Main.customer.contract.balance = new Balance("", numAmounts > 1 ? Std.string(compute(amounts)): amounts);
+			Main.STORAGE_DISPLAY.push(STORAGE_TOTAL_AMOUNT);
 			Process.STORE(STORAGE_TOTAL_AMOUNT, Main.customer.contract.balance.overdue + (numAmounts >1 ? " (" +  amounts + ")":""));
 			
 			//Process.STORAGE.set("reminder", ' ${Main.customer.voIP}' );

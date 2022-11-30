@@ -1,6 +1,7 @@
 package capture;
 
 import capture.calls._ReassueSpeech;
+import decide.ProposeSerenity;
 import decide.SimplComp;
 import haxe.Json;
 import ticket.TicketMobileFiveOneOne;
@@ -61,7 +62,7 @@ class _HowMadeHugeAmount extends ActionRadios
 					//case TRAVEL: _ElligibleForRet;
 					//case AB: WasLimitsChanged; // _ElligibleForRet;// WasLimitsChanged
 					//case CDEF: WasLimitsChanged; //  SimplComp; // WasLimitsChanged
-					case SAT: TicketMobileFiveOneOne; //NOT REFUSE TicketMobileFiveOneOneRefuse
+					case SAT: ProposeSerenity; //NOT REFUSE TicketMobileFiveOneOneRefuse
 					case SURF: SimplComp;
 					case _ : WasLimitsChanged;
 				}

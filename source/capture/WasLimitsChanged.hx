@@ -73,6 +73,7 @@ class WasLimitsChanged extends DescisionDropDown
 			throw(e);
 			#end
 		}
-		return if (howMade.exists && (howMade.value == _HowMadeHugeAmount.EUROPE || howMade.value == _HowMadeHugeAmount.TRAVEL) ) _ElligibleForRet else NewSimplComp;
+		//return if (howMade.exists && (howMade.value == _HowMadeHugeAmount.EUROPE || howMade.value == _HowMadeHugeAmount.TRAVEL) ) _ElligibleForRet else NewSimplComp;
+		return if (howMade.exists && (howMade.value == _HowMadeHugeAmount.EUROPE || howMade.value == _HowMadeHugeAmount.TRAVEL) ) _ElligibleForRet else ProposeSerenity;
 	}
 }

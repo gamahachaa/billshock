@@ -5,6 +5,7 @@ import capture.WasLimitsChanged;
 import capture.calls.WhichAddonForWhichPP;
 import flixel.FlxG;
 import flixel.FlxGame;
+import tstool.process.ActionCheck;
 import tstool.utils.XapiTracker;
 //import flixel.FlxGame;
 import flixel.FlxState;
@@ -62,6 +63,8 @@ class Main extends MainApp
 	public static inline var START_STEP:Class<Process>  = Intro;
 	public static inline var INTRO_PIC:String = "intro/favicon.png";
 	public static var LIB_FOLDER_LOGIN:String;
+	static public inline var TMP_FILTER_ASSET_PATH:String = "assets/data/tmp/";
+	static public var STORAGE_DISPLAY:Array<String> = [];
 	
 	/**
 	 * FORMAT COLOR
@@ -115,6 +118,7 @@ class Main extends MainApp
 			 * USe this  to debug a slide
 			 */
 			next = new Intro();
+			//next = new TestCheck();
 			//next = new WhichAddonForWhichPP();
 			//tuto = new WasLimitsChanged();
 		#else

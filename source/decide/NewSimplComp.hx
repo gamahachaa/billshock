@@ -16,33 +16,30 @@ import tstool.process.Process;
 class NewSimplComp extends Descision
 {
 	static inline var TOTAL_SCHOCK:String = "total shock";
-	var amount:Float;
-	var compensate:Float;
+	var amount:String;
+	var simpleCompensate:Float;
 	public static inline var COMPENSATE:String = "compensate (100 max to compensate)";
 	override public function create()
 	{
-		//var choice:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HowMadeHugeAmount", 1, true);
-		//var amounts:Array<Snapshot> = Main.HISTORY.findStepsInHistory("capture.HighUsageData", 1, true);
-		amount;
-		compensate;
-		//var amounts:Snapshot = Main.HISTORY.findFirstStepsClassInHistory(HighUsageData);
-		/**
-		 * @todo splits amount
-		 */
-		//var amount:Float = compute(amounts.values.get(HighUsageData.AMOUNTS));
-		amount = Std.parseFloat(Process.STORAGE.get(HighUsageData.STORAGE_TOTAL_AMOUNT));
-		//var amount:Float = Std.parseFloat(amounts.values.get(HighUsageData.AMOUNT));
-		compensate = Math.min( amount / 2, 100);
-		var toPay = amount - compensate;
-		var formula = '\n( $amount / 2) = ${amount/2} > 100 ?\n= $compensate';
-		compensate = Math.ffloor(compensate * 100) / 100;
-		this._titleTxt = Replace.flags(_titleTxt, ["<COMP>","<AMOUNT>"], [Std.string(compensate), Std.string(amount)]);
-		this._detailTxt = Replace.flags(_detailTxt, ["<FORMULA>","<PAY>"], [formula, Std.string(toPay)]);
+		var calc_comp:SimplCompData = CAL_COMP();
+		amount = (calc_comp.amount);
+		simpleCompensate = (calc_comp.comp);
+		
+		//amount = Std.parseFloat(Process.STORAGE.get(HighUsageData.STORAGE_TOTAL_AMOUNT));
+		//simpleCompensate = Math.min( amount / 2, 100);
+		//simpleCompensate = Math.ffloor(simpleCompensate * 100) / 100;
+		//var toPay = amount - simpleCompensate;
+		//var formula = '\n( $amount / 2) = ${amount/2} > 100 ?\n= $simpleCompensate';
+		
+		this._titleTxt = Replace.flags(_titleTxt, ["<COMP>", "<AMOUNT>"], [Std.string(simpleCompensate), Std.string(amount)]);
+		//this._titleTxt = Replace.flags(_titleTxt, ["<COMP>","<AMOUNT>"], [Std.string(simpleCompensate), Std.string(amount)]);
+		this._detailTxt = Replace.flags(_detailTxt, ["<FORMULA>","<PAY>"], [calc_comp.formula, Std.string(calc_comp.topay)]);
+		//this._detailTxt = Replace.flags(_detailTxt, ["<FORMULA>","<PAY>"], [formula, Std.string(toPay)]);
 		super.create();
 	}
 	override public function onYesClick():Void
 	{
-		this._nexts = [{step: compensate > Intro.FRONT_COMP_LIMIT ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
+		this._nexts = [{step: simpleCompensate > Intro.FRONT_COMP_LIMIT ? TicketMobileFiveOneOneAccept: ApplyCompensationInMarilyn}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
@@ -52,6 +49,24 @@ class NewSimplComp extends Descision
 	}
 	override public function pushToHistory(buttonTxt:String, interactionType:Interactions,?values:Map<String,Dynamic>=null):Void
 	{
-		super.pushToHistory(buttonTxt, interactionType, [TOTAL_SCHOCK => amount, COMPENSATE => compensate]);
+		super.pushToHistory(buttonTxt, interactionType, [TOTAL_SCHOCK => amount, COMPENSATE => simpleCompensate]);
 	}
+	static public inline function CAL_COMP():SimplCompData
+	{
+		var amnt = Process.STORAGE.get(HighUsageData.STORAGE_TOTAL_AMOUNT);
+		var comp = Math.ffloor(Math.min( Std.parseFloat(amnt) / 2, 100) * 100) / 100;
+		var formula = '\n( $amnt / 2) = ${amnt/2} > 100 ?\n= $comp';
+		return {
+			topay : amnt - comp,
+			comp: comp,
+			formula: formula,
+			amount : amnt
+		};
+	}
+}
+typedef SimplCompData = {
+	var topay:Float;
+	var comp:Float;
+	var formula:String;
+	var amount:String;
 }

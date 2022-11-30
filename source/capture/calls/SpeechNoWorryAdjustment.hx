@@ -13,12 +13,12 @@ class SpeechNoWorryAdjustment extends Descision
 
 	override public function onNoClick():Void
 	{
-		this._nexts = [{step: TicketOneThreeOne, params: []}];
+		this._nexts = [{step: End, params: []}];
 		super.onNoClick();
 	}
 	override public function onYesClick():Void
 	{
-		this._nexts = [{step: End, params: []}];
+		this._nexts = [{step: TicketOneThreeOne, params: []}];
 		super.onYesClick();
 	}
 	

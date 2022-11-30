@@ -1,5 +1,6 @@
 package;
 
+import capture.AreYouTheContractOwner;
 import js.Browser;
 import tstool.MainApp;
 import tstool.layout.UI;
@@ -61,7 +62,13 @@ class Intro extends Action
 	}
 	override public function onClick():Void
 	{
-		this._nexts = [{step: capture.AreYouTheContractOwner, params: []}];
+		#if debug
+		//this._nexts = [{step: TestCheck, params: []}];
+		#else
+		
+		#end
+		this._nexts = [{step: AreYouTheContractOwner, params: []}];
 		super.onClick();
 	}
+	
 }
