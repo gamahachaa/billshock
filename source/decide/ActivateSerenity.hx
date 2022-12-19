@@ -1,28 +1,28 @@
-package capture;
+package decide;
 
-import escalation._ReassignTicket;
+import ticket.TicketMobileFiveOneOneAccept;
 import tstool.process.DescisionMultipleInput;
 import tstool.process.Process;
+import tstool.layout.History.Interactions; 
 
 /**
  * ...
  * @author bb
  */
-class IsCompTicketOpened extends DescisionMultipleInput 
+class ActivateSerenity extends DescisionMultipleInput 
 {
-	
-    static inline var SO_TICKET:String = "SO ticket";
+	static inline var JUSTIFY:String = "JUSTIFY";
+
 	public function new ()
 	{
 		super(
 		[{
-			ereg: new EReg("^(1)[4-9]{1}[0-9]{6}$", "i"),
+			ereg: new EReg("[\\s\\S]*","i"),
 			input:{
-				width:150,
-				prefix:SO_TICKET,
-				position: [bottom, left],
-				debug: "11123456",
-				mustValidate: [Next]
+				width:450,
+				prefix:JUSTIFY,
+				mustValidate:[No],
+				position: [bottom, left]
 			}
 		}]
 		);
@@ -41,12 +41,17 @@ class IsCompTicketOpened extends DescisionMultipleInput
 	override public function onNoClick():Void
 	{
 		if (validateNo()){
-			this._nexts = [{step: HighUsageData, params: []}];
+			this._nexts = [{step: TicketMobileFiveOneOneAccept, params: []}];
 			super.onNoClick();
 		}
 	}
 	inline function getNext():Class<Process>{
-		return Main.customer.dataSet.get(InputCustomersDetails.PORTFOLIO).get(InputCustomersDetails.SEGMENT) == InputCustomersDetails.B2C? End:_ReassignTicket;
+		var compAmount = Main.HISTORY.findValueOfFirstClassInHistory(ProposeSerenity, ProposeSerenity.COMPENSATE);
+		return if (compAmount.exists && compAmount.value < 51){
+			   ApplyCompensationInMarilyn;
+		}else{
+			TicketMobileFiveOneOneAccept;
+		}
 	}
 	/*
 	override public function validateYes():Bool

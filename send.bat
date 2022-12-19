@@ -2,7 +2,7 @@
 
 @echo off
 
-set DEV=1
+set DEV=0
 
 echo "START"
 if %DEV%==1 (
@@ -83,7 +83,7 @@ rem powershell -Command "Rename-Item -Path "%BINDIR%/%mainScript%.min.js.map" -N
 
 rem echo %1
 
- 
+cd export/html5/bin/ && git add . && commit -m "tesing git from btch"
 
 if %DEV%==1 (
 	if "%1"=="" goto :dead

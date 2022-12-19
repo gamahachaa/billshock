@@ -50,7 +50,12 @@ class ApplyCompensationInMarilyn extends Descision
 	}
 	function getComp():Float
 	{
-		return if ( Main.HISTORY.isClassInteractionInHistory(SimplComp, Yes) )
+		return 
+		if (Main.HISTORY.isClassInteractionInHistory(ProposeSerenity, Yes))
+		{
+			Main.HISTORY.findValueOfFirstClassInHistory(ProposeSerenity, ProposeSerenity.COMPENSATE).value;
+		}
+		else if ( Main.HISTORY.isClassInteractionInHistory(SimplComp, Yes) )
 		{
 			Main.HISTORY.findValueOfFirstClassInHistory(SimplComp, SimplComp.COMPENSATE).value;
 		}

@@ -38,7 +38,7 @@ class WasLimitsChanged extends DescisionDropDown
 		
 		//this._nexts = [{step: _InformAboutNewLaw, params: []}];
 		this._nexts = [{step: IsContractMoreThan12MonthLeft, params: []}];
-		this._nexts = [{step: ProposeSerenity, params: []}];
+		//this._nexts = [{step: ProposeSerenity, params: []}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void
@@ -74,6 +74,6 @@ class WasLimitsChanged extends DescisionDropDown
 			#end
 		}
 		//return if (howMade.exists && (howMade.value == _HowMadeHugeAmount.EUROPE || howMade.value == _HowMadeHugeAmount.TRAVEL) ) _ElligibleForRet else NewSimplComp;
-		return if (howMade.exists && (howMade.value == _HowMadeHugeAmount.EUROPE || howMade.value == _HowMadeHugeAmount.TRAVEL) ) _ElligibleForRet else ProposeSerenity;
+		return if (howMade.exists && (howMade.value == _HowMadeHugeAmount.EUROPE || howMade.value == _HowMadeHugeAmount.TRAVEL) ) _ElligibleForRet else IsContractMoreThan12MonthLeft;
 	}
 }

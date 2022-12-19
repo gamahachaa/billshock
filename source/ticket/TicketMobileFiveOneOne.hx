@@ -1,6 +1,6 @@
 package ticket;
 
-import capture.IsCompTicketOpened;
+import capture.InputCustomersDetails;
 import tstool.process.ActionTicket;
 import tstool.salt.SOTickets;
 
@@ -14,7 +14,7 @@ class TicketMobileFiveOneOne extends ActionTicket
 	public function new() 
 	{
 		//super(SOTickets.MOBILE_511);
-		if(Main.HISTORY.isClassInteractionInHistory(IsCompTicketOpened, Mid))
+		if(Main.customer.dataSet.get(InputCustomersDetails.PORTFOLIO).get(InputCustomersDetails.SEGMENT) == InputCustomersDetails.SOHO)
 			super(SOTickets.MOBILE_511_B2B);
 		else
 			super(SOTickets.MOBILE_511);

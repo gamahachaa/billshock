@@ -11,7 +11,7 @@ class AreYouTheContractOwner extends Descision
 
 	override public function onYesClick():Void
 	{
-		this._nexts = [{step: IsCompTicketOpened, params: []}];
+		this._nexts = [{step: InputCustomersDetails, params: []}];
 		super.onYesClick();
 	}
 	override public function onNoClick():Void

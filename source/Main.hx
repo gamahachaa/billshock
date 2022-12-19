@@ -106,13 +106,7 @@ class Main extends MainApp
 		var next:Process;
 		var tuto:Process = new Tuto();
 		setUpSystemDefault(true);
-		//trace("Main::MOVE_ON::MOVE_ON");
-		//#if !debug
-		//Main.track.setActor();
-		//#else
-		//if(Main.DEBUG) Main.track.setActor();
-		//#end
-		//trackH.setActor(new xapi.Agent(MainApp.agent.iri, MainApp.agent.sAMAccountName));
+
 		#if debug
 			/**
 			 * USe this  to debug a slide
