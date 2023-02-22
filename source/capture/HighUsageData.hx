@@ -1,5 +1,6 @@
 package capture;
 
+import capture.calls.AboutWhatZone;
 import capture.calls._ReassueSpeech;
 import decide._InformAboutNewLaw;
 import js.Browser;
@@ -106,7 +107,8 @@ class HighUsageData extends TripletMultipleInput
 			//Main.track.sendInitial("non-data");
 			prepareTacking();
 			//this._nexts = [{step: TicketMobileFiveOneOne}];
-			this._nexts = [{step: _ReassueSpeech}];
+			//this._nexts = [{step: _ReassueSpeech}];
+			this._nexts = [{step: AboutWhatZone}];
 			// NOT REFUSE
 			super.onNoClick();
 		}
