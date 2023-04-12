@@ -3,7 +3,6 @@
 @echo off
 
 set DEV=1
-set GIT=dev
 
 echo "START"
 if %DEV%==1 (
