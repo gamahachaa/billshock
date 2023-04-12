@@ -25,6 +25,7 @@ class CompensateFullAmount extends Action
 		amount = Std.parseFloat(Main.customer.contract.balance.overdue);
 		compensate = amount;
 		this._titleTxt = Replace.flags(_titleTxt,  ["<AMOUNT>"], [Std.string(amount)]);
+		this._detailTxt = Replace.flags(_detailTxt,  ["<AMOUNT>"], [Std.string(amount)]);
 		super.create();
 	}
 	override public function onClick():Void

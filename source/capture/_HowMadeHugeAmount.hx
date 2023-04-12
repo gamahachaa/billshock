@@ -1,5 +1,6 @@
 package capture;
 
+import capture.calls.AboutWhatZone;
 import capture.calls._ReassueSpeech;
 import decide.ProposeSerenity;
 import decide.SimplComp;
@@ -51,7 +52,8 @@ class _HowMadeHugeAmount extends ActionRadios
 			var how = status.get(HOW);
 			var next:Class<Process> = if (Main.HISTORY.isClassInteractionInHistory(HighUsageData, No))
 			{
-				_ReassueSpeech;
+				//_ReassueSpeech;
+				AboutWhatZone;
 			}
 			else
 			{

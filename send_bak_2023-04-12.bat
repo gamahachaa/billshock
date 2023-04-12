@@ -2,11 +2,7 @@
 
 @echo off
 
-set DEV=1
-<<<<<<< HEAD
-=======
-set GIT=dev
->>>>>>> dev
+set DEV=0
 
 echo "START"
 if %DEV%==1 (
