@@ -70,8 +70,6 @@ class Main extends MainApp
 			 * USe this  to debug a slide
 			 */
 			next = new Intro();
-			//next = new TestCheck();
-			//next = new WhichAddonForWhichPP();
 			//tuto = new WasLimitsChanged();
 		#else
 			next = Type.createInstance(Main.START_STEP,[]);
